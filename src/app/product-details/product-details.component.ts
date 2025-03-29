@@ -58,7 +58,9 @@ export class ProductDetailsComponent implements AfterViewInit {
       this.activeIndex = event.to;
     });
     // Check if we need to show arrows
-    this.showArrows = this.images.length > 4;
+    setTimeout(() => {
+      this.showArrows = this.images.length > 4;
+    });
   }
 
   selectImage(index: number) {

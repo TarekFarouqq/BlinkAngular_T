@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Dropdown } from 'bootstrap';
 
 
 @Component({
@@ -8,10 +9,19 @@ import { Component, HostListener } from '@angular/core';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements AfterViewInit {
+  @ViewChild('dropdownButton', { static: false }) dropdownElement!: ElementRef;
+  dropdown!: Dropdown;
   isHidden = false;
   lastScrollTop = 0;
 
+  ngAfterViewInit() {
+    this.dropdown = new Dropdown(this.dropdownElement.nativeElement);
+  }
+
+  toggleDropdown() {
+    this.dropdown.toggle();
+  }
   @HostListener("window:scroll", [])
   onWindowScroll() {
     const currentScroll = window.scrollY;
