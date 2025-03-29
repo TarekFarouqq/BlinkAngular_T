@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* styles.css (or styles.scss) */
+body {
+    background-color: #ebebeb !important; /* Replace with your color */
+    margin: 0; /* Remove default body margin */
+  }
+  
+  /* Optional: Ensure full viewport coverage */
+  html, body {
+    height: 100%;
+  }

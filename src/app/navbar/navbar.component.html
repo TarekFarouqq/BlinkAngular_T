@@ -1,0 +1,46 @@
+<nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary shadow" data-bs-theme="light" [ngClass]="{'hidden-navbar': isHidden}">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-4 fw-bolder mx-5  fst-italic" routerLink="/home">BLINK</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon "></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+          <li class="nav-item">
+            <a class="nav-link fw-bold " aria-current="page" routerLinkActive="text-success" routerLink="/home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" routerLinkActive="text-success" routerLink="/details"> Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" routerLinkActive="text-success" routerLink="/details">About</a>
+          </li>
+        </ul>
+  
+        <div class="input-group w-25 ms-auto  ">
+            <span class="input-group-text" id="basic-addon1"><a href="#"> <i class="fa-solid text-dark fa-magnifying-glass"></i></a></span>
+            <input type="text" class="form-control" placeholder="What Are You Looking For?" aria-describedby="basic-addon1">
+          </div>
+          <ul class=" right-icons navbar-nav ms-auto mb-2 mb-lg-0 ">
+            <li class="nav-item my-auto mx-2">
+                <a routerLink="/cart"><i class="fa-solid fa-heart fa-xl "></i></a>
+              </li>
+          <li class="nav-item my-auto mx-2">
+            <a routerLink="/cart"><i class="fa-solid fa-cart-shopping fa-xl  "></i></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user fa-xl text-dark"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" routerLink="/login" > <i class="fa-solid fa-user  text-dark mx-2"></i>Manage Account</a></li>
+              <li><a class="dropdown-item" routerLink="/login" > <i class="fa-solid fa-box-open mx-2"></i>My Orders</a></li>
+              <li><a class="dropdown-item" routerLink="/register"><i class="fa-solid fa-plus mx-2"></i>Register</a></li>
+              <li><a class="dropdown-item" routerLink="/login" ><i class="fa-solid fa-right-to-bracket mx-2"></i>Login</a></li>
+              <li><a class="dropdown-item" routerLink="/register"><i class="fa-solid fa-right-from-bracket mx-2"></i>Logout</a></li>
+            </ul>
+          </li><!-- dropdown -->
+        </ul>
+      </div>
+    </div>
+  </nav>
