@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <!-- product-details.component.html -->
+      <div class="gallery-container">
+        <!-- Main Carousel -->
+        <div #mainCarousel class="carousel slide" data-bs-ride="false">
+          <div class="carousel-inner">
+            <div
+              *ngFor="let image of images; let i = index"
+              class="carousel-item"
+              [class.active]="i === activeIndex"
+            >
+              <img
+                [src]="image.main"
+                class="d-block w-100 shadow"
+                alt="Main image"
+                
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Thumbnail Gallery with Arrows -->
+        <div
+          class="thumbnail-wrapper d-flex align-items-center justify-content-center"
+        >
+          <button
+            *ngIf="showArrows"
+            class="thumbnail-arrow left text-dark"
+            (click)="scrollThumbnails('left')"
+          >
+            ❮
+          </button>
+
+          <div #thumbnailContainer class="thumbnail-container">
+            <div
+              *ngFor="let image of images; let i = index"
+              class="thumbnail-item"
+              [class.active]="i === activeIndex"
+              (click)="selectImage(i)"
+            >
+              <img [src]="image.thumb" alt="Thumbnail" />
+            </div>
+          </div>
+
+          <button
+            *ngIf="showArrows"
+            class="thumbnail-arrow right text-dark"
+            (click)="scrollThumbnails('right')"
+          >
+            ❯
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 mt-5">
+      <h4 class="fw-bolder">ProductName</h4>
+      <p class="mx-1">
+        @for (star of getStars(4); track $index) {
+        <span class="text-warning">★</span>
+        }
+        <span class="mx-1" style="font-size: 0.7rem">(150 Reviews)</span> |
+        <span class="text-success small">InStock</span>
+      </p>
+      <p class="card-text fw-bold" style="color: #00391f">
+        <span class="mx-1" style="font-size: 1.2rem; font-weight: bold">{{
+          5560 | number : "1.0-0"
+        }}</span>
+        <small>{{
+          5650 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
+        }}</small>
+      </p>
+      <p  style="font-size: 0.8rem">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum culpa
+        blanditiis, est neque accusamus recusandae dolor obcaecati distinctio!
+        Repudiandae, et. Eligendi consequuntur, quidem a repellat nemo corporis
+        est molestias nisi?
+      </p>
+      <hr />
+      <div class="col-sm-12 d-flex justify-content-center">
+        <button class="btn btn-success btn-sm col-sm-10 rounded-pill">
+          Add To Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
