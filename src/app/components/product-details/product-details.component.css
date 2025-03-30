@@ -96,3 +96,14 @@
   .thumbnail-arrow:hover {
     background: rgba(0, 0, 0, 0.1);
   }
+  .buy-button{
+    border-radius: 2px !important;
+  }
+ 
+  .buy-div{
+    border-radius: 3px !important;
+  }
+
+  .wishlist-icon:hover{
+    color: red !important;
+  }
