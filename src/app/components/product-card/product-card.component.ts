@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
@@ -17,6 +18,7 @@ export class ProductCardComponent implements OnInit {
   ProductAverageRate!: number[];
   constructor(private productServ:ProductService) { }
   ngOnInit() {
+    
     this.getProductDetails();
     this.setProductAverageRate();
   }
