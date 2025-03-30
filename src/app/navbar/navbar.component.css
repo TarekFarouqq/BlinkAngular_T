@@ -1,11 +1,11 @@
 .navbar{
-    background-color: rgb(209, 209, 209) !important;
+    /* background-color: rgb(209, 209, 209) !important; */
     transition: top 0.3s ease-in-out;
     
 }
 
 .hidden-navbar {
-    top: -75px; /* Adjust based on navbar height */
+    /* top: -75px; Adjust based on navbar height */
     position: fixed;
 }
 
