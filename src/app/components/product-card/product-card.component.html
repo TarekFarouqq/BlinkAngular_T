@@ -3,7 +3,7 @@
     <img [src]="ProductEntity.productImages[0]" style="width: 75%;" alt="">
   </div>
   <div class="product-title ms-1 mt-4">
-    <p>{{ProductEntity.productName}}</p>
+    <p routerLink="/details/{{ProductEntity.productId}}">{{ProductEntity.productName}}</p>
   </div>
   <div class="product-details d-flex flex-column align-items-start justify-content-start">
     <div class="row ms-1 gap-2">
