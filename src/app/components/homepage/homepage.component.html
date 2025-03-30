@@ -57,8 +57,10 @@
         </div>
       </div>
     </div>
-    <div class="card-section-body d-flex flex-nowrap gap-2" *ngFor="let Product of FullProductList">
-      <app-product-card [productId]="Product.productId"></app-product-card>
+    <div class="card-section-body d-flex flex-nowrap gap-2" >
+      @for (Product of ProductArr; track Product.productId) {
+        <app-product-card [productId]="Product.productId"></app-product-card>
+      }
     </div>
     <div class="card-section-footer d-flex align-items-center justify-content-center">
       <button type="button" class="btn btn-all ">All Products</button>

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BackendAPIService } from '../../services/backend-api.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-product-card',
@@ -12,15 +13,15 @@ import { CommonModule } from '@angular/common';
 export class ProductCardComponent implements OnInit {
 
   @Input() productId!: number;
-  ProductEntity!: any;
+  ProductEntity!: Product;
   ProductAverageRate!: number[];
-  constructor(private apiSer: BackendAPIService) { }
+  constructor(private productServ:ProductService) { }
   ngOnInit() {
     this.getProductDetails();
     this.setProductAverageRate();
   }
   getProductDetails() {
-    this.apiSer.GetEntityById(`Product/GetById`, this.productId).subscribe(res => {
+    this.productServ.getProductById(this.productId).subscribe(res => {
       this.ProductEntity = res;
       this.setProductAverageRate();
     })
