@@ -12,6 +12,8 @@ export interface Product {
   averageRate: number;
   countOfRates: number;
   isDeleted: boolean;
+  productPrice:number;
+  stockQuantity:number;
   productReviews: {
     rate: number;
     reviewComment: string[];
