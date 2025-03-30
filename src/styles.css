@@ -1,11 +1,17 @@
-
-/* styles.css (or styles.scss) */
-body {
-    background-color: #ebebeb !important; /* Replace with your color */
-    margin: 0; /* Remove default body margin */
+.default-bg {
+    background-color: #da4446;
   }
   
-  /* Optional: Ensure full viewport coverage */
-  html, body {
-    height: 100%;
+  .default-color {
+    color: #da4446;
   }
+  .color-white{
+      color: white;
+  }
+  .fw-700 {
+    font-weight: 700;
+  }
+  .card-section-body{
+    margin-left: 20px;
+  }
+  

@@ -1,0 +1,172 @@
+<div class="container pg-content">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="parent-sidebar">
+        <ul class="row nav-list">
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Fashion</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Phone & Tablets</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Health & Beauty</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Home & Furniture</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Appliances</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Televisions & Audio</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Baby Products</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Supermarket</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Computing</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Sporting Goods</a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-item-a" href="#">Gaming</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="banner mt-2 d-flex">
+        <img src="assets/images/Frame 560.jpg" style="width: 100%;height: 95%; object-fit: fill;" alt="">
+      </div>
+    </div>
+  </div>
+  <!-- Today Discounts -->
+  <div class="card-section d-flex flex-column mt-2 ms-3">
+    <!-- Page Sections -->
+    <!-- Section Header -->
+    <div class="card-section-header ms-3 p-3">
+      <div class="row">
+        <div class="col-md-1 default-bg header-key"></div>
+        <div class="col-md-10 d-flex header-name">
+          <p class="fw-700 header-tag-name">Today Discount</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-section-body d-flex flex-nowrap gap-2" *ngFor="let Product of FullProductList">
+      <app-product-card [productId]="Product.productId"></app-product-card>
+    </div>
+    <div class="card-section-footer d-flex align-items-center justify-content-center">
+      <button type="button" class="btn btn-all ">All Products</button>
+    </div>
+  </div>
+  <!-- Browse By Category -->
+  <div class="card-section d-flex flex-column mt-2 ms-3">
+    <!-- Page Sections -->
+    <!-- Section Header -->
+    <div class="card-section-header ms-3 p-3">
+      <div class="row">
+        <div class="col-md-1 default-bg header-key"></div>
+        <div class="col-md-10 d-flex header-name">
+          <p class="fw-700 header-tag-name">Browse by Category</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-section-body d-flex flex-nowrap gap-2">
+      <!-- <app-category-card></app-category-card> -->
+    </div>
+  </div>
+  <!-- Best Selling Products -->
+  <div class="card-section  d-flex flex-column mt-2 ms-3">
+    <!-- Page Sections -->
+    <!-- Section Header -->
+    <div class="card-section-header ms-3 p-3">
+      <div class="row d-flex align-items-center justify-content-start">
+        <div class="default-bg header-key"></div>
+        <div class="d-flex header-name align-items-center">
+          <p class="fw-700 mt-3 header-tag-name">Best Selling Product</p>
+        </div>
+        <div class="col-md-1">
+          <button type="button" class="btn btn-categories ">View All</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-section-body d-flex flex-nowrap gap-2">
+      <!-- <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card> -->
+    </div>
+  </div>
+  <!-- Advertisment Banner In The Middle Page -->
+  <div class="container">
+    <div class="middle-adv mt-2">
+      <img src="assets/images/Frame 600.png" alt="">
+    </div>
+  </div>
+  <!-- Explore Our Products -->
+  <div class="card-section d-flex flex-column mt-2 ms-3">
+    <!-- Page Sections -->
+    <!-- Section Header -->
+    <div class="card-section-header ms-3 p-3">
+      <div class="row">
+        <div class="col-md-1 default-bg header-key"></div>
+        <div class="col-md-10 d-flex header-name">
+          <p class="fw-700 header-tag-name">Explore Our Products</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-section-body d-flex justify-content-center flex-wrap gap-5">
+      <!-- <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card>
+      <app-product-card></app-product-card> -->
+    </div>
+    <div class="card-section-footer d-flex align-items-center justify-content-center">
+      <button type="button" class="btn btn-all ">All Products</button>
+    </div>
+  </div>
+  <!-- Grid Banner -->
+  <div class="card-section d-flex flex-column mt-2  ms-4">
+    <!-- Page Sections -->
+    <!-- Section Header -->
+    <div class="card-section-header ms-3 p-3">
+      <div class="row">
+        <div class="col-md-1 default-bg header-key"></div>
+        <div class="col-md-10 d-flex header-name">
+          <p class="fw-700 header-tag-name">New Arrival</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-section-body d-flex justify-content-center flex-wrap gap-5">
+      <div class="grid-container mt-2">
+        <div id="itm-large" class="item">
+          <img src="assets/images/ps-5.png" style="width: 90%;" alt="">
+          <div class="brand-name">
+          </div>
+        </div>
+        <div id="itm-med" class="item">
+          <img src="assets/images/women.png" style="width: 90%;" alt="">
+        </div>
+        <div id="itm-small-1" class="item">
+          <img src="assets/images/speaker.png" style="width: 90%;" alt="">
+        </div>
+        <div id="itm-small-2" class="item">
+          <img src="assets/images/perfume.png" style="width: 90%;" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+
+
+</style>
