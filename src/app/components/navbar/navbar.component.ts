@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Dropdown } from 'bootstrap';
 
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

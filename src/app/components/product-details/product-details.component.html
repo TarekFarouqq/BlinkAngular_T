@@ -15,7 +15,6 @@
                 [src]="image.main"
                 class="d-block w-100 shadow"
                 alt="Main image"
-                
               />
             </div>
           </div>
@@ -55,9 +54,9 @@
       </div>
     </div>
     <div class="col-md-5 mt-5">
-      <h4 class="fw-bolder">ProductName</h4>
+      <h4 class="fw-bolder">{{product?.productName}}</h4>
       <p class="mx-1">
-        @for (star of getStars(4); track $index) {
+        @for (star of getStars(product?.averageRate); track $index) {
         <span class="text-warning">★</span>
         }
         <span class="mx-1" style="font-size: 0.7rem">(150 Reviews)</span> |
@@ -71,18 +70,64 @@
           5650 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
         }}</small>
       </p>
-      <p  style="font-size: 0.8rem">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum culpa
-        blanditiis, est neque accusamus recusandae dolor obcaecati distinctio!
-        Repudiandae, et. Eligendi consequuntur, quidem a repellat nemo corporis
-        est molestias nisi?
+      <p style="font-size: 0.8rem">
+        {{product?.productDescription}}
       </p>
       <hr />
-      <div class="col-sm-12 d-flex justify-content-center">
-        <button class="btn btn-success btn-sm col-sm-10 rounded-pill">
-          Add To Cart
-        </button>
+      <div class="row g-2 align-items-center justify-content-between">
+        <!-- Counter -->
+        <div class="col-auto">
+          <div class="d-flex buy-div align-items-center border rounded p-1">
+            <button class="btn btn-danger buy-button btn-sm fw-bolder">
+              -
+            </button>
+            <span class="mx-3 fw-bold"> 1 </span>
+            <button class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
+          </div>
+        </div>
+
+        <!-- Buy Now Button -->
+        <div class="col">
+          <button class="btn btn-danger p-2 buy-button w-100 btn-sm">
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Wishlist Icon -->
+        <div class="col-auto">
+          <div class="buy-div border rounded p-2">
+            <span><i class="fa-regular fa-heart fa-xl wishlist-icon"></i></span>
+          </div>
+        </div>
       </div>
+
+      <!-- row under the hr  -->
+
+      <div class="border mx-1 my-3 p-3 buy-div">
+        <!-- First Row -->
+        <div class="border-bottom pb-2 d-flex align-items-center">
+          <div class="d-flex align-items-center justify-content-center   p-2 me-3">
+            <i class="fa-solid fa-truck-fast fa-xl text-body-tertiary"></i>
+          </div>
+          <div>
+            <h6 class="mb-1">Free Delivery</h6>
+            <span class="text-muted">Enter your Postal Code for Delivery Availability</span>
+          </div>
+        </div>
+      
+        <!-- Second Row -->
+        <div class="pt-2 d-flex align-items-center">
+          <div class="d-flex align-items-center justify-content-center   p-2 me-3">
+            <i class="fa-solid fa-arrows-rotate fa-xl text-body-tertiary"></i>
+          </div>
+          <div>
+            <h6 class="mb-1">Easy Returns</h6>
+            <span class="text-muted">Hassle-free returns within 30 days</span>
+          </div>
+        </div>
+      </div>
+      
+
     </div>
   </div>
 </div>
