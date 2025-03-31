@@ -5,6 +5,8 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { CategoryCardComponent } from "../category-card/category-card.component";
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category';
 @Component({
   standalone: true,
   selector: 'app-homepage',
@@ -14,10 +16,18 @@ import { CategoryCardComponent } from "../category-card/category-card.component"
 })
 export class HomepageComponent implements OnInit {
   ProductArr!:Product[];
-  constructor(private productServ:ProductService) { }
+  CategoryArr!:Category[];
+  constructor(private productServ:ProductService , private categoryServ : CategoryService) { }
   ngOnInit() {
     this.productServ.getAllProducts().subscribe(res=>{
       this.ProductArr=res;
     })
+
+    this.categoryServ.GetAllChildCategories().subscribe(res => {
+      this.CategoryArr = res
+      
+    }
+
+    )
   }
 }
