@@ -5,8 +5,12 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { CategoryCardComponent } from "../category-card/category-card.component";
-import { CategoryService } from '../../services/category.service';
+
 import { Category } from '../../models/category';
+import { CategoryService } from '../../services/category.service';
+import { Discount } from '../../models/discount';
+import { DiscountService } from '../../services/discount.service';
+
 @Component({
   standalone: true,
   selector: 'app-homepage',
@@ -16,18 +20,25 @@ import { Category } from '../../models/category';
 })
 export class HomepageComponent implements OnInit {
   ProductArr!:Product[];
+
+  ParentCategoryArr!:Category[];
+  DiscountArr!:Discount[];
   CategoryArr!:Category[];
-  constructor(private productServ:ProductService , private categoryServ : CategoryService) { }
+  constructor(private productServ:ProductService,private categoryServ:CategoryService,private discountServ:DiscountService) { }
+
   ngOnInit() {
     this.productServ.getAllProducts().subscribe(res=>{
       this.ProductArr=res;
     })
 
+    this.categoryServ.getAllParentCategory().subscribe(res=>{
+      this.ParentCategoryArr=res;
+    })
+    this.discountServ.getRunningDiscounts().subscribe(res=>{
+      this.DiscountArr=res;
+    })
     this.categoryServ.GetAllChildCategories().subscribe(res => {
       this.CategoryArr = res
-      
-    }
-
-    )
+    })
   }
 }
