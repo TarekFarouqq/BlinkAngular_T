@@ -13,4 +13,16 @@ export class CategoryService {
   getAllParentCategory():Observable<Category[]>{
     return this.httpClient.get<Category[]>(`${this.apiUrl}/Category/GetParentCategories`)
   }
+
+
+  //modification 
+GetAllChildCategories():Observable<Category[]>{
+  return this.httpClient.get<Category[]>(`${this.apiUrl}/Category/GetChildCategories`)
 }
+
+getChildCategoriesById(id:number):Observable<Category>{
+  return this.httpClient.get<Category>(`${this.apiUrl}/Category/GetChildCategoryById?id=${id}`)
+}
+
+}
+
