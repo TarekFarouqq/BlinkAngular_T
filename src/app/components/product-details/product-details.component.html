@@ -59,15 +59,21 @@
         @for (star of getStars(product?.averageRate); track $index) {
         <span class="text-warning">★</span>
         }
-        <span class="mx-1" style="font-size: 0.7rem">(150 Reviews)</span> |
-        <span class="text-success small">InStock</span>
+        <span class="mx-1" style="font-size: 0.7rem">({{ product?.countOfRates}} Reviews)</span> |
+        @if((product?.stockQuantity ?? 0) > 0)
+        {
+          <span class="text-success small">InStock</span>
+        }@else {
+          <span class="text-danger small">Out of Stock</span>
+        }
+        
       </p>
       <p class="card-text fw-bold" style="color: #00391f">
         <span class="mx-1" style="font-size: 1.2rem; font-weight: bold">{{
-          5560 | number : "1.0-0"
+           product?.productPrice| number : "1.0-0"
         }}</span>
         <small>{{
-          5650 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
+          product?.productPrice| currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
         }}</small>
       </p>
       <p style="font-size: 0.8rem">
@@ -101,7 +107,7 @@
         </div>
       </div>
 
-      <!-- row under the hr  -->
+
 
       <div class="border mx-1 my-3 p-3 buy-div">
         <!-- First Row -->
