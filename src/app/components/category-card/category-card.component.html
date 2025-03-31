@@ -1,25 +1,12 @@
 @if (categoryEntity) {
 
-  <div class="product-card position-relative d-flex flex-column align-items-start justify-content-start border border-2 p-1">
-    <div class="product-image d-flex align-items-center justify-content-center mt-1">
+  <div class="cart-card position-relative d-flex flex-column align-items-start justify-content-start border border-2 p-1">
+    <div class="cart-image d-flex align-items-center justify-content-center mt-1">
       <img [src]="categoryEntity.categoryImage" style="width: 60%; height: 100%;" alt="">
     </div>
-    <div class="product-title mt-4 d-flex align-items-center justify-content-center">
+    <div class="cart-title mt-4 d-flex align-items-center justify-content-center">
       <p>{{categoryEntity.categoryName}}</p>
     </div>
   </div>
 
 }
-
-
-  
-<!-- modification -->
-<!-- <div *ngIf="!isLoading && categoryEntity">
-  <h3>{{ categoryEntity.categoryName }}</h3>
-  <p>{{ categoryEntity.categoryDescription }}</p>
-  <img *ngIf="categoryEntity.categoryImage" [src]="categoryEntity.categoryImage" alt="{{ categoryEntity.categoryName }}">
-</div>
-
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
-</div> -->

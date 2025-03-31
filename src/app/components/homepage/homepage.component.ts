@@ -20,22 +20,16 @@ import { DiscountService } from '../../services/discount.service';
 })
 export class HomepageComponent implements OnInit {
   ProductArr!:Product[];
-
   ParentCategoryArr!:Category[];
-  DiscountArr!:Discount[];
   CategoryArr!:Category[];
   constructor(private productServ:ProductService,private categoryServ:CategoryService,private discountServ:DiscountService) { }
 
   ngOnInit() {
-    this.productServ.getAllProducts().subscribe(res=>{
+    this.productServ.getProductsWithRunningDiscounts().subscribe(res=>{
       this.ProductArr=res;
     })
-
     this.categoryServ.getAllParentCategory().subscribe(res=>{
       this.ParentCategoryArr=res;
-    })
-    this.discountServ.getRunningDiscounts().subscribe(res=>{
-      this.DiscountArr=res;
     })
     this.categoryServ.GetAllChildCategories().subscribe(res => {
       this.CategoryArr = res

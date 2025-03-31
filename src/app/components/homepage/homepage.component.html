@@ -30,11 +30,11 @@
       </div>
     </div>
     <div class="card-section-body d-flex flex-nowrap gap-2" >
-      @for (discount of DiscountArr; track discount.discountId) {
-        @for (prd of discount.discountProducts; track prd.productId) {
-          <app-product-card  [discountId]="discount.discountId" [productId]="prd.productId"></app-product-card>
+        @for (Product of ProductArr; track Product.productId) {
+          @if(Product.discountPercentage>0 && Product.discountAmount >0 ){
+            <app-product-card [productId]="Product.productId"></app-product-card>
+          }
         }
-      }
     </div>
     <div class="card-section-footer d-flex align-items-center justify-content-center">
       <button type="button" class="btn btn-all ">All Products</button>
@@ -139,7 +139,3 @@
     </div>
   </div>
 </div>
-<style>
-
-
-</style>
