@@ -1,5 +1,5 @@
-<div class="product-card position-relative d-flex flex-column align-items-start justify-content-start p-1"
-  *ngIf="ProductEntity">
+@if(ProductEntity){
+<div class="product-card position-relative d-flex flex-column align-items-start justify-content-start p-1">
   <div class="product-image d-flex align-items-center justify-content-center mt-1">
     <img [src]="ProductEntity.productImages[0]" style="width: 75%;" alt="">
   </div>
@@ -8,13 +8,13 @@
   </div>
   <div class="product-details d-flex flex-column align-items-start justify-content-start">
     <div class="row ms-1 gap-0">
-      @if(DiscountEntity){
+      @if (ProductEntity.discountPercentage > 0 && ProductEntity.discountAmount > 0 ) {
       <div class="col-md-6 default-bg p-0 d-flex justify-content-center fw-700 color-white"
         style="text-decoration: line-through;">{{ProductEntity.productPrice|currency:'EGP'}}</div>
-      <div class="col-md-4 new-price default-color fw-700">{{getPriceAfterDiscount()|currency:'EGP'}}</div>
+      <div class="col-md-4 new-price default-color fw-700">{{(ProductEntity.productPrice - ProductEntity.discountAmount)|currency:'EGP'}}</div>
       }@else {
-      <div class="p-1 default-bg p-0  fw-700 color-white">
-        {{ProductEntity.productPrice|currency:'EGP'}}</div>
+        <div class="p-1 default-bg p-0  fw-700 color-white">
+          {{ProductEntity.productPrice|currency:'EGP'}}</div>
       }
     </div>
     <div class="row mt-2 d-flex align-items-center justify-content-center gap-2">
@@ -32,11 +32,9 @@
     </div>
   </div>
   <!-- Discount Percentage -->
-  @if (DiscountEntity) {
-    <div class="discount-badge default-bg rounded rounded-2 color-white d-flex align-items-center justify-content-center">
-      -15%
-    </div>
-  }
+  <div class="discount-badge default-bg rounded rounded-2 color-white d-flex align-items-center justify-content-center">
+    -{{ProductEntity.discountPercentage}}%
+  </div>
   <!-- Add To Cart -->
   <div class="cart-badge d-flex align-items-center justify-content-center rounded rounded-4">
     <i class="fa-solid fa-cart-shopping fa-xl"></i>
@@ -46,3 +44,5 @@
     <i class="fa-solid fa-heart fa-xl "></i>
   </div>
 </div>
+
+}

@@ -14,6 +14,8 @@ export interface Product {
   isDeleted: boolean;
   productPrice:number;
   stockQuantity:number;
+  discountPercentage:number;
+  discountAmount:number;
   productReviews: {
     rate: number;
     reviewComment: string[];
