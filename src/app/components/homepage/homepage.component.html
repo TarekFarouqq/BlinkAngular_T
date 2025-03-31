@@ -79,7 +79,11 @@
       </div>
     </div>
     <div class="card-section-body d-flex flex-nowrap gap-2">
-      <app-category-card></app-category-card>
+      <!-- //modification -->
+      <!-- <app-category-card *ngFor="let category of categories" [categoryId]="category.categoryId"></app-category-card> -->
+       @for (category of CategoryArr; track category.categoryId) {
+        <app-category-card [categoryId]="category.categoryId"></app-category-card>
+       }
     </div>
   </div>
   <!-- Best Selling Products -->
