@@ -50,6 +50,7 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
           console.log(response);
          if(response.message == 'success'){
           this.isLoading = false;
+          localStorage.setItem('token',response.token);
            this._Router.navigate(['login'])
            
          }
