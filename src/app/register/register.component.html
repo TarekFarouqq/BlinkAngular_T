@@ -1,8 +1,8 @@
 <section class="max-vh-100">
-  <div class="containr2">
+  <div class="containr2 ">
     <div class="container3">
-      <div class="row d-flex">
-        <div class="col-md-6">
+      <div class="row ">
+        <div class="col-md-6 ">
           <div class="  ">
             <img
               src="./assets/images/register.png"
@@ -12,9 +12,9 @@
           </div>
         </div>
 
-        <div class="col-md-5 offset-1 d-flex align-items-baseline">
-          <div class="p-3">
-            <p class="title my-3">Register</p>
+        <div class="col-md-6 px-5 d-flex align-items-center">
+          <div class=" px-5 mx-4">
+            <p class="title mt-2  mb-3">Register</p>
 
             <form [formGroup]="registerForm" (ngSubmit)="registeration()">
               <div class="row">
@@ -119,6 +119,7 @@
                   class="custom-input"
                   id="email"
                   placeholder="Enter email"
+                  autocomplete="username"
                 />
                 <!-- validation  -->
                 <div
@@ -146,6 +147,7 @@
                     class="custom-input"
                     id="password"
                     placeholder="Enter password"
+                    autocomplete="new-password"
                   />
                   <!-- validation  -->
                   <div
@@ -178,6 +180,7 @@
                     class="custom-input"
                     id="repassword"
                     placeholder="Re-enter password"
+                    autocomplete="new-password"
                   />
                   <!-- validation  -->
                   <div
@@ -268,7 +271,7 @@
               <button
                 [disabled]="registerForm.invalid"
                 type="submit"
-                class="btn submit mx-auto d-block text-white w-50"
+                class="btn rounded-3 submit mx-auto d-block text-white px-lg-3 w-50"
                 style="border-radius: 2px"
               >
                 Create Account
@@ -280,7 +283,7 @@
               </p>
 
               <div class="text-center mt-1">
-                <a routerLink="login" class="btn btn-link text-dark"
+                <a routerLink="/login" class="btn btn-link text-dark"
                   >Already have an account? Login</a
                 >
               </div>
