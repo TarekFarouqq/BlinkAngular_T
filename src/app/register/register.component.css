@@ -35,14 +35,12 @@
   }
 
 .containr2{
-    /* margin-top: 80px; */
     padding-top: 50px ;
     padding-bottom: 50px ;
-    width: 97% ;
+    max-width: 97% ;
 }
 .container3{
     margin-top: 80px;
-    /* width: 97% ;     */
 }
 .custom-input {
     width: 100%;
