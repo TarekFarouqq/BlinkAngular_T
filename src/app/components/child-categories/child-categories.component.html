@@ -1,0 +1,46 @@
+@if(ParentCategoryEntity){
+<div class="container">
+  @for (ChildCategory of ChildCategoryArr; track ChildCategory.categoryId) {
+  @if(productMap[ChildCategory.categoryId]){
+  <div class="child-category-panel w-100 border rounded-3 mb-4 ">
+    <div class="panel-header border-bottom d-flex border-2">
+      <p class="d-flex  fw-700 default-color mt-2 ms-5">{{ChildCategory.categoryName}}</p>
+    </div>
+    <div class="panel-body d-flex align-items-center justify-content-start flex-nowrap">
+      @for (Product of productMap[ChildCategory.categoryId]; track Product.productId) {
+      <app-product-card [productId]="Product.productId"></app-product-card>
+      }
+    </div>
+  </div>
+  }
+
+  }
+</div>
+}
+
+<style>
+  .panel-body {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .panel-body::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .panel-body::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+
+  .panel-body::-webkit-scrollbar-track {
+    background: #f0f0f0;
+  }
+
+  .container {
+    margin-top: 80px;
+  }
+
+</style>
