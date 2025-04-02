@@ -142,6 +142,7 @@
   }
   .btn-all{
     display: none;
+    border-radius: 2px;
   }
   .explore-products{
     flex-wrap: nowrap;

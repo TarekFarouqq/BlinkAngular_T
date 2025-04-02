@@ -10,12 +10,11 @@ import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 import { Discount } from '../../models/discount';
 import { DiscountService } from '../../services/discount.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-homepage',
-  imports: [FormsModule, CommonModule, ProductCardComponent, CategoryCardComponent,RouterLink],
+  imports: [FormsModule, CommonModule, ProductCardComponent, CategoryCardComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })

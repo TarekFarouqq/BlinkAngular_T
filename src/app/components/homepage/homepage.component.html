@@ -6,7 +6,8 @@
         <ul class="row nav-list">
           @for (ParentCategory of ParentCategoryArr; track ParentCategory.categoryId) {
             <li class="nav-item d-flex justify-content-start">
-              <a class="nav-item-a" [routerLink]="['/child-categories', ParentCategory.categoryId]">{{ParentCategory.categoryName}}</a>
+              <!-- <a class="nav-item-a" [routerLink]="['/child-categories', ParentCategory.categoryId]">{{ParentCategory.categoryName}}</a> -->
+              <a class="nav-item-a" href="#">{{ParentCategory.categoryName}}</a>
             </li>
           }
         </ul>
