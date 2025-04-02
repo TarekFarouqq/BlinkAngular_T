@@ -1,7 +1,29 @@
 
-
 .submit{
     background-color: #DB4444;
 }
+
+
+.containr2{
+    /* margin-top: 80px; */
+    padding-top: 80px ;
+    padding-bottom: 50px ;
+    width: 97% ;
+}
+.container3{
+    margin-top: 80px;
+    /* width: 97% ;     */
+}
+.custom-input {
+    width: 100%;
+    padding: 10px 0;
+   border: none;
+    border-bottom: 1px solid #ddd;
+    /* border: none; */
+    outline: none !important;
+    
+  }
+  
+
 
 
