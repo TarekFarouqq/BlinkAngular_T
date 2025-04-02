@@ -35,7 +35,12 @@ export class CartComponent implements OnInit {
           console.log(this.cart);
         },
         error: (error) => {
-          console.log(error);
+          if (error.status === 404) {
+            console.warn('No cart found for this user, creating a new one.');
+            this.cart = { cartDetails: [], userId: "", cartId: 0 }; // Assign an empty cart (modify this)
+          } else {
+            console.error(error);
+          }
         },
       });
     }
