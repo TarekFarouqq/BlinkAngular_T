@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Dropdown } from 'bootstrap';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { Dropdown } from 'bootstrap';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements AfterViewInit {
+  constructor(private _AuthService:AuthService) { }
   @ViewChild('dropdownButton', { static: false }) dropdownElement!: ElementRef;
   dropdown!: Dropdown;
   isHidden = false;
@@ -36,5 +38,10 @@ export class NavbarComponent implements AfterViewInit {
     }
 
     this.lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Avoid negative values
+  }
+
+  LoggedOut(): void {
+    this._AuthService.Logout();
+   
   }
 }

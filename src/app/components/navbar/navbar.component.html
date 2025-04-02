@@ -40,7 +40,7 @@
               <li><a class="dropdown-item" routerLink="/login"><i class="fa-solid fa-box-open mx-2"></i> My Orders</a></li>
               <li><a class="dropdown-item" routerLink="register"><i class="fa-solid fa-plus mx-2"></i> Register</a></li>
               <li><a class="dropdown-item" routerLink="/login"><i class="fa-solid fa-right-to-bracket mx-2"></i> Login</a></li>
-              <li><a class="dropdown-item" routerLink="/register"><i class="fa-solid fa-right-from-bracket mx-2"></i> Logout</a></li>
+              <li><a (click)="LoggedOut()" class="dropdown-item" routerLink="/register"><i class="fa-solid fa-right-from-bracket mx-2"></i> Logout</a></li>
             </ul>
           </li>
         </ul>
