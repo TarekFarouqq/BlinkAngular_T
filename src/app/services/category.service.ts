@@ -24,5 +24,13 @@ getChildCategoriesById(id:number):Observable<Category>{
   return this.httpClient.get<Category>(`${this.apiUrl}/Category/GetChildCategoryById?id=${id}`)
 }
 
+getParentCategoryById(id:number):Observable<Category>{
+  return this.httpClient.get<Category>(`${this.apiUrl}/Category/GetParentCategoryById?id=${id}`)
+}
+
+getChildCategoriesByParentId(id:number):Observable<Category[]>{
+  return this.httpClient.get<Category[]>(`${this.apiUrl}/Category/GetChildCategoryByParentId?id=${id}`)
+}
+
 }
 

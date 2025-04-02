@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
+import { ChildCategoriesComponent } from './components/child-categories/child-categories.component';
 
 
 export const routes: Routes = [
@@ -14,7 +15,7 @@ export const routes: Routes = [
     {path:'register',component:RegisterComponent},
     {path:'login',component:LoginComponent},
     {path:'cart',component:CartComponent},
-
+    {path:'child-categories/:id',component:ChildCategoriesComponent},
     {path:'**',redirectTo:'Homepage',pathMatch:'full'}
 
 
