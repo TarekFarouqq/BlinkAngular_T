@@ -25,11 +25,7 @@
     display: flex;
 
   }
-  .product-rating {
-    color: orange;
-    font-weight: bold;
-    font-size: 18px;
-  }
+
 
   .product-title p {
     display: -webkit-box;
@@ -49,8 +45,8 @@
   }
 
   .product-image {
-    width: 100%;
-    height: 50%;
+    width: 90%;
+    height: 180px;
     background-color: rgb(241, 241, 241);
   }
 
@@ -63,4 +59,17 @@
   .product-title:hover{
     cursor: pointer;
     text-decoration: underline;
+  }
+
+  .product-rating {
+    color: orange;
+    font-weight: bold;
+    font-size: 18px;
+    width: 100px;
+  }
+  .product-review{
+    width: 10px;
+  }
+  @media screen and (max-width: 768px) {
+
   }
