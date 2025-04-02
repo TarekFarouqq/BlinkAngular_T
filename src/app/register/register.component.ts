@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-register',
   imports: [ReactiveFormsModule, CommonModule,RouterModule], 
