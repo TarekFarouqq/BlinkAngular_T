@@ -3,10 +3,40 @@
     background-color: #DB4444;
 }
 
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    color: #5a5a5a;
+    margin-bottom: 0.5rem;
+  }
+  
+  .title::before,
+  .title::after {
+    width: 12px;
+    height: 12px;
+  }
+  
+  .title::before,
+  .title::after {
+    position: absolute;
+    content: "";
+    border-radius: 50%;
+    left: 0px;
+    background-color: #5a5a5a;
+  }
+  
+  .title::after {
+    animation: pulse 1s linear infinite;
+  }
 
 .containr2{
     /* margin-top: 80px; */
-    padding-top: 80px ;
+    padding-top: 50px ;
     padding-bottom: 50px ;
     width: 97% ;
 }
@@ -25,5 +55,14 @@
   }
   
 
-
+  @keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+    to {
+        transform: scale(1.6);
+        opacity: 0;
+    }
+  }
 
