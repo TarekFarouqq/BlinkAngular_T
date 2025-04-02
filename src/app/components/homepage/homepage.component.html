@@ -1,4 +1,5 @@
 <div class="container pg-content">
+  <!-- Parent Categories & First Banner -->
   <div class="row">
     <div class="col-md-3">
       <div class="parent-sidebar">
@@ -24,24 +25,24 @@
     <div class="card-section-header ms-3 p-3">
       <div class="row">
         <div class="col-md-1 default-bg header-key"></div>
-        <div class="col-md-10 d-flex header-name">
-          <p class="fw-700 header-tag-name">Running Discounts</p>
+        <div class="col-md-10 d-flex header-name h-100 d-flex align-items-center justify-content-start">
+          <p class="fw-700 h-100 header-tag-name">Running Discounts</p>
         </div>
       </div>
     </div>
     <div class="card-section-body d-flex flex-nowrap gap-2" >
         @for (Product of ProductArr; track Product.productId) {
-          @if(Product.discountPercentage>0 && Product.discountAmount >0 ){
+          @if( Product.discountPercentage>0 && Product.discountAmount >0 ){
             <app-product-card [productId]="Product.productId"></app-product-card>
           }
         }
     </div>
     <div class="card-section-footer d-flex align-items-center justify-content-center">
-      <button type="button" class="btn btn-all ">All Products</button>
+      <button type="button" class="btn btn-all short-btn ">All Products</button>
     </div>
   </div>
   <!-- Browse By Category -->
-  <div class="card-section d-flex flex-column mt-2 ms-3">
+  <div class="card-section-category d-flex flex-column mt-2 ms-3">
     <!-- Page Sections -->
     <!-- Section Header -->
     <div class="card-section-header ms-3 p-3 w-100">
@@ -52,11 +53,11 @@
         </div>
       </div>
     </div>
-    <div class="card-section-body w-100 d-flex flex-nowrap overflow-hidden gap-2">
-       @for (category of CategoryArr; track category.categoryId) {
-        <app-category-card [categoryId]="category.categoryId"></app-category-card>
-       }
-    </div>
+    <div class="card-section-body w-100 d-flex flex-nowrap overflow-auto gap-2">
+      @for (category of CategoryArr; track category.categoryId) {
+       <app-category-card [categoryId]="category.categoryId"></app-category-card>
+      }
+   </div>
   </div>
   <!-- Best Selling Products -->
   <div class="card-section  d-flex flex-column mt-2 ms-3">
@@ -69,7 +70,7 @@
           <p class="fw-700 mt-3 header-tag-name">Best Selling Product</p>
         </div>
         <div class="col-md-1">
-          <button type="button" class="btn btn-categories ">View All</button>
+          <button type="button" class="btn btn-categories btn-all ">View All</button>
         </div>
       </div>
     </div>
@@ -82,13 +83,13 @@
   </div>
   <!-- Advertisment Banner In The Middle Page -->
   <div class="container">
-    <div class="middle-adv mt-2">
+    <div class="middle-adv d-flex justify-content-center align-items-center w-100 mt-2">
       <img src="assets/images/Frame 600.png" alt="">
     </div>
   </div>
   <!-- Explore Our Products -->
   <div class="card-section d-flex flex-column mt-2 ms-3">
-    <div class="card-section-header ms-3 p-3">
+    <div class="card-section-header ms-3 p-3 h-25">
       <div class="row">
         <div class="col-md-1 default-bg header-key"></div>
         <div class="col-md-10 d-flex header-name">
@@ -96,9 +97,11 @@
         </div>
       </div>
     </div>
-    <div class="card-section-body d-flex justify-content-center flex-wrap gap-5">
-      @for (Product of ProductArr; track Product.productId) {
-        <app-product-card [productId]="Product.productId"></app-product-card>
+    <div class="card-section-body explore-products h-75 d-flex  h-50 gap-2">
+      @for (Product of ProductArr; track Product.productId; let i = $index) {
+        @if (i < 8) {
+          <app-product-card [productId]="Product.productId"></app-product-card>
+        }
       }
     </div>
     <div class="card-section-footer d-flex align-items-center justify-content-center">

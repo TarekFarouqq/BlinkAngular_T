@@ -1,10 +1,6 @@
 @if(ProductEntity){
-<div
-  class="product-card position-relative d-flex flex-column align-items-start justify-content-start p-1"
->
-  <div
-    class="product-image d-flex align-items-center justify-content-center mt-1"
-  >
+<div class="product-card position-relative d-flex flex-column align-items-start justify-content-start p-1">
+  <div class="product-image d-flex align-items-center justify-content-center mt-1 w-100">
     <img [src]="ProductEntity.productImages[0]" style="width: 75%" alt="" />
   </div>
   <div class="product-title ms-1 mt-4">
@@ -12,63 +8,53 @@
       {{ ProductEntity.productName }}
     </p>
   </div>
-  <div
-    class="product-details d-flex flex-column align-items-start justify-content-start"
-  >
-    <div class="row ms-1 gap-0">
-      @if (ProductEntity.discountPercentage > 0 && ProductEntity.discountAmount
-      > 0 ) {
-      <div
-        class="col-md-6 default-bg p-0 d-flex justify-content-center fw-700 color-white"
-        style="text-decoration: line-through"
-      >
+  <div class="product-details w-100 d-flex flex-column align-items-start justify-content-start">
+    <div class="row ms-1 gap-0 w-100">
+      @if (ProductEntity.discountPercentage > 0 && ProductEntity.discountAmount > 0 ) 
+      {
+      <div class="default-bg p-1 w-50 d-flex justify-content-center fw-700 color-white"
+        style="text-decoration: line-through">
         {{ ProductEntity.productPrice | currency : "EGP" }}
       </div>
-      <div class="col-md-4 new-price default-color fw-700">
+      <div class="new-price w-50 d-flex justify-content-center default-color fw-700">
         {{
           ProductEntity.productPrice - ProductEntity.discountAmount
             | currency : "EGP"
         }}
       </div>
-      }@else {
-      <div class="p-1 default-bg p-0 fw-700 color-white">
+      }@else 
+      {
+      <div class="col-md-12 d-flex align-items-center justify-content-start p-1 p-0 fw-700">
         {{ ProductEntity.productPrice | currency : "EGP" }}
       </div>
       }
     </div>
-    <div
-      class="row mt-2 d-flex align-items-center justify-content-center gap-2"
-    >
-      <div class="product-rating col-md-6 d-flex">
+    <div class="row mt-2 d-flex align-items-center justify-content-center gap-2">
+      <div class="product-rating d-flex justify-content-start align-items-center">
         @for (Star of ProductAverageRate; track $index) {
-        <p>&#9733;</p>
+        <p >&#9733;</p>
         } @for (Star of completeEmptyStart(); track $index) {
         <p>&#9734;</p>
         }
       </div>
-      <div class="product-review col-md-5 d-flex">
+      <div class="product-review d-flex justify-content-start align-items-center">
         <p>({{ ProductEntity.countOfRates }})</p>
       </div>
     </div>
   </div>
   <!-- Discount Percentage -->
   @if (ProductEntity.discountPercentage > 0) {
-  <div
-    class="discount-badge default-bg rounded rounded-2 color-white d-flex align-items-center justify-content-center">
+  <div class="discount-badge default-bg rounded rounded-2 color-white d-flex align-items-center justify-content-center">
     -{{ ProductEntity.discountPercentage }}%
   </div>
   }
 
   <!-- Add To Cart -->
-  <div
-    class="cart-badge d-flex align-items-center justify-content-center rounded rounded-4"
-  >
+  <div class="cart-badge d-flex align-items-center justify-content-center rounded rounded-4">
     <i class="fa-solid fa-cart-shopping fa-xl"></i>
   </div>
   <!-- Add To Wishlist -->
-  <div
-    class="wishlist-badge d-flex align-items-center justify-content-center rounded rounded-4"
-  >
+  <div class="wishlist-badge d-flex align-items-center justify-content-center rounded rounded-4">
     <i class="fa-solid fa-heart fa-xl"></i>
   </div>
 </div>
