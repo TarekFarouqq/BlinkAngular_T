@@ -1,6 +1,6 @@
 <div class="w-100" style="margin-top: 100px;">
     <div class="pg-footer  bg-black text-white d-flex align-items-center justify-content-center">
-      <div class="row w-100 d-flex align-items-center justify-content-center">
+      <div class="footer-align w-100 d-flex align-items-center justify-content-center">
         <div class="default-width">
             <p style="font-size: 20px;" class="mb-3">Support</p>
             <p class="mb-1" >Egypt</p>
@@ -16,17 +16,21 @@
         <div class="default-width">
             <p style="font-size: 20px;" class="mb-3">Download App</p>
             <img src="assets/images/Frame 719.png" alt="">
-            <div class="row mt-2">
-                <i class="col-md-2 fa-brands fa-facebook"></i>
-                <i class="col-md-2 fa-brands fa-twitter"></i>
-                <i class="col-md-2 fa-brands fa-instagram"></i>
-                <i class="col-md-2 fa-brands fa-linkedin"></i>
+            <div class="footer-align gap-1 mt-2">
+                <i class="col-md-1 fa-brands fa-facebook"></i>
+                <i class="col-md-1 fa-brands fa-twitter"></i>
+                <i class="col-md-1 fa-brands fa-instagram"></i>
+                <i class="col-md-1 fa-brands fa-linkedin"></i>
             </div>
         </div>
       </div>
     </div>
 </div>
 <style>
+  
+    .footer-align{
+        flex-direction: row;
+    }
     .default-anchor:hover{
         cursor: pointer;
         text-decoration: underline;
@@ -39,14 +43,19 @@
     }
     .default-width{
         width: 25%;
-        height: 200px;
         font-weight: 600;
         font-size: 16px;
-        /* display: flex; */
-        /* align-items: center; */
-        /* justify-content: center; */
     }
     .pg-footer{
-        height: 300px;
+        min-height: 300px;
+    }
+    @media screen and (max-width:600px) {
+        .footer-align{
+            flex-direction: column;
+        }
+        .default-width{
+            width: 50%;
+            margin:15px 0px
+        }
     }
 </style>
