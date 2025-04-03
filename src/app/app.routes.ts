@@ -12,7 +12,7 @@ import { loggedGuard } from './guards/logged.guard';
 
 export const routes: Routes = [
 
-    {path:'',redirectTo:'Homepage',pathMatch:'full' },
+    {path:'',redirectTo:'Homepage',pathMatch:'full'}, 
     {path:'Homepage',component:HomepageComponent},
     {path:'details/:id',component:ProductDetailsComponent},
     {path:'register',component:RegisterComponent,canActivate:[loggedGuard]},
