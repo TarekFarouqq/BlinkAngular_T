@@ -86,11 +86,11 @@
          {
           <div class="col-auto">
             <div class="d-flex buy-div align-items-center border rounded p-1">
-              <button class="btn btn-danger buy-button btn-sm fw-bolder">
+              <button (click)="decreamentQuantity()" class="btn btn-danger buy-button btn-sm fw-bolder">
                 -
               </button>
-              <span class="mx-3 fw-bold"> 1 </span>
-              <button class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
+              <span class="mx-3 fw-bold"> {{uxQuantity}} </span>
+              <button (click)="increamentQuantity()" class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
             </div>
           </div>
 
