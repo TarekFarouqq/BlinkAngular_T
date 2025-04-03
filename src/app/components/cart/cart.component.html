@@ -4,52 +4,60 @@
     <div class="col-md-7 me-auto col-12">
       <table class="table border-bottom">
         <tbody>
-          <tr class="" *ngFor="let item of cartItems">
-            <!-- Product Image & Name -->
-            <td>
-              <div class="d-flex align-items-center">
-                <img
-                  [src]="item.image"
-                  class="img-fluid rounded"
-                  alt="Product Image"
-                  style="width: 80px; height: 80px; object-fit: cover"
-                />
-                <h6 class="mb-0 ms-2">{{ item.name }}</h6>
-              </div>
-            </td>
-
-            <!-- Counter -->
-            <td class="align-middle">
-              <div
-                class="d-inline-flex my-div align-items-center border rounded p-1 custom-counter"
-              >
-                <button
-                  class="btn btn-danger btn-sm fw-bolder"
-                  (click)="decreaseQuantity(item)"
+          @for (cartItem of cart.cartDetails; track $index) 
+          {
+            <tr class="">
+              <!-- Product Image & Name -->
+              <td>
+                <div class="d-flex align-items-center">
+                  <img
+                  [src]="cartItem.productImageUrl"
+                    class="img-fluid rounded"
+                    alt="Product Image"
+                    style="width: 80px; height: 80px; object-fit: contain"
+                  />
+                  <h6 class="mb-0 ms-2 w-50" style="white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;">
+                  {{cartItem.productName}}
+                </h6>
+                </div>
+              </td>
+  
+              <!-- Counter -->
+              <td class="align-middle">
+                <div
+                  class="d-inline-flex my-div align-items-center border rounded p-1 custom-counter"
                 >
-                  -
-                </button>
-                <span class="mx-2 fw-bold">{{ item.quantity }}</span>
-                <button
-                  class="btn btn-dark btn-sm fw-bolder"
-                  (click)="increaseQuantity(item)"
-                >
-                  +
-                </button>
-              </div>
-            </td>
-            <!-- Total -->
-            <td class="align-middle">
-              <span class="mx-1" style="font-size: 0.9rem">{{
-                item.price * item.quantity | number : "1.0-0"
-              }}</span>
-              <small style="font-size: 0.7rem">{{
-                item.price * item.quantity
-                  | currency : "EGP" : "symbol" : "1.0-0"
-                  | slice : 0 : 3
-              }}</small>
-            </td>
-          </tr>
+                  <button
+                    class="btn btn-danger btn-sm fw-bolder"
+                    (click)="decreamentQauntity(cartItem.productId)"
+                  >
+                    -
+                  </button>
+                  <span class="mx-2 fw-bold">{{cartItem.quantity}}</span>
+                  <button
+                    class="btn btn-dark btn-sm fw-bolder"
+                  (click)="icreamentQauntity(cartItem.productId)"
+                  >
+                    +
+                  </button>
+                </div>
+              </td>
+              <!-- Total -->
+              <td class="align-middle">
+                <span class="mx-1" style="font-size: 0.9rem">{{
+                  cartItem.productUnitPrice * cartItem.quantity | number : "1.0-0"
+                }}</span>
+                <small style="font-size: 0.7rem">{{
+                  50000
+                    | currency : "EGP" : "symbol" : "1.0-0"
+                    | slice : 0 : 3
+                }}</small>
+              </td>
+            </tr>
+          }
+         
         </tbody>
       </table>
       <div class="d-flex justify-content-between">
@@ -163,7 +171,7 @@
           </p>
           <button
             class="btn btn-danger w-100 mb-2 fw-bold"
-            (click)="checkout()"
+           
           >
             CheckOut
           </button>

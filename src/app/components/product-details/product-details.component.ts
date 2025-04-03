@@ -10,6 +10,8 @@ import { Carousel } from 'bootstrap';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from '../../models/cartItem';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -27,10 +29,21 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   images: { main: string; thumb: string }[] = [];
   product: Product | null = null;
   productId!: number;
+  cartItem! : CartItem
 
-  constructor( private productService: ProductService,private route: ActivatedRoute) {}
+  constructor( private productService: ProductService,private route: ActivatedRoute, private cartService: CartService ) {}
   ngOnInit(): void {
     this.loadProduct();
+  }
+
+  addProductToCart() {
+    if (this.product) {
+      this.cartItem = {
+        productId: this.product.productId,
+        quantity: 1,
+      }
+      this.cartService.addToCart(this.cartItem);
+    }
   }
 
   ngAfterViewInit() {

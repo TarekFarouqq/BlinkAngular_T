@@ -39,7 +39,7 @@
               [class.active]="i === activeIndex"
               (click)="selectImage(i)"
             >
-              <img [src]="image.thumb" alt="Thumbnail" />
+              <img style="object-fit: contain;" [src]="image.thumb" alt="Thumbnail" />
             </div>
           </div>
 
@@ -82,22 +82,47 @@
       <hr />
       <div class="row g-2 align-items-center justify-content-between">
         <!-- Counter -->
-        <div class="col-auto">
-          <div class="d-flex buy-div align-items-center border rounded p-1">
-            <button class="btn btn-danger buy-button btn-sm fw-bolder">
-              -
-            </button>
-            <span class="mx-3 fw-bold"> 1 </span>
-            <button class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
+         @if (product?.stockQuantity?? 0 >= 1) 
+         {
+          <div class="col-auto">
+            <div class="d-flex buy-div align-items-center border rounded p-1">
+              <button class="btn btn-danger buy-button btn-sm fw-bolder">
+                -
+              </button>
+              <span class="mx-3 fw-bold"> 1 </span>
+              <button class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
+            </div>
           </div>
-        </div>
 
+          
         <!-- Buy Now Button -->
         <div class="col">
-          <button class="btn btn-danger p-2 buy-button w-100 btn-sm">
+          <button class="btn btn-danger p-2 buy-button w-100 btn-sm" (click)="addProductToCart()">
             Buy Now
           </button>
         </div>
+        
+         }@else{
+          <div class="col-auto">
+            <div class="d-flex buy-div align-items-center border rounded p-1">
+              <button class="btn btn-danger buy-button btn-sm disabled fw-bolder">
+                -
+              </button>
+              <span class="mx-3 fw-bold"> 0 </span>
+              <button class="btn btn-dark buy-button btn-sm disabled fw-bolder">+</button>
+            </div>
+          </div>
+
+          
+        <!-- Buy Now Button -->
+        <div class="col">
+          <button class="btn btn-danger disabled p-2 buy-button w-100 btn-sm" (click)="addProductToCart()">
+            Buy Now
+          </button>
+        </div>
+         }
+        
+
 
         <!-- Wishlist Icon -->
         <div class="col-auto">
