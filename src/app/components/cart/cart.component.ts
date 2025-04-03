@@ -3,77 +3,37 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { Cart } from '../../models/cart';
+import { CartItem } from '../../models/cartItem';
 
 @Component({
   selector: 'app-cart',
   imports: [CommonModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
- cartUserId: string | null = null;
- cart!: Cart
-  constructor(private authService: AuthService, private cartService: CartService) {
-    this.cartUserId = this.authService.getUserId();
-  }
-  ngOnInit() {
-    // this.loadCart();
-      if (this.cartUserId) {
-        this.cartService.getCartByUserId(this.cartUserId).subscribe(res => { console.log(res); });
-      } else {
-        console.error('cartUserId is null');
-      }
-    }
-
-  private loadCart(): void {
-
-    if (this.cartUserId) {
-      this.cartService.getCartByUserId(this.cartUserId).subscribe({
-        next: (cart) => {
-          console.log(cart);
-          this.cart = cart;
-          console.log(this.cart);
-        },
-        error: (error) => {
-          if (error.status === 404) {
-            console.warn('No cart found for this user, creating a new one.');
-            this.cart = { cartDetails: [], userId: "", cartId: 0 }; // Assign an empty cart (modify this)
-          } else {
-            console.error(error);
-          }
-        },
-      });
-    }
+  cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
+  cartItem! : CartItem
+  constructor(
+    private authService: AuthService,
+    private cartService: CartService
+  ) {
   }
 
-
-
-
-
-
-
-
-
-
-  cartItems = [
-    { id: 1, name: 'IPhone 13', image: '../../../assets/images/p2.jpeg', price: 25000, quantity: 1 },
-    { id: 2, name: 'MacBook Air', image: '../../../assets/images/p7.jpeg', price: 35000, quantity: 1 }
-  ];
-  increaseQuantity(item: any) {
-    item.quantity++;
+  ngOnInit() 
+  {
+    this.cartService.cart$.subscribe((updatedCart) => {
+        this.cart = updatedCart;
+    });
   }
 
-  decreaseQuantity(item: any) {
-    if (item.quantity > 1) {
-      item.quantity--;
-    }
+  icreamentQauntity(productId: number) {
+    this.cartItem = { productId: productId, quantity: 1 };
+    this.cartService.addToCart(this.cartItem);
   }
+  decreamentQauntity(productId: number) {
+    this.cartItem = { productId: productId, quantity: -1 };
 
-  getTotal(): number {
-    return this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-  }
-
-  checkout() {
-    alert('Proceeding to checkout!');
+    this.cartService.addToCart(this.cartItem);
   }
 }

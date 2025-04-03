@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
 import { RouterLink } from '@angular/router';
+import { CartItem } from '../../models/cartItem';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -15,7 +17,9 @@ export class ProductCardComponent implements OnInit {
   @Input() productId!: number;
   ProductEntity!: Product;
   ProductAverageRate!: number[];
-  constructor(private productServ:ProductService) { }
+  cartItem! : CartItem
+  
+  constructor(private productServ:ProductService, private cartService: CartService) { }
   ngOnInit() {
    this.productServ.getProductWithRunningDiscountByProductId(this.productId).subscribe(res=>{
     this.ProductEntity=res;
@@ -29,5 +33,15 @@ export class ProductCardComponent implements OnInit {
   }
   completeEmptyStart(){
     return Array(5 - Math.round(this.ProductEntity.averageRate)).fill(1);
+  }
+
+  addProductToCart() {
+    if (this.ProductEntity) {
+      this.cartItem = {
+        productId: this.ProductEntity.productId,
+        quantity: 1,
+      }
+      this.cartService.addToCart(this.cartItem);
+    }
   }
 }

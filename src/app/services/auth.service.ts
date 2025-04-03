@@ -26,7 +26,6 @@ export class AuthService {
     if (!token) return null;
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
-    console.log(decodedToken);
     return (
       decodedToken?.[
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
