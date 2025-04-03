@@ -63,6 +63,7 @@
       <div class="d-flex justify-content-between">
         <button
           class="btn btn-light btn-sm bg-transparent border border-1 action-button"
+          routerLink="/Homepage"
         >
           Return to Shop
         </button>
@@ -103,10 +104,10 @@
                         </p>
                         <div class="d-flex align-items-center p-1">
                           <span class="mx-1" style="font-size: 0.8rem">{{
-                            5000 | number : "1.0-0"
+                            totalPrice | number : "1.0-0"
                           }}</span>
                           <small style="font-size: 0.7rem">{{
-                            5000
+                            totalPrice
                               | currency : "EGP" : "symbol" : "1.0-0"
                               | slice : 0 : 3
                           }}</small>
@@ -150,10 +151,10 @@
                         </p>
                         <div class="d-flex align-items-center p-1">
                           <span class="mx-1" style="font-size: 0.8rem">{{
-                            5457 | number : "1.0-0"
+                            totalPrice * 1.14 | number : "1.0-0"
                           }}</span>
                           <small style="font-size: 0.7rem">{{
-                            5457
+                            totalPrice * 1.14
                               | currency : "EGP" : "symbol" : "1.0-0"
                               | slice : 0 : 3
                           }}</small>

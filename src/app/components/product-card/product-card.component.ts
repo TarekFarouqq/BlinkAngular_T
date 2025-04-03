@@ -6,6 +6,7 @@ import { Product } from '../../models/product';
 import { RouterLink } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-card',
@@ -42,6 +43,14 @@ export class ProductCardComponent implements OnInit {
         quantity: 1,
       }
       this.cartService.addToCart(this.cartItem);
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'success',
+        title: 'Product added to cart!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   }
 }
