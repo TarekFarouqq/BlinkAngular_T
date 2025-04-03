@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControlOptions, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
-
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule,RouterModule], 
+  imports: [ReactiveFormsModule, CommonModule,RouterLink], 
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -50,9 +49,9 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
         next:(response) =>{
           console.log(response);
          if(response.message == 'success'){
-          this.isLoading = false;
-          localStorage.setItem('token',response.token);
            this._Router.navigate(['login'])
+           this.isLoading = false;
+          //  localStorage.setItem('token',response.token);
            
          }
           
