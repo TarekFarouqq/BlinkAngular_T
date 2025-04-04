@@ -37,7 +37,9 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
 
   constructor(private router: Router, private productService: ProductService,private route: ActivatedRoute, private cartService: CartService ) {}
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.loadProduct();
+    
   }
 
   addProductToCart() {
@@ -65,6 +67,9 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
 
 
   increamentQuantity() {
+    if (this.product && this.uxQuantity >= this.product.stockQuantity) {
+      return;
+    }
     this.uxQuantity = this.uxQuantity + 1;
   }
   
@@ -97,9 +102,10 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   private loadProduct(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.productId) {
-      this.productService.getProductById(this.productId).subscribe({
+      this.productService.getProductWithRunningDiscountByProductId(this.productId).subscribe({
         next: (product) => {
           this.product = product;
+          console.log(this.product);
           this.images = this.product.productImages.map((imgPath) => ({
             main: imgPath,
             thumb: imgPath,

@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -17,21 +18,20 @@ import Swal from 'sweetalert2';
 export class ProductCardComponent implements OnInit {
   @Input() productId!: number;
   ProductEntity!: Product;
-  ProductAverageRate!: number[];
   cartItem! : CartItem
   
-  constructor(private productServ:ProductService, private cartService: CartService) { }
+  constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService) { }
   ngOnInit() {
    this.productServ.getProductWithRunningDiscountByProductId(this.productId).subscribe(res=>{
     this.ProductEntity=res;
-    this.setProductAverageRate();
+
    })
   }
-  setProductAverageRate() {
-    if(this.ProductEntity){
-      this.ProductAverageRate = Array(Math.round(this.ProductEntity.averageRate)).fill(1);
-    }
+ 
+  getStars(rating: number): number[] {
+    return Array(Math.round(rating)).fill(0);
   }
+
   completeEmptyStart(){
     return Array(5 - Math.round(this.ProductEntity.averageRate)).fill(1);
   }
