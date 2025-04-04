@@ -1,61 +1,34 @@
 <div class="w-100" style="margin-top: 100px;">
-    <div class="pg-footer  bg-black text-white d-flex align-items-center justify-content-center">
-      <div class="footer-align w-100 d-flex align-items-center justify-content-center">
-        <div class="default-width">
-            <p style="font-size: 20px;" class="mb-3">Support</p>
-            <p class="mb-1" >Egypt</p>
-            <p class="mb-1" >TeamBlink&#64;gmail.com</p>
-        </div>
-        <div class="default-width">
-            <p style="font-size: 20px;" class="mb-3">Account</p>
-            <a class="mb-1" href="#" class="default-anchor">My Account</a>
-            <a class="mb-1" href="#" class="default-anchor" >Login / Register</a>
-            <a class="mb-1" href="#" class="default-anchor" >Cart</a>
-            <a class="mb-1" href="#" class="default-anchor" >Whishlist</a>
-        </div>
-        <div class="default-width">
-            <p style="font-size: 20px;" class="mb-3">Download App</p>
-            <img src="assets/images/Frame 719.png" alt="">
-            <div class="footer-align gap-1 mt-2">
-                <i class="col-md-1 fa-brands fa-facebook"></i>
-                <i class="col-md-1 fa-brands fa-twitter"></i>
-                <i class="col-md-1 fa-brands fa-instagram"></i>
-                <i class="col-md-1 fa-brands fa-linkedin"></i>
-            </div>
+  <div class="pg-footer  bg-black text-white d-flex align-items-center justify-content-center">
+    <div class="footer-align w-100 d-flex align-items-start justify-content-center">
+      <div class="default-width">
+        <p style="font-size: 20px;" class="mb-3">Support</p>
+        <p class="mb-1">Egypt</p>
+        <p class="mb-1">TeamBlink&#64;gmail.com</p>
+      </div>
+      <div class="default-width">
+        <p style="font-size: 20px;" class="mb-3">Account</p>
+        @if (UserStatus) {
+        <a class="mb-1" href="#" class="default-anchor">My Account</a>
+        }
+        @if (!UserStatus) {
+            <a class="mb-1" href="#" class="default-anchor" routerLink="login">Login / Register</a>
+        }
+        @if (UserStatus) {
+        <a class="mb-1" href="#" class="default-anchor" routerLink="cart">Cart</a>
+        <a class="mb-1" href="#" class="default-anchor">Whishlist</a>
+        }
+    </div>
+      <div class="default-width">
+        <p style="font-size: 20px;" class="mb-3">Download App</p>
+        <img src="assets/images/Frame 719.png" alt="">
+        <div class="footer-align gap-1 mt-3">
+          <i class="col-md-1 fa-brands fa-facebook fa-xl"></i>
+          <i class="col-md-1 fa-brands fa-twitter fa-xl"></i>
+          <i class="col-md-1 fa-brands fa-instagram fa-xl"></i>
+          <i class="col-md-1 fa-brands fa-linkedin fa-xl"></i>
         </div>
       </div>
     </div>
+  </div>
 </div>
-<style>
-  
-    .footer-align{
-        flex-direction: row;
-    }
-    .default-anchor:hover{
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    .default-anchor{
-        display: block;
-        text-decoration: none;
-        color: white;
-
-    }
-    .default-width{
-        width: 25%;
-        font-weight: 600;
-        font-size: 16px;
-    }
-    .pg-footer{
-        min-height: 300px;
-    }
-    @media screen and (max-width:600px) {
-        .footer-align{
-            flex-direction: column;
-        }
-        .default-width{
-            width: 50%;
-            margin:15px 0px
-        }
-    }
-</style>
