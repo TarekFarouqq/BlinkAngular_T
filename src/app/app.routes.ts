@@ -5,7 +5,6 @@ import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
-import { ChildCategoriesComponent } from './components/child-categories/child-categories.component';
 import { authGuard } from './guards/auth.guard';
 import { loggedGuard } from './guards/logged.guard';
 
@@ -18,7 +17,6 @@ export const routes: Routes = [
     {path:'register',component:RegisterComponent,canActivate:[loggedGuard]},
     {path:'login',component:LoginComponent,canActivate:[loggedGuard]},
     {path:'cart',component:CartComponent,canActivate:[authGuard]},
-    {path:'child-categories/:id',component:ChildCategoriesComponent,canActivate:[authGuard]},
     {path:'**',component:NotfoundComponent}
 
 

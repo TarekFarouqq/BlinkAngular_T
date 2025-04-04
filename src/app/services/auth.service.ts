@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = environment.apiUrl;
   userData: any;
+  private userIsLoggedIn=new BehaviorSubject<boolean>(this.hasToken());
+  
   constructor(private _HttpClient: HttpClient,private _Router:Router) {}
 
   setRegister(userData: object): Observable<any> {
@@ -26,6 +28,7 @@ export class AuthService {
     if (!token) return null;
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(token);
+
     return (
       decodedToken?.[
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
@@ -60,6 +63,37 @@ export class AuthService {
     this._Router.navigate(['/login']);
     
   }
+
+
+  // New Auth..
+
+  private hasToken(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    const helper = new JwtHelperService();
+    if (helper.isTokenExpired(token)) {
+      localStorage.removeItem('token');
+      return false;
+    }
+    return true;
+  }
+
+  get isLoggedIn$(): Observable<boolean> {
+    return this.userIsLoggedIn.asObservable();
+  }
+
+
+  /*
+
+  this.authService.isLoggedIn().subscribe(isLogged=>{
+    if(isLogged){
+      console.log ("UserIsLogged");
+    }
+  })
+
+  */
 
 
 }
