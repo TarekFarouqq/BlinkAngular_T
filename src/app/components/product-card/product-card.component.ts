@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
@@ -19,11 +19,14 @@ export class ProductCardComponent implements OnInit {
   @Input() productId!: number;
   ProductEntity!: Product;
   cartItem! : CartItem
-  
-  constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService) { }
+  UserStatus!:boolean;
+  constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService ,private router: Router) { }
   ngOnInit() {
    this.productServ.getProductWithRunningDiscountByProductId(this.productId).subscribe(res=>{
     this.ProductEntity=res;
+    this.authService.isLoggedIn$.subscribe(isLogged=>{
+      this.UserStatus=isLogged;
+    })
 
    })
   }
@@ -37,6 +40,17 @@ export class ProductCardComponent implements OnInit {
   }
 
   addProductToCart() {
+    if (!this.UserStatus) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'warning',
+        title: 'Login or Register to Add Product to Cart',
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      return;
+    }
     if (this.ProductEntity) {
       this.cartItem = {
         productId: this.ProductEntity.productId,

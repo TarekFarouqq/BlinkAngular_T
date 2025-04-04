@@ -25,6 +25,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit() 
   {
+    window.scrollTo(0, 0);
     this.cartService.cart$.subscribe((updatedCart) => {
         this.cart = updatedCart;
     });
