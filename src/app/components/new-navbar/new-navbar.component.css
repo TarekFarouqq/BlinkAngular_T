@@ -1,36 +1,36 @@
 .search-input{
-    font-weight: 700;
-    font-size: 17px;
+    font-weight: 400;
+    font-size: 13px;
     border: none;
     outline: none;
     width: 90%;
     height: 100%;
 }
 .nav-buttons:hover{
-    background-color: rgb(247, 247, 247);
+
     color: #da4446;
-    transform: scale(1.1);
+    transform: scale(0.9);
+    transition: all 0.3s ease-in-out;
 
 }
 .nav-buttons{
     height: 50px;
     width: 50px;
     border: none;
-    border-radius: 5px;
     background-color: white;
     color: rgb(59, 53, 53);
 }
 .search-button{
     border: none;
-    height: 45px;
+    height: 35PX;
     width: 60px;
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
 }
 .search-box{
-    height: 45px;
+    height: 35px;
     border-radius: 2px;
-    border: 1px solid #da4446;
+    border: 1px solid #c02f32;
 }
 .navbar-web{
     height: 70px;
