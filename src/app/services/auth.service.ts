@@ -58,6 +58,7 @@ export class AuthService {
   }
 
   Logout(): void {
+    this.userLogout();
     localStorage.removeItem('token');
     this.userData = null;
     this._Router.navigate(['/login']);
@@ -84,16 +85,11 @@ export class AuthService {
     return this.userIsLoggedIn.asObservable();
   }
 
-
-  /*
-
-  this.authService.isLoggedIn().subscribe(isLogged=>{
-    if(isLogged){
-      console.log ("UserIsLogged");
-    }
-  })
-
-  */
-
+  userLogin(){
+    this.userIsLoggedIn.next(true);
+  }
+  userLogout(){
+    this.userIsLoggedIn.next(false);
+  }
 
 }
