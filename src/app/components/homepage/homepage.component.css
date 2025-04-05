@@ -161,3 +161,70 @@
     gap: 3px;
   }
 }
+
+
+.carousel-item {
+  position: relative;
+  height: 65vh;
+  width: 100%;
+}
+
+.carousel-inner {
+  min-height: 65vh; 
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.carousel-caption {
+  position: absolute;
+  top: 67%;
+  right: 12%; /* Adjust the right spacing */
+  left: auto; /* Ensure it's aligned to the right */
+  transform: translateY(-50%);
+  text-align: center; /* Align text to the right */
+  max-width: 25%; /* Prevents text from stretching too much */
+}
+
+.carousel-caption h1,
+.carousel-caption p {
+  position: relative;
+  display: block;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: slideUp 1s ease-out forwards;
+  color: rgb(207, 207, 207);
+  text-shadow: 2px 2px 4px rgba(57, 57, 57, 0.7);
+  font-weight: bold;
+  
+  
+}
+
+.carousel-caption h1::before,
+.carousel-caption p::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.7); /* Light effect */
+  transform: scaleX(0);
+  transform-origin: left;
+  text-shadow: 2px 2px 4px rgba(57, 57, 57, 0.7);
+  
+}
+
+/* Keyframe Animation */
+@keyframes slideUp {
+  from {
+      opacity: 0;
+      transform: translateY(50px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
