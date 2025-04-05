@@ -1,25 +1,66 @@
 <div class="container-fluid px-0  pg-content">
   <!-- Parent Categories & First Banner -->
-  <div class="row m-0 ">
+  <div class="row m-0  ">
     <div class="col-md-3">
-      <div class="parent-sidebar pt-3">
+      <div class="parent-sidebar pt-5">
         <ul class=" w-100 nav-list">
           @for (ParentCategory of ParentCategoryArr; track ParentCategory.categoryId) {
             <li class="nav-item d-flex justify-content-start">
               <!-- <a class="nav-item-a" [routerLink]="['/child-categories', ParentCategory.categoryId]">{{ParentCategory.categoryName}}</a> -->
-              <a class="nav-item-a" href="#">{{ParentCategory.categoryName}}</a>
+              <a class="nav-item-a fs-6 fw-bold " href="#">{{ParentCategory.categoryName}}</a>
             </li>
           }
         </ul>
       </div>
     </div>
-    <div class="col-md-9">
-      <div class="banner  d-flex">
-        <img src="assets/images/Frame 560.jpg" style="width: 100%;height: auto; object-fit: cover; " class="px-3 pt-3" alt="">
-      </div>
+    <div class="col-md-9 mt-4">
+     
+        <div id="carouselExampleCaptions" class="carousel slide " data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          
+          <div class="carousel-inner broderR2">
+            <div class="carousel-item active" data-bs-interval="2500">
+              <img src="../../../assets/images/c5.jpg" class="d-block w-100" alt="Slide 1">
+              <div class="carousel-caption d-none d-md-block">
+                <h1>MEGA SALE<i class="fa-solid fa-exclamation mx-2"></i></h1>
+                <p>Discover our latest sales and grab amazing deals before they're gone! Shop now </p>
+              </div>
+            </div>
+            
+            <div class="carousel-item" data-bs-interval="2500">
+              <img src="../../../assets/images/c2.jpg" class="d-block w-100" alt="Slide 2">
+              <div class="carousel-caption d-none d-md-block">
+                <h1>MEGA SALE<i class="fa-solid fa-exclamation mx-2"></i></h1>
+                <p>Discover our latest sales and grab amazing deals before they're gone! Shop now</p>
+              </div>
+            </div>
+            
+            <div class="carousel-item" data-bs-interval="2500">
+              <img src="../../../assets/images/c3.jpg" class="d-block w-100" alt="Slide 3">
+              <div class="carousel-caption d-none d-md-block">
+                <h1>MEGA SALE<i class="fa-solid fa-exclamation mx-2"></i></h1>
+                <p>Discover our latest sales and grab amazing deals before they're gone! Shop now</p>
+              </div>
+            </div>
+          </div>
+        
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
     </div>
   </div>
-  <hr class="mx-auto my-5 rounded" style="border: 1px solid #f00303 ;width: 40%;">
+  <hr class="mx-auto   rounded" style="border: 1px solid #f00303 ;width: 40%; margin-top: 100px; margin-bottom: 100px;">
   <!-- Today Discounts -->
   <div class="card-section d-flex flex-column mt-2 col-md-9 mx-auto  ">
     <!-- Page Sections -->
