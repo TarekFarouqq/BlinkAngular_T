@@ -1,0 +1,49 @@
+<section class="max-vh-100">
+    <div class="container">
+      <div class="row d-flex">
+        <div class="col-md-6">
+          <div>
+            <img src="assets/images/register.png" alt="Verify Email" class="img-fluid h-75" />
+          </div>
+        </div>
+  
+        <div class="col-md-6 px-5 d-flex align-items-center">
+          <div class="px-5 mx-4">
+            <p class="title mt-2 mb-3">
+              Check Your Email
+            </p>
+            <p class="fw-normal fst-italic text-muted">
+              We have sent a code to your email. Please check it and enter the code below.
+            </p>
+  
+            <form [formGroup]="verificationForm" (ngSubmit)="onVerifyCode()">
+              <div class="mb-2">
+                <input
+                  id="verificationCode"
+                  type="text"
+                  formControlName="verificationCode"
+                  class="custom-input"
+                  placeholder="Enter the code"
+                  autocomplete="off"
+                />
+              </div>
+  
+              <button
+                type="submit"
+                [disabled]="isLoading"
+                class="btn btn-danger mt-4 mx-auto d-block text-white w-75 py-2 rounded-2"
+              >
+                Done
+                <i *ngIf="isLoading" class="fas fa-spinner fa-spin ms-2"></i>
+              </button>
+  
+              <div class="text-center mt-3">
+                <a [routerLink]="['/login']" class="btn btn-link text-dark">Back to Login?</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
