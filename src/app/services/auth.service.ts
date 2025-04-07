@@ -92,4 +92,18 @@ export class AuthService {
     this.userIsLoggedIn.next(false);
   }
 
+  // forget pass in api => account/forgetPassward enter email to send el code : 
+  resetPassword(email: string): Observable<any> {
+    return this._HttpClient.post(`${this.apiUrl}/account/forgetPassward`, { email });
+  }
+// verify code :      :: check api ::
+  verifyCode(code: { code: string }): Observable<any> {
+    return this._HttpClient.post(`${this.apiUrl}/account/verifyCode`, code);
+  }
+
+// set new password :     :: check api ::
+setNewPassword(data: { newPassword: string }): Observable<any> {
+  return this._HttpClient.post(`${this.apiUrl}/account/setNewPassword`, data);
+}
+
 }

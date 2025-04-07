@@ -30,7 +30,8 @@ export class SetNewPasswordComponent {
       }
       this.isLoading = true;
       const resetData = {
-        newPassword: this.resetPasswordForm.value.newPassword
+        newPassword: this.resetPasswordForm.value.newPassword,
+        confirmPassword: this.resetPasswordForm.value.confirmPassword
       };
 
       this._AuthService.setNewPassword(resetData).subscribe({
