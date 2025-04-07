@@ -41,6 +41,7 @@ export class LoginComponent {
           console.log("Login Response:", response);
           if (response.token) {
             localStorage.setItem('token', response.token);
+            this._AuthService.userLogin();
             this.isLoading = false;
             this._Router.navigateByUrl('/Homepage');
           }

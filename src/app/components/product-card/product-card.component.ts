@@ -3,9 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-card',
@@ -16,32 +18,53 @@ import { CartService } from '../../services/cart.service';
 export class ProductCardComponent implements OnInit {
   @Input() productId!: number;
   ProductEntity!: Product;
-  ProductAverageRate!: number[];
   cartItem! : CartItem
-  
-  constructor(private productServ:ProductService, private cartService: CartService) { }
+  UserStatus!:boolean;
+  constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService ,private router: Router) { }
   ngOnInit() {
    this.productServ.getProductWithRunningDiscountByProductId(this.productId).subscribe(res=>{
     this.ProductEntity=res;
-    this.setProductAverageRate();
+    this.authService.isLoggedIn$.subscribe(isLogged=>{
+      this.UserStatus=isLogged;
+    })
+
    })
   }
-  setProductAverageRate() {
-    if(this.ProductEntity){
-      this.ProductAverageRate = Array(Math.round(this.ProductEntity.averageRate)).fill(1);
-    }
+ 
+  getStars(rating: number): number[] {
+    return Array(Math.round(rating)).fill(0);
   }
+
   completeEmptyStart(){
     return Array(5 - Math.round(this.ProductEntity.averageRate)).fill(1);
   }
 
   addProductToCart() {
+    if (!this.UserStatus) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'warning',
+        title: 'Login or Register to Add Product to Cart',
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      return;
+    }
     if (this.ProductEntity) {
       this.cartItem = {
         productId: this.ProductEntity.productId,
         quantity: 1,
       }
       this.cartService.addToCart(this.cartItem);
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'success',
+        title: 'Product added to cart!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   }
 }

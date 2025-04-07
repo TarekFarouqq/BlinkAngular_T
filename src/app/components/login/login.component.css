@@ -30,14 +30,14 @@
 }
 
 .containr2 {
-  padding-top: 50px;
+  margin-top: 30px;
   padding-bottom: 50px;
   width: 97%;
+  height: 100%;
 }
 
-.container3 {
-  margin-top: 80px;
-}
+
+
 
 .custom-input {
   width: 100%;

@@ -68,14 +68,42 @@
         }
         
       </p>
-      <p class="card-text fw-bold" style="color: #00391f">
-        <span class="mx-1" style="font-size: 1.2rem; font-weight: bold">{{
-           product?.productPrice| number : "1.0-0"
+
+    @if (product?.discountPercentage ?? 0 > 0) 
+    {
+      <p class="card-text fw-bold" style="color: red">
+        <span class="mx-1" style="font-size: 1.4rem; font-weight: bold">{{
+           (product?.productPrice ?? 0) - (product?.discountAmount ?? 0) | number : "1.0-0"
         }}</span>
         <small>{{
           product?.productPrice| currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
         }}</small>
       </p>
+
+      <p class="card-text fw-bold  " style="color: #1e1e1e ;">
+        <span class="mx-1" style="font-size: 0.9rem; font-weight: bold ;text-decoration: line-through">{{
+           product?.productPrice | number : "1.0-0"
+        }}</span>
+        <small style="font-size: 0.7rem;">{{
+          product?.productPrice| currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
+        }}</small>
+      </p>
+      
+    }@else {
+      <p class="card-text fw-bold" style="color: #00391f">
+        <span class="mx-1" style="font-size: 1.2rem; font-weight: bold">{{
+           product?.productPrice | number : "1.0-0"
+        }}</span>
+        <small>{{
+          product?.productPrice| currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3
+        }}</small>
+      </p>
+      
+    } 
+
+     
+
+
       <p style="font-size: 0.8rem">
         {{product?.productDescription}}
       </p>
@@ -86,11 +114,11 @@
          {
           <div class="col-auto">
             <div class="d-flex buy-div align-items-center border rounded p-1">
-              <button class="btn btn-danger buy-button btn-sm fw-bolder">
+              <button (click)="decreamentQuantity()" class="btn btn-danger buy-button btn-sm fw-bolder">
                 -
               </button>
-              <span class="mx-3 fw-bold"> 1 </span>
-              <button class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
+              <span class="mx-3 fw-bold"> {{uxQuantity}} </span>
+              <button (click)="increamentQuantity()" class="btn btn-dark buy-button btn-sm fw-bolder">+</button>
             </div>
           </div>
 

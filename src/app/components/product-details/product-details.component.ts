@@ -12,6 +12,9 @@ import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-product-details',
@@ -30,22 +33,53 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   product: Product | null = null;
   productId!: number;
   cartItem! : CartItem
+  uxQuantity: number = 1 ;
 
-  constructor( private productService: ProductService,private route: ActivatedRoute, private cartService: CartService ) {}
+  constructor(private router: Router, private productService: ProductService,private route: ActivatedRoute, private cartService: CartService ) {}
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.loadProduct();
+    
   }
 
   addProductToCart() {
     if (this.product) {
       this.cartItem = {
         productId: this.product.productId,
-        quantity: 1,
+        quantity: this.uxQuantity,
       }
       this.cartService.addToCart(this.cartItem);
+       Swal.fire({
+              title: 'Product Added To Cart !',
+              icon: 'success',
+              width: 400,
+              showCancelButton: true,
+              confirmButtonText: 'Checkout',
+              confirmButtonColor: '#d33',
+              cancelButtonText: 'Continue Shopping',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['/cart']); 
+              }
+            });
     }
   }
 
+
+  increamentQuantity() {
+    if (this.product && this.uxQuantity >= this.product.stockQuantity) {
+      return;
+    }
+    this.uxQuantity = this.uxQuantity + 1;
+  }
+  
+  decreamentQuantity() {
+    if (this.uxQuantity <= 1) {
+      return;
+    }
+    this.uxQuantity = this.uxQuantity - 1;
+  }
+  
   ngAfterViewInit() {
     this.carousel = new Carousel(this.carouselElement.nativeElement, {
       interval: false,
@@ -68,9 +102,10 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   private loadProduct(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.productId) {
-      this.productService.getProductById(this.productId).subscribe({
+      this.productService.getProductWithRunningDiscountByProductId(this.productId).subscribe({
         next: (product) => {
           this.product = product;
+          console.log(this.product);
           this.images = this.product.productImages.map((imgPath) => ({
             main: imgPath,
             thumb: imgPath,
