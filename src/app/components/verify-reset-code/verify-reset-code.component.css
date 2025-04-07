@@ -1,4 +1,11 @@
- 
+.max-vh-100 {
+  min-height: 100vh;
+}
+
+.container {
+  margin-top: 120px;
+  max-width: 97% ;
+}
 .title {
   font-size: 24px;
   font-weight: 600;
@@ -21,29 +28,9 @@
   left: 0px;
   background-color: #5a5a5a;
 }
-
 .title::after {
   animation: pulse 1s linear infinite;
 }
-
-.containr2 {
-  margin-top: 30px;
-  padding-bottom: 50px;
-  width: 97%;
-  height: 100%;
-}
-
-
-
-
-.custom-input {
-  width: 100%;
-  padding: 10px 0;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  outline: none !important;
-}
-
 @keyframes pulse {
   from {
     transform: scale(0.9);
@@ -53,4 +40,35 @@
     transform: scale(1.6);
     opacity: 0;
   }
+}
+
+.custom-input {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+}
+
+.custom-input:focus {
+  border-color: #007bff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+.text-center a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
 }
