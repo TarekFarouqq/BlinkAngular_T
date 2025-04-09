@@ -23,7 +23,7 @@ export class LoginComponent {
     password: new FormControl(null, [
       Validators.required,
       Validators.minLength(8), 
-      Validators.pattern('(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])')   
+      Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$') 
     ])
   });
   constructor(private _AuthService: AuthService, private _Router: Router) {}
