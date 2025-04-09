@@ -26,7 +26,7 @@ export class HomepageComponent implements OnInit {
   constructor(private productServ:ProductService,private categoryServ:CategoryService,private discountServ:DiscountService) {}
 
   ngOnInit() {
-    this.productServ.getProductsWithRunningDiscounts().subscribe(res=>{
+    this.productServ.GetAll().subscribe(res=>{
       this.ProductArr=res;
     })
     this.categoryServ.getAllParentCategory().subscribe(res=>{
