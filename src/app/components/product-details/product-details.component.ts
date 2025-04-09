@@ -102,7 +102,7 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   private loadProduct(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.productId) {
-      this.productService.getProductWithRunningDiscountByProductId(this.productId).subscribe({
+      this.productService.GetById(this.productId).subscribe({
         next: (product) => {
           this.product = product;
           console.log(this.product);

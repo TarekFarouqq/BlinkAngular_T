@@ -22,7 +22,7 @@ export class ProductCardComponent implements OnInit {
   UserStatus!:boolean;
   constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService ,private router: Router) { }
   ngOnInit() {
-   this.productServ.getProductWithRunningDiscountByProductId(this.productId).subscribe(res=>{
+   this.productServ.GetById(this.productId).subscribe(res=>{
     this.ProductEntity=res;
     this.authService.isLoggedIn$.subscribe(isLogged=>{
       this.UserStatus=isLogged;

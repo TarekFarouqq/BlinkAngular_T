@@ -10,19 +10,19 @@ import { environment } from '../../environments/environment.development';
 export class ProductService {
   constructor(private httpClient : HttpClient) { }
   private apiUrl = environment.apiUrl;
-  getAllProducts() : Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/product`);
+  // getAllProducts() : Observable<Product[]>{
+  //   return this.httpClient.get<Product[]>(`${this.apiUrl}/product`);
+  // }
+  // getProductById(id : number) : Observable<Product>{
+  //   return this.httpClient.get<Product>(`${this.apiUrl}/product/getbyid/${id}`);
+  // }
+  GetAll():Observable<Product[]>{
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product`);
   }
-  getProductById(id : number) : Observable<Product>{
-    return this.httpClient.get<Product>(`${this.apiUrl}/product/getbyid/${id}`);
+  GetById(id:number):Observable<Product>{
+    return this.httpClient.get<Product>(`${this.apiUrl}/Product/${id}`);
   }
-  getProductsWithRunningDiscounts():Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithDiscounts`);
-  }
-  getProductWithRunningDiscountByProductId(id:number):Observable<Product>{
-    return this.httpClient.get<Product>(`${this.apiUrl}/Product/GetProductsWithDiscounts/${id}`);
-  }
-  getProductsWithCategoryId(id:number):Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithCategoryId/${id}`);
-  }
+  // getProductsWithCategoryId(id:number):Observable<Product[]>{
+  //   return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithCategoryId/${id}`);
+  // }
 }
