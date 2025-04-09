@@ -19,7 +19,7 @@ export class LoginComponent {
   isLoading: boolean = false;
 
   loginForm: FormGroup = new FormGroup({
-    identifier: new FormControl(null, [Validators.required, Validators.email]),
+    identifier: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [
       Validators.required,
       Validators.minLength(8), 
@@ -31,6 +31,7 @@ export class LoginComponent {
   login(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
+      
       const loginData = {
         email: this.loginForm.value.identifier,  
         password: this.loginForm.value.password
