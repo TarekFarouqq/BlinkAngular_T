@@ -55,7 +55,7 @@ export class CartService {
         },
       });
     }else{
-      console.error('User ID not available');
+      
     return;
     }
 

@@ -12,13 +12,26 @@ export class AuthService {
   private apiUrl = environment.apiUrl;
   userData: any;
   private userIsLoggedIn=new BehaviorSubject<boolean>(this.hasToken());
+
+  private userRoleSubject = new BehaviorSubject<string | null>(this.getUserRoleFromToken());
+  userRole$ = this.userRoleSubject.asObservable();
   
   constructor(private _HttpClient: HttpClient,private _Router:Router) {}
 
   setRegister(userData: object): Observable<any> {
     return this._HttpClient.post(
       `
-      ${this.apiUrl}/account/register`,
+      ${this.apiUrl}/account/RegisterClient`,
+      userData
+    );
+  }
+
+
+/// add here the end point of the supplier registeration
+  setSupRegister(userData: object): Observable<any> {
+    return this._HttpClient.post(
+      `
+      ${this.apiUrl}/Account/RegisterSupplier`,
       userData
     );
   }
@@ -34,6 +47,19 @@ export class AuthService {
         'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
       ] || null
     );
+  }
+
+  private getUserRoleFromToken(): string | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(token);
+    return decodedToken?.['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+  }
+
+  setUserRole() {
+    const role = this.getUserRoleFromToken();
+    this.userRoleSubject.next(role);
   }
 
   isAuthenticated(): boolean {
@@ -52,7 +78,7 @@ export class AuthService {
 
   login(userData: object): Observable<any> {
     return this._HttpClient.post(
-      `${this.apiUrl}/account/Login`,
+      `${this.apiUrl}/account/LoginAccount`,
       userData
     );
   }
@@ -90,6 +116,7 @@ export class AuthService {
   }
   userLogout(){
     this.userIsLoggedIn.next(false);
+    this.userRoleSubject.next(null);
   }
 
   // forget pass in api => account/forgetPassward enter email to send el code : 

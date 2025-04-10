@@ -32,7 +32,10 @@
   width: 97%;
   height: 100%;
 }
+img{
+  border-radius: 0 20% 20% 0;
 
+}
 
 
 

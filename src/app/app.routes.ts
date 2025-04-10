@@ -12,6 +12,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { VerifyResetCodeComponent } from './components/verify-reset-code/verify-reset-code.component';
 import { SetNewPasswordComponent } from './components/set-new-password/set-new-password.component';
+import { SupplierRegisterComponent } from './components/supplier-register/supplier-register.component';
 
 
 export const routes: Routes = [
@@ -32,6 +33,7 @@ export const routes: Routes = [
         component: AuthLayoutComponent,
         children: [
             {path:'register',component:RegisterComponent,canActivate:[loggedGuard]},
+            {path:'supregister',component:SupplierRegisterComponent,canActivate:[loggedGuard]},
             {path:'login',component:LoginComponent,canActivate:[loggedGuard]},
         ],
       },

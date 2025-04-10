@@ -43,6 +43,7 @@ export class LoginComponent {
           if (response.token) {
             localStorage.setItem('token', response.token);
             this._AuthService.userLogin();
+            this._AuthService.setUserRole();
             this.isLoading = false;
             this._Router.navigateByUrl('/Homepage');
           }
