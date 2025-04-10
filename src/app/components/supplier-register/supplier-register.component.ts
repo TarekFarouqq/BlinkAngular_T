@@ -3,16 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormControlOptions, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
+
 @Component({
-  selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule,RouterLink], 
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  selector: 'app-supplier-register',
+  imports: [ReactiveFormsModule, CommonModule,RouterLink],
+  templateUrl: './supplier-register.component.html',
+  styleUrl: './supplier-register.component.css'
 })
-export class RegisterComponent {
+export class SupplierRegisterComponent {
+
 constructor(private _AuthService:AuthService, private _Router:Router) { }
   msgerror:string ='';
   isLoading:boolean = false;
@@ -45,7 +47,7 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
    registeration():void{
     if(this.registerForm.valid){
       this.isLoading =true;
-      this._AuthService.setRegister(this.registerForm.value).subscribe({
+      this._AuthService.setSupRegister(this.registerForm.value).subscribe({
         next:(response) =>{
           console.log(response);
            this._Router.navigate(['login'])
@@ -65,6 +67,4 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
     }
      
     }
-    
-   }
-
+}
