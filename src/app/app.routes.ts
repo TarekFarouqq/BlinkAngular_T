@@ -13,6 +13,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { VerifyResetCodeComponent } from './components/verify-reset-code/verify-reset-code.component';
 import { SetNewPasswordComponent } from './components/set-new-password/set-new-password.component';
 import { SupplierRegisterComponent } from './components/supplier-register/supplier-register.component';
+import { CheckoutComponent } from './Payment/checkout/checkout.component';
+import { PayComponent } from './Payment/pay/pay.component';
+import { ConfirmOrderComponent } from './Payment/confirm-order/confirm-order.component';
 
 
 export const routes: Routes = [
@@ -25,6 +28,9 @@ export const routes: Routes = [
             {path:'Homepage',component:HomepageComponent},
             {path:'details/:id',component:ProductDetailsComponent},
             {path:'cart',component:CartComponent,canActivate:[authGuard]},
+            {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
+            {path:'pay',component:PayComponent,canActivate:[authGuard]},
+            {path:'confirmOrder',component:ConfirmOrderComponent,canActivate:[authGuard]},
             
         ],
       },
