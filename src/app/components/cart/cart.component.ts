@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
 })
 export class CartComponent implements OnInit {
   cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
-  cartItem! : CartItem
+  cartItem! : CartItem;
   totalPrice: number = 0;
   constructor(
     private authService: AuthService,

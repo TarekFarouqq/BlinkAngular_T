@@ -1,0 +1,303 @@
+<section class="mt-5 w-75 mx-auto">
+  <div class="container">
+    <div class="row g-2">
+      <div class="col-md-6">
+        <div class="">
+          <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+            <!-- Full Name -->
+            <!-- <div class="mb-4 w-50 mx-auto">
+              <input
+                type="text"
+                formControlName="fullName"
+                class="custom-input"
+                placeholder="Enter your full name"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  checkoutForm.get('fullName')?.invalid &&
+                  checkoutForm.get('fullName')?.touched
+                "
+              >
+                <p *ngIf="checkoutForm.get('fullName')?.getError('required')">
+                  Full name is required
+                </p>
+                <p *ngIf="checkoutForm.get('fullName')?.getError('minlength')">
+                  Full name must be at least 3 characters
+                </p>
+              </div>
+            </div> -->
+
+            <!-- Address -->
+            <div class="mb-4 mt-5 w-50 mx-auto">
+              <!-- <h1 class="h3 my-4">Shipping Details</h1> -->
+
+              <input
+                type="text"
+                formControlName="address"
+                class="custom-input"
+                placeholder="Enter your address"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  checkoutForm.get('address')?.invalid &&
+                  checkoutForm.get('address')?.touched
+                "
+              >
+                <p *ngIf="checkoutForm.get('address')?.getError('required')">
+                  Address is required
+                </p>
+                <p *ngIf="checkoutForm.get('address')?.getError('minlength')">
+                  Address must be at least 3 characters
+                </p>
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="mb-4 w-50 mx-auto">
+              <input
+                type="text"
+                formControlName="details"
+                class="custom-input"
+                placeholder="Additional details"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  checkoutForm.get('details')?.invalid &&
+                  checkoutForm.get('details')?.touched
+                "
+              >
+                <p *ngIf="checkoutForm.get('details')?.getError('required')">
+                  Details are required
+                </p>
+                <!-- <p *ngIf="checkoutForm.get('details')?.getError('minlength')">Details must be at least 3 characters</p> -->
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-4 w-50 mx-auto">
+              <input
+                type="text"
+                formControlName="phone"
+                class="custom-input"
+                placeholder="Enter your phone number"
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                  checkoutForm.get('phone')?.invalid &&
+                  checkoutForm.get('phone')?.touched
+                "
+              >
+                <p *ngIf="checkoutForm.get('phone')?.getError('required')">
+                  Phone number is required
+                </p>
+                <p *ngIf="checkoutForm.get('phone')?.getError('pattern')">
+                  Invalid Egyptian phone number
+                </p>
+              </div>
+            </div>
+            <!-- Payment Method -->
+            <div class="mb-3 mx-auto w-50">
+              <label class="mb-4 fw-bold d-block">Choose payment method:</label>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  value="cash"
+                  formControlName="paymentMethod"
+                  id="payCash"
+                />
+                <label class="form-check-label" for="payCash"
+                  >Cash on Delivery</label
+                >
+              </div>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  value="visa"
+                  formControlName="paymentMethod"
+                  id="payVisa"
+                />
+                <label class="form-check-label" for="payVisa"
+                  >Pay with Visa
+                  <img
+                    src="./assets/images/visa.png"
+                    alt="Visa"
+                    style="width: 30px; height: auto; margin-left: 10px"
+                  />
+                  <img
+                    src="./assets/images/mastercard.png"
+                    alt="MasterCard"
+                    style="width: 30px; height: auto; margin-left: 5px"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              [disabled]="checkoutForm.invalid"
+              class="btn broderR2 btn-danger mt-4 mx-auto d-block text-white w-50"
+            >
+              Confirm Order
+              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-5  mt-5">
+        <!-- Checkout Summary -->
+        <div class="col-12 mx-auto mb-5">
+          <div class="border border-1 border-black shadow my-div">
+            <div class="px-3 py-3">
+              <!-- Product Image & Name -->
+              <table class="table border-bottom">
+                <tbody>
+                  @for (cartItem of cart.cartDetails; track $index) {
+                  <tr class="">
+                    <!-- Product Image & Name -->
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <img
+                          [src]="cartItem.productImageUrl"
+                          class="img-fluid rounded"
+                          alt="Product Image"
+                          style="width: 80px; height: 80px; object-fit: contain"
+                        />
+                        <h6
+                          class="mb-0 ms-2 w-50"
+                          style="
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                          "
+                        >
+                          {{ cartItem.productName.slice(0, 15) }}
+                        </h6>
+                      </div>
+                    </td>
+
+                    <!-- Total -->
+                    <td class="align-middle">
+                      <span class="mx-1" style="font-size: 0.9rem">{{
+                        cartItem.productUnitPrice * cartItem.quantity
+                          | number : "1.0-0"
+                      }}</span>
+                      <small style="font-size: 0.7rem">{{
+                        50000
+                          | currency : "EGP" : "symbol" : "1.0-0"
+                          | slice : 0 : 3
+                      }}</small>
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+              <hr class="w-25 mx-auto" />
+              <table class="table border-bottom">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="row align-items-center g-0">
+                        <div class="col">
+                          <div
+                            class="card-body d-flex align-items-center justify-content-between"
+                          >
+                            <p
+                              class="mb-0 flex-grow-1"
+                              style="font-size: 0.8rem"
+                            >
+                              SubTotal
+                            </p>
+                            <div class="d-flex align-items-center p-1">
+                              <span class="mx-1" style="font-size: 0.8rem">{{
+                                totalPrice | number : "1.0-0"
+                              }}</span>
+                              <small style="font-size: 0.7rem">{{
+                                totalPrice
+                                  | currency : "EGP" : "symbol" : "1.0-0"
+                                  | slice : 0 : 3
+                              }}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- tr1 -->
+                  <tr>
+                    <td>
+                      <div class="row align-items-center g-0">
+                        <div class="col">
+                          <div
+                            class="card-body d-flex align-items-center justify-content-between"
+                          >
+                            <p
+                              class="mb-0 flex-grow-1"
+                              style="font-size: 0.8rem"
+                            >
+                              Shipping
+                            </p>
+                            <div class="d-flex align-items-center p-1">
+                              <span class="mx-1" style="font-size: 0.8rem"
+                                >Free</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- tr2 -->
+                  <tr class="fw-bold">
+                    <td>
+                      <div class="row align-items-center g-0">
+                        <div class="col">
+                          <div
+                            class="card-body d-flex align-items-center justify-content-between"
+                          >
+                            <p
+                              class="mb-0 flex-grow-1"
+                              style="font-size: 0.8rem"
+                            >
+                              Total
+                            </p>
+                            <div class="d-flex align-items-center p-1">
+                              <span class="mx-1" style="font-size: 0.8rem">{{
+                                totalPrice * 1.14 | number : "1.0-0"
+                              }}</span>
+                              <small style="font-size: 0.7rem">{{
+                                totalPrice * 1.14
+                                  | currency : "EGP" : "symbol" : "1.0-0"
+                                  | slice : 0 : 3
+                              }}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- tr3 -->
+                </tbody>
+              </table>
+              <p class="text-muted" style="font-size: 0.6rem">
+                *Taxes and shipping calculated.
+              </p>
+              <!-- <button
+                [routerLink]="['/checkout', cart.cartId]"
+                class="btn btn-danger w-100 mb-4 fw-bold"
+              >
+                CheckOut
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -14,6 +14,10 @@ import { VerifyResetCodeComponent } from './components/verify-reset-code/verify-
 import { SetNewPasswordComponent } from './components/set-new-password/set-new-password.component';
 import { SupplierRegisterComponent } from './components/supplier-register/supplier-register.component';
 import { ShopComponent } from './components/shop/shop.component';
+import { CheckoutComponent } from './Payment/checkout/checkout.component';
+import { PayComponent } from './Payment/pay/pay.component';
+import { ConfirmOrderComponent } from './Payment/confirm-order/confirm-order.component';
+
 
 
 export const routes: Routes = [
@@ -27,6 +31,9 @@ export const routes: Routes = [
             {path:'details/:id',component:ProductDetailsComponent},
             {path:'shop',component:ShopComponent},
             {path:'cart',component:CartComponent,canActivate:[authGuard]},
+            {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
+            {path:'pay',component:PayComponent,canActivate:[authGuard]},
+            {path:'confirmOrder',component:ConfirmOrderComponent,canActivate:[authGuard]},
             
         ],
       },
