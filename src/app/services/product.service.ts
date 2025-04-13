@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, ObservedValueOf } from 'rxjs';
 import { Product } from '../models/product';
 import { environment } from '../../environments/environment.development';
+import { Attribute } from '../models/attribute';
 
 @Injectable({
   providedIn: 'root'
@@ -10,19 +11,32 @@ import { environment } from '../../environments/environment.development';
 export class ProductService {
   constructor(private httpClient : HttpClient) { }
   private apiUrl = environment.apiUrl;
-  getAllProducts() : Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/product`);
+  // getAllProducts() : Observable<Product[]>{
+  //   return this.httpClient.get<Product[]>(`${this.apiUrl}/product`);
+  // }
+  // getProductById(id : number) : Observable<Product>{
+  //   return this.httpClient.get<Product>(`${this.apiUrl}/product/getbyid/${id}`);
+  // }
+  GetAll():Observable<Product[]>{
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product`);
   }
-  getProductById(id : number) : Observable<Product>{
-    return this.httpClient.get<Product>(`${this.apiUrl}/product/getbyid/${id}`);
+  GetById(id:number):Observable<Product>{
+    return this.httpClient.get<Product>(`${this.apiUrl}/Product/${id}`);
   }
-  getProductsWithRunningDiscounts():Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithDiscounts`);
+
+  getAllAttributes():Observable<Attribute[]>{
+    return this.httpClient.get<Attribute[]>(`${this.apiUrl}/Product/GetFilterAttributes`);
   }
-  getProductWithRunningDiscountByProductId(id:number):Observable<Product>{
-    return this.httpClient.get<Product>(`${this.apiUrl}/Product/GetProductsWithDiscounts/${id}`);
+  // getProductsWithCategoryId(id:number):Observable<Product[]>{
+  //   return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithCategoryId/${id}`);
+  // }
+
+  getFilteredProducts(params : HttpParams, fromPrice : number | -1 , toPrice : number | -1, pgNumber : number, rating : number): Observable<Product[]> 
+  {
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetFillteredProducts/${pgNumber}/${fromPrice}/${toPrice}/${rating}`, { params });
   }
-  getProductsWithCategoryId(id:number):Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetProductsWithCategoryId/${id}`);
+
+  GetTotalPages(pgSize:number):Observable<number>{
+    return this.httpClient.get<number>(this.apiUrl + '/product/GetPagesCount/' + pgSize);
   }
 }

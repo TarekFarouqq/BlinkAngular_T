@@ -19,11 +19,11 @@ export class LoginComponent {
   isLoading: boolean = false;
 
   loginForm: FormGroup = new FormGroup({
-    identifier: new FormControl(null, [Validators.required, Validators.email]),
+    identifier: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [
       Validators.required,
       Validators.minLength(8), 
-      Validators.pattern('(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])')   
+      Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$') 
     ])
   });
   constructor(private _AuthService: AuthService, private _Router: Router) {}
@@ -31,6 +31,7 @@ export class LoginComponent {
   login(): void {
     if (this.loginForm.valid) {
       this.isLoading = true;
+      
       const loginData = {
         email: this.loginForm.value.identifier,  
         password: this.loginForm.value.password
@@ -42,6 +43,7 @@ export class LoginComponent {
           if (response.token) {
             localStorage.setItem('token', response.token);
             this._AuthService.userLogin();
+            this._AuthService.setUserRole();
             this.isLoading = false;
             this._Router.navigateByUrl('/Homepage');
           }

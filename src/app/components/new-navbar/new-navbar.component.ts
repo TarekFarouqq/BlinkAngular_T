@@ -10,11 +10,15 @@ import { RouterLink } from '@angular/router';
 })
 export class NewNavbarComponent implements OnInit{
   UserStatus!:boolean;
+  userRole:string | null = null;
   constructor(private authServer:AuthService){}
   ngOnInit(): void {
     this.authServer.isLoggedIn$.subscribe(isLogged=>{
       this.UserStatus=isLogged;
     })
+    this.authServer.userRole$.subscribe(role => {
+      this.userRole = role;
+    });
   }
   logoutCurrentUser(){
     this.authServer.Logout();

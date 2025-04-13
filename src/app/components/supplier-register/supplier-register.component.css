@@ -34,14 +34,14 @@
     animation: pulse 1s linear infinite;
   }
 
+  img{
+    border-radius: 0 20% 20% 0;
+  }
+  
 .containr2{
 
     padding-bottom: 50px ;
     max-width: 97% ;
-}
-
-img{
-  border-radius: 0 20% 20% 0;
 }
 .container3{
     margin-top: 30px;
