@@ -73,13 +73,23 @@
         </div>
       </div>
     </div>
-    <div class="card-section-body d-flex flex-nowrap gap-2 justify-content-center" >
-        @for (Product of ProductArr; track Product.productId) {
-          @if( Product.discountPercentage>0 && Product.discountAmount >0 ){
-            <app-product-card [productId]="Product.productId"></app-product-card>
-          }
-        }
-    </div>
+
+<!--  @if( Product.discountPercentage>0 && Product.discountAmount >0 ){ -->
+
+    <!-- Product Grid -->
+<div class="row d-flex mx-auto justify-content-center g-3  w-100">
+  @for (Product of ProductArr ; track Product.productId; let i = $index) {
+    @if (i < 3 && Product.discountPercentage > 0 && Product.discountAmount > 0) {
+      <div class="col-6 col-md-4 col-lg-4 d-flex justify-content-center ">
+        <app-product-card [productId]="Product.productId" class="w-100"></app-product-card>
+      </div>
+    }
+  }
+</div>
+
+
+
+
     <div class="card-section-footer d-flex align-items-center justify-content-center">
       <button type="button" class="btn btn-all short-btn broderR2">All Products</button>
     </div>
@@ -134,13 +144,23 @@
         </div>
       </div>
     </div>
-    <div class="card-section-body explore-products h-75 d-flex  h-50 gap-2">
-      @for (Product of ProductArr; track Product.productId; let i = $index) {
-        @if (i < 8) {
-          <app-product-card [productId]="Product.productId"></app-product-card>
-        }
-      }
-    </div>
+
+    
+    <!-- Product Grid -->
+    <div class="row d-flex mx-auto justify-content-center g-3 ">
+      
+               @for (Product of ProductArr ; track Product.productId;let i = $index) {
+                @if (i < 8) {
+                          <div class="col-6 col-md-4 col-lg-4 d-flex justify-content-center  ">
+                              <app-product-card [productId]="Product.productId" class="w-100 "></app-product-card>
+                            </div>
+                }
+                     
+                      }
+
+  </div>
+
+
     <div class="card-section-footer d-flex align-items-center justify-content-center">
       <button type="button" class="btn btn-all broderR2">All Products</button>
     </div>
