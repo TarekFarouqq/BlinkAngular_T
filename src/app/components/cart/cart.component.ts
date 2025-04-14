@@ -17,9 +17,13 @@ export class CartComponent implements OnInit {
   cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
   cartItem! : CartItem;
   totalPrice: number = 0;
+  shippingPrice: number = 0;
+
+
   constructor(
     private authService: AuthService,
-    private cartService: CartService
+    private cartService: CartService,
+  
   ) {
   }
 
@@ -31,6 +35,9 @@ export class CartComponent implements OnInit {
     });
     this.cartService.totalPrice$.subscribe((total) => {
       this.totalPrice = total;
+    });
+    this.cartService.getShippingPrice().subscribe(price => {
+      this.shippingPrice = price;
     });
   }
 

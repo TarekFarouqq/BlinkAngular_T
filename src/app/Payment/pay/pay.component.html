@@ -1,85 +1,24 @@
-<section class="mt-5 w-75 mx-auto">
-    <div class="mx-auto">
-      <form [formGroup]="visaForm" (ngSubmit)="onSubmit()">
-        <div class="mb-2 w-50 mx-auto">
-          <h1 class="h2 my-4">Visa Payment</h1>
-  
-          <!-- Cardholder Name -->
-          <input
-            type="text"
-            formControlName="cardHolder"
-            class="custom-input"
-            placeholder="Cardholder Name"
-          />
-          <div
-            class="text-danger"
-            *ngIf="visaForm.get('cardHolder')?.invalid && visaForm.get('cardHolder')?.touched"
-          >
-            <p *ngIf="visaForm.get('cardHolder')?.getError('required')">
-              Cardholder name is required
-            </p>
-          </div>
-        </div>
-  
-        <!-- Card Number -->
-        <div class="mb-2 w-50 mx-auto">
-            <input
-              type="text"
-              formControlName="cardNumber"
-              class="custom-input"
-              maxlength="19"
-              placeholder="1234 5678 9012 3456"
-              (input)="formatCardNumber($event)"
-            />
-            <div class="text-danger" *ngIf="visaForm.get('cardNumber')?.invalid && visaForm.get('cardNumber')?.touched">
-              <p *ngIf="visaForm.get('cardNumber')?.getError('required')">Card number is required</p>
-              <p *ngIf="visaForm.get('cardNumber')?.getError('pattern')">Invalid card number</p>
-            </div>
-          </div>
-          
-        <!-- Expiry -->
-        <div class="mb-2 w-50 mx-auto">
-            <input
-              type="text"
-              formControlName="expiryDate"
-              maxlength="5"
-              class="custom-input"
-              placeholder="MM/YY"
-              (input)="formatExpiryDate($event)"
-            />
-            <div class="text-danger" *ngIf="visaForm.get('expiryDate')?.invalid && visaForm.get('expiryDate')?.touched">
-              <p *ngIf="visaForm.get('expiryDate')?.getError('required')">Expiry date is required</p>
-              <p *ngIf="visaForm.get('expiryDate')?.getError('expiredDate')">Invalid expiry date</p>
-            </div>
-          </div>
-          
-        <!-- CVV -->
-        <div class="mb-2 w-50 mx-auto">
-          <input
-            type="text"
-            formControlName="cvv"
-            class="custom-input"
-            placeholder="CVV"
-          />
-          <div
-            class="text-danger"
-            *ngIf="visaForm.get('cvv')?.invalid && visaForm.get('cvv')?.touched"
-          >
-            <p *ngIf="visaForm.get('cvv')?.getError('required')">CVV is required</p>
-            <p *ngIf="visaForm.get('cvv')?.getError('pattern')">CVV must be 3 digits</p>
-          </div>
-        </div>
-  
-        <!-- Submit -->
-        <button
-              type="submit"
-              [disabled]="visaForm.invalid"
-              class="btn broderR2 btn-danger mt-4 mx-auto d-block text-white w-50"
-            >
-             Pay Now
-              <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
-            </button>
-      </form>
+<div class="payment-container">
+  <h2>Visa Payment</h2>
+
+  <form (ngSubmit)="handlePayment()" id="payment-form">
+    <div class="form-group">
+      <label for="cardHolder">Cardholder Name</label>
+      <input
+        type="text"
+        id="cardHolder"
+        [(ngModel)]="cardHolderName"
+        name="cardHolderName"
+        required
+        class="form-control"
+      />
     </div>
-  </section>
-  
+
+    <div class="form-group">
+      <label>Card Information</label>
+      <div id="card-element" class="card-element"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Pay Now</button>
+  </form>
+</div>

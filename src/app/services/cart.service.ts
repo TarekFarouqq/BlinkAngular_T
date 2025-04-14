@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Cart } from '../models/cart';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CartItem } from '../models/cartItem';
 import { AuthService } from './auth.service';
+import { PaymentService } from './payment.service';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class CartService {
   cartUserId: string | null = null;
   
   private apiUrl = environment.apiUrl;
-
+shippingprice: number = 0;
   
   private cartSubject = new BehaviorSubject<Cart>({
     cartDetails: [],
@@ -28,7 +29,8 @@ export class CartService {
 
   constructor(
     private _HttpClient: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private _PaymentService: PaymentService
   ) {
     this.cartUserId = this.authService.getUserId();
     this.loadCart(); 
@@ -85,5 +87,14 @@ export class CartService {
   private calculateTotal(cart: Cart): void {
     const total = cart.cartDetails.reduce((sum, item) => sum + (item.productUnitPrice * item.quantity), 0);
     this.totalPriceSubject.next(total);
+  }
+
+  getShippingPrice(): Observable<number> {
+    return this._PaymentService.createOrUpdatePaymentIntent().pipe(
+      map(response => {
+        this.shippingprice = response.shippingPrice;
+        return response.shippingPrice;
+      })
+    );
   }
 }
