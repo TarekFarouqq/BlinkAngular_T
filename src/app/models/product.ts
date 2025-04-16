@@ -17,6 +17,7 @@ export interface Product {
   discountPercentage:number;
   discountAmount:number;
   productReviews: {
+    username: string;
     rate: number;
     reviewComment: string[];
   }[];

@@ -34,6 +34,24 @@ export class CartComponent implements OnInit {
     });
   }
 
+  clearCart() {
+    Swal.fire({
+      title: 'Clear Cart?',
+      icon: 'warning',
+      width: 400,
+      showCancelButton: true,
+      confirmButtonText: 'Clear',
+      confirmButtonColor: '#d33',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cartService.deleteCart(this.cart.cartId!); 
+
+      }
+      }
+    );
+  }
+
   icreamentQauntity(productId: number) {
     this.cartItem = { productId: productId, quantity: 1 };
     this.cartService.addToCart(this.cartItem);
