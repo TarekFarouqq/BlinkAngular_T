@@ -30,7 +30,7 @@ export class PayComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    debugger;
+    
     this.clientSecret = this.route.snapshot.queryParamMap.get('clientSecret') || '';
     this.paymentIntentId = this.route.snapshot.queryParamMap.get('paymentIntentId') || '';
     this.cartId = +(this.route.snapshot.queryParamMap.get('cartId') || 0);
@@ -46,7 +46,7 @@ export class PayComponent implements OnInit {
   }
 
   async handlePayment() {
-    debugger;
+    
     if (this.isProcessing || !this.stripe || !this.card || !this.clientSecret) return;
   
     this.isProcessing = true;
@@ -105,7 +105,7 @@ export class PayComponent implements OnInit {
 
 
   // async ngOnInit(): Promise<void> {
-  //   debugger;
+  //   
   //   this.visaForm = new FormGroup({
   //     cardHolder: new FormControl('', Validators.required)
   //   });

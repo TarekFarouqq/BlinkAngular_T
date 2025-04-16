@@ -15,7 +15,7 @@ export class PaymentService {
 
   constructor(private _HttpClient: HttpClient) {}
 
-  createOrUpdatePaymentIntent(): Observable<ICartPaymentDTO> {
+createOrUpdatePaymentIntent(): Observable<ICartPaymentDTO> {
     return this._HttpClient.post<ICartPaymentDTO>(this.baseUrl, {});
   }
 

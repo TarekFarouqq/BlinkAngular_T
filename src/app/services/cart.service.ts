@@ -5,7 +5,6 @@ import { Cart } from '../models/cart';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { CartItem } from '../models/cartItem';
 import { AuthService } from './auth.service';
-import { PaymentService } from './payment.service';
 
 
 @Injectable({
@@ -30,7 +29,6 @@ shippingprice: number = 0;
   constructor(
     private _HttpClient: HttpClient,
     private authService: AuthService,
-    private _PaymentService: PaymentService
   ) {
     this.cartUserId = this.authService.getUserId();
     this.loadCart(); 
@@ -88,13 +86,6 @@ shippingprice: number = 0;
     const total = cart.cartDetails.reduce((sum, item) => sum + (item.productUnitPrice * item.quantity), 0);
     this.totalPriceSubject.next(total);
   }
+  
 
-  getShippingPrice(): Observable<number> {
-    return this._PaymentService.createOrUpdatePaymentIntent().pipe(
-      map(response => {
-        this.shippingprice = response.shippingPrice;
-        return response.shippingPrice;
-      })
-    );
-  }
 }

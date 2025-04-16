@@ -36,9 +36,7 @@ export class CartComponent implements OnInit {
     this.cartService.totalPrice$.subscribe((total) => {
       this.totalPrice = total;
     });
-    this.cartService.getShippingPrice().subscribe(price => {
-      this.shippingPrice = price;
-    });
+
   }
 
   icreamentQauntity(productId: number) {

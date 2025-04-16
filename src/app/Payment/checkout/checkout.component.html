@@ -1,8 +1,8 @@
 <section class="mt-5 w-75 mx-auto">
   <div class="container">
-    <div class="row g-2">
+    <div class="row g-2 ">
       <!-- Form -->
-      <div class="col-md-6">
+      <div class="col-md-6 ">
         <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
           <!-- Address -->
           <div class="mb-4 mt-5 w-50 mx-auto">
@@ -21,22 +21,7 @@
             </div>
           </div>
 
-          <!-- Details -->
-          <div class="mb-4 w-50 mx-auto">
-            <input
-              type="text"
-              formControlName="details"
-              class="custom-input"
-              placeholder="Additional details"
-            />
-            <div
-              class="text-danger"
-              *ngIf="checkoutForm.get('details')?.invalid && checkoutForm.get('details')?.touched"
-            >
-              <p *ngIf="checkoutForm.get('details')?.getError('required')">Details are required</p>
-            </div>
-          </div>
-
+       
           <!-- Phone -->
           <div class="mb-4 w-50 mx-auto">
             <input
@@ -97,7 +82,7 @@
             [disabled]="checkoutForm.invalid || isLoading"
             class="btn broderR2 btn-danger mt-4 mx-auto d-block text-white w-50"
           >
-            {{ isLoading ? 'Processing...' : 'Confirm Order' }}
+            {{ isLoading ? 'Processing...' : 'Create Order' }}
             <i *ngIf="isLoading" class="fas fa-spinner fa-spin ms-2"></i>
           </button>
         </form>
@@ -167,7 +152,7 @@
                           <div class="card-body d-flex align-items-center justify-content-between">
                             <p class="mb-0 flex-grow-1" style="font-size: 0.8rem">Shipping</p>
                             <div class="d-flex align-items-center p-1">
-                              <span class="mx-1" style="font-size: 0.8rem">{{shippingPrice}}</span>
+                              <span class="mx-1" style="font-size: 0.8rem">free</span>
                             </div>
                           </div>
                         </div>

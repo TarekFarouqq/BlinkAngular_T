@@ -6,8 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
 import { PaymentService } from '../../services/payment.service';
-import { ICartPaymentDTO } from '../../Payment/icart-payment-dto';
 import Swal from 'sweetalert2';
+import { OrderService } from '../../services/order.service';
+import { ICreatOrder } from '../../components/Orders/icreat-order';
 
 @Component({
   selector: 'app-checkout',
@@ -22,12 +23,11 @@ export class CheckoutComponent implements OnInit {
   cartItem!: CartItem;
   cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
   totalPrice: number = 0;
-  shippingPrice: number = 0;
+  createOrderDTO :ICreatOrder = {userId:"",address:"", paymentMethod:"", phoneNumber:"", lat:0, long:0};  
 
 
   checkoutForm: FormGroup = new FormGroup({
     address: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    details: new FormControl(null, [Validators.required]),
     phone: new FormControl(null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]),
     paymentMethod: new FormControl(null, Validators.required),
   });
@@ -36,7 +36,8 @@ export class CheckoutComponent implements OnInit {
     private _ActivatedRoute: ActivatedRoute,
     private _Router: Router,
     private _CartService: CartService,
-    private _PaymentService: PaymentService
+    private _PaymentService: PaymentService,
+    private _OrderService:OrderService
   ) { }
 
   ngOnInit(): void {
@@ -57,45 +58,77 @@ export class CheckoutComponent implements OnInit {
       this.totalPrice = total;
     });
 
-    this._CartService.getShippingPrice().subscribe(price => {
-      this.shippingPrice = price;
-    });
+
   }
 
   onSubmit(): void {
     if (this.checkoutForm.valid) {
+      console.log('Cart ID:', this.cart.cartId);
+      console.log('User ID:', this.cart.userId);
       const selectedMethod = this.checkoutForm.get('paymentMethod')?.value;
 
-      if (selectedMethod === 'cash') {
-        this._Router.navigate(['/confirmOrder'], { queryParams: this.checkoutForm.value });
-      } else if (selectedMethod === 'visa') {
-        if (!this.cart.cartId || !this.cart.userId) {
-          console.error('Missing cartId or userId');
-          return;
-        }
 
-        this.isLoading = true;
+      this.createOrderDTO.userId = this.cart.userId;
+      this.createOrderDTO.address = this.checkoutForm.get('address')?.value;
+      this.createOrderDTO.paymentMethod = this.checkoutForm.get('paymentMethod')?.value;
+      this.createOrderDTO.phoneNumber = this.checkoutForm.get('phone')?.value;
+      this.createOrderDTO.lat = 0; // Set the latitude value
+      this.createOrderDTO.long = 0; // Set the longitude value
 
-        this._PaymentService.createOrUpdatePaymentIntent().subscribe({
-          next: (response) => {
-            this.isLoading = false;
-            
-            this._Router.navigate(['/pay'], {
-              queryParams: {
-                ...this.checkoutForm.value,
-                cartId: this.cart.cartId,
-                paymentIntentId: response.paymentIntentId,
-                clientSecret: response.clientSecret
+     
+
+      this._OrderService.creatOrder(this.createOrderDTO).subscribe({
+        next:(response)=>{
+          
+          console.log(response);
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: response.message,
+            showConfirmButton: false,
+            timer: 1700
+          });
+            if (selectedMethod === 'cash') {
+              this._Router.navigate(['/confirmOrder'], { queryParams: this.checkoutForm.value });
+            } else if (selectedMethod === 'visa') {
+              if (!this.cart.cartId || !this.cart.userId) {
+                console.error('Missing cartId or userId');
+                return;
               }
-            });
-          },
-          error: (err) => {
-            this.isLoading = false;
-            console.error('PaymentIntent Error:', err);
-          }
-        });
-      }
-    } else {
+              this.isLoading = true;
+      
+              // this._PaymentService.createOrUpdatePaymentIntent().subscribe({
+              //   next: (response) => {
+              //     this.isLoading = false;
+                  
+              //     this._Router.navigate(['/pay'], {
+              //       queryParams: {
+              //         ...this.checkoutForm.value,
+              //         cartId: this.cart.cartId,
+              //         paymentIntentId: response.paymentIntentId,
+              //         clientSecret: response.clientSecret
+              //       }
+              //     });
+              //   },
+              //   error: (err) => {
+              //     this.isLoading = false;
+              //     console.error('PaymentIntent Error:', err);
+              //   }
+              // });
+            }
+
+          // this._Router.navigate(['/confirmOrder'], { queryParams: this.checkoutForm.value });
+
+        },
+        error:(err)=>{
+          console.error('Error creating order:', err);
+        }
+      });
+
+
+    
+    } 
+    else {
       this.checkoutForm.markAllAsTouched();
     }
   }
