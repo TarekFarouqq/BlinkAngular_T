@@ -104,3 +104,11 @@
   .wishlist-icon:hover{
     color: red !important;
   }
+
+  .custom-input {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    outline: none !important;
+  }

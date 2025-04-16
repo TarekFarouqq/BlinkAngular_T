@@ -189,4 +189,129 @@
 
     </div>
   </div>
+  <hr class=" text-danger w-50 border-2 mx-auto my-4 " />
+  <div class="row col-10 col-md-8 mx-auto  mt-5   ">
+    <div class="col-12 col-md-12  d-flex justify-content-center my-5">
+      @if(canaddReview){
+        <button 
+        class="btn btn-danger btn-sm border border-1 action-button w-25 broderR2 mx-auto"
+        [attr.data-bs-target]="'#exampleModalToggle'"
+        data-bs-toggle="modal"
+        > 
+        Add Review</button>
+      }
+     
+    </div>
+    <div class="col-12 col-md-4 ">
+      <p class="text-body-tertiary fs-3 fw-bold">Overall Rating</p>
+      <p class="fw-700 fs-1 fst-italic">{{product?.averageRate | number:'1.1-1' }}</p>
+
+      @for (star of getStars(product?.averageRate ); track $index) {
+        <span class="text-warning fs-4">★</span>}
+        <p class="text-body-tertiary fs-5">Based on {{product?.countOfRates}} reviews</p>
+    </div>
+
+    <div class=" mt-5 col-12 col-md-8 border-start  px-5">
+      @for(review of product?.productReviews; track $index) {
+
+        <div class="col-12   mb-3">
+          <div class="d-flex ">
+            <div class="p-3  ">
+              <i class="fa-solid fa-user fa-2xl text-body-tertiary"></i>
+            </div>
+            <div class="px-3">
+              <h6 class="mb-1 mt-2">{{review.username}}</h6> 
+              <p class="text-muted"> @for (star of getStars(review.rate); track $index) {
+                <span class="text-warning fs-5">★</span>
+                } </p>
+              <span class="text-muted"> {{review.reviewComment[0]}} </span>
+            </div>
+          </div>
+        </div>
+
+        <hr class=" text-danger w-50 border-2 mx-auto my-4 " />
+       }
+    </div>
+
+    
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div
+class="modal fade"
+[id]="'exampleModalToggle'"
+aria-hidden="true"
+aria-labelledby="exampleModalToggleLabel"
+tabindex="-1"
+>
+<div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-content ">
+    <div class="modal-body">
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6 d-flex justify-content-center align-items-center">
+          <img
+            [src]="product?.productImages?.[0]"
+            class="img-fluid rounded shadow"
+            style="max-height: 300px"
+          />
+        </div>
+
+        <div class="col-md-6 d-flex flex-column ">
+          <h6 class="fw-700  text-body-tertiary">{{ product?.productName }}</h6>
+         <div>
+          <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+
+            <!-- Rating (1 to 5) -->
+            <div class="mb-3">
+              <div class="d-flex gap-3 my-2">
+                <div *ngFor="let num of [1,2,3,4,5]">
+                  <input type="radio" [value]="num" formControlName="rate" [id]="'rate' + num" />
+                  <label [for]="'rate' + num" class="text-warning ms-1">  {{ num }}★</label>
+                </div>
+              </div>
+              <div *ngIf="reviewForm.get('rate')?.touched && reviewForm.get('rate')?.invalid" class="text-danger mt-1">
+                Please select a rating.
+              </div>
+            </div>
+          
+            <!-- Comment -->
+            <div class="mb-3">
+              <textarea
+                id="comment"
+                class="form-control"
+                rows="2"
+                formControlName="comment"
+                placeholder="Write your comment here..."
+              ></textarea>
+            </div>
+          
+            <!-- Submit Button -->
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-sm btn-danger broderR2" [disabled]="reviewForm.invalid" data-bs-dismiss="modal">
+                Submit Review
+              </button>
+            </div>
+          
+          </form>
+          
+         </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-center"></div>
+  </div>
+</div>
 </div>

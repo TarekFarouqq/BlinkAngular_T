@@ -14,12 +14,16 @@ import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { Pipe } from '@angular/core';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Review } from '../../models/review';
 
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css'],
 })
@@ -34,13 +38,62 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   productId!: number;
   cartItem! : CartItem
   uxQuantity: number = 1 ;
+  userId!: string | null;
+  canaddReview: boolean = true;
 
-  constructor(private router: Router, private productService: ProductService,private route: ActivatedRoute, private cartService: CartService ) {}
+  reviewForm: FormGroup = new FormGroup({
+    rate: new FormControl(null, [Validators.required]),
+    comment: new FormControl("")
+  });
+
+  constructor(private router: Router, private productService: ProductService,private route: ActivatedRoute, private cartService: CartService, private authService:AuthService) {}
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.loadProduct();
-    
+    this.userId = this.authService.getUserId();
+    console.log("User ID:", this.userId);
+    // this.productService.canUserAddReview(this.productId, this.userId!).subscribe({
+    //   next: (response) => {
+    //     this.canaddReview = response;
+    //   },error: (error) => {
+    //     console.error("Error checking review permission:", error);
+    //   } 
+    // }); 
   }
+
+  submitReview() {
+
+    if (this.reviewForm.valid) {
+      const review: Review = {
+        userId: this.userId!,
+        productId: this.productId,
+        reviewRate: this.reviewForm.value.rate,
+        comment: this.reviewForm.value.comment
+      };
+      
+      console.log("Review submitted:",review);
+      this.productService.addReview(review).subscribe({
+        next: (response) => {
+          console.log("Review added:", response);
+          Swal.fire({
+            title: 'Review Added Successfully!',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.loadProduct(); 
+          this.reviewForm.reset(); // Reset the form after submission
+        },
+        error: (error) => {
+          console.error("Error adding review:", error);
+        }
+      });  
+      this.reviewForm.reset(); 
+      this.loadProduct();
+
+    }
+  }
+  
 
   addProductToCart() {
     if (this.product) {
@@ -105,7 +158,6 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
       this.productService.GetById(this.productId).subscribe({
         next: (product) => {
           this.product = product;
-          console.log(this.product);
           this.images = this.product.productImages.map((imgPath) => ({
             main: imgPath,
             thumb: imgPath,

@@ -64,6 +64,22 @@ shippingprice: number = 0;
   getCartByUserId(id: string): Observable<Cart> {
     return this._HttpClient.get<Cart>(`${this.apiUrl}/cart/getbyuserid/${id}`);
   }
+ // In cart.service.ts
+
+deleteCart(cartId: number): void {
+  if (!this.cartUserId) return;
+
+  this._HttpClient.delete(`${this.apiUrl}/cart/DeleteCart/${cartId}`)
+    .subscribe({
+      next: () => {
+        this.loadCart(); 
+        console.log('Cart deleted successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting cart', error);
+      }
+    });
+}
 
   addToCart(cartItem: CartItem): void {
     if (!this.cartUserId) return;
