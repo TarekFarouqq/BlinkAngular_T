@@ -10,10 +10,11 @@ import { FormGroup, FormsModule, FormBuilder } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Attribute } from '../../models/attribute';
 import { HttpParams } from '@angular/common/http';
+import { SearchPipe } from '../../pipes/search.pipe';
 
 @Component({
   selector: 'app-shop',
-  imports: [ProductCardComponent,FormsModule, CommonModule],
+  imports: [ProductCardComponent, FormsModule, CommonModule, SearchPipe],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css',
   animations: [
@@ -51,35 +52,43 @@ export class ShopComponent implements OnInit {
   toPrice!: number ;
   rating: number = -1 ;
   CurrentPage: number = 1;
-    TotalPages!: number;
+  TotalPages!: number;
+  isLoading: boolean = false;
+  text:string="";
 
   constructor(private productServ:ProductService, private categoryServ:CategoryService, private discountServ:DiscountService) {
   
   }
 
   ngOnInit() {
-    
+    this.isLoading =true
     this.productServ.getFilteredProducts(this.params,-1,-1,this.CurrentPage,this.rating).subscribe( {
+      
       next:(res)=>{
         this.FilteredProductArr=res;
-        console.log(this.FilteredProductArr);
+        this.isLoading =false
       },
       error:(err)=>{
         console.log(err);
+        this.isLoading =true
       }
     })
-    
+    this.isLoading =true
     this.productServ.GetTotalPages(16).subscribe({
       next:(res)=>{
         this.TotalPages=res;
+        this.isLoading =false
       }
     })
     this.productServ.getAllAttributes().subscribe(res => {
       this.attributeArr = res;
     });
-    this.attributeArr.forEach(att => {
-      this.collapseStates[att.attributeId] = false;
-    });
+    if (this.attributeArr) {
+      this.attributeArr.forEach(att => {
+        this.collapseStates[att.attributeId] = false;
+      });
+    }
+    
 
   }
 
@@ -88,14 +97,15 @@ export class ShopComponent implements OnInit {
     if (this.CurrentPage > this.TotalPages) {
       this.CurrentPage = this.TotalPages;
     }
-
-    this.productServ.getFilteredProducts(this.params,this.fromPrice,this.toPrice,this.CurrentPage,this.rating,).subscribe( {
+    this.isLoading =true
+    this.productServ.getFilteredProducts(this.params,this.fromPrice = -1,this.toPrice = -1,this.CurrentPage,this.rating,).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
-        console.log(this.FilteredProductArr);
+        this.isLoading =false
       },
       error:(err)=>{
         console.log(err);
+        this.isLoading =true
       }
     })
   }
@@ -104,14 +114,16 @@ export class ShopComponent implements OnInit {
     if (this.CurrentPage < 1) {
       this.CurrentPage = 1;
     }
-
-    this.productServ.getFilteredProducts(this.params,this.fromPrice,this.toPrice,this.CurrentPage,this.rating,).subscribe( {
+    
+    this.isLoading =true
+    this.productServ.getFilteredProducts(this.params,this.fromPrice =-1,this.toPrice =-1,this.CurrentPage,this.rating,).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
-        console.log(this.FilteredProductArr);
+        this.isLoading =false
       },
       error:(err)=>{
         console.log(err);
+        this.isLoading =true
       }
     })
   }
@@ -132,6 +144,7 @@ export class ShopComponent implements OnInit {
   }
 
   onCheckboxChange(attributeId: number, value: string, event: Event) {
+    this.params = new HttpParams();
     const input = event.target as HTMLInputElement; 
     const checked = input.checked;
   
@@ -145,10 +158,10 @@ export class ShopComponent implements OnInit {
       this.selectedAttributes[attributeId] = this.selectedAttributes[attributeId].filter(v => v !== value);
     }
   
-    let params = new HttpParams();
+   
       Object.entries(this.selectedAttributes).forEach(([key, values]) => {
         values.forEach(value => {
-          params = params.append(key, value);
+          this.params = this.params.append(key, value);
         });
       });
 
@@ -163,14 +176,15 @@ export class ShopComponent implements OnInit {
         });
       });
 
-
-      this.productServ.getFilteredProducts(this.params,this.fromPrice,this.toPrice,1,this.rating,).subscribe( {
+      this.isLoading =true
+      this.productServ.getFilteredProducts(this.params,this.fromPrice =-1,this.toPrice =-1 ,1,this.rating,).subscribe( {
         next:(res)=>{
           this.FilteredProductArr=res;
-          console.log(this.FilteredProductArr);
+          this.isLoading =false
         },
         error:(err)=>{
           console.log(err);
+          this.isLoading =true
         }
       })
 

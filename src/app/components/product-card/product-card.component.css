@@ -1,70 +1,37 @@
-
-.product-card {
-  width: 250px;
-  margin-bottom: 10px;
-  min-height: 380px;
+.product-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
-  
+.card {
+  width: 100% !important;
+  max-width: 19rem;
+  height: 92% !important;
+  display: flex;
+  flex-direction: column;
+}
 
-  .product-title p {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card img {
+  object-fit: contain;
+  width: 100%;
+  height: 17rem;
+}
+.card-body button {
+  transition: transform 0.3s ease-in-out, color 0.5s ease-in-out;
+}
+.card-body button i{
+    transition: transform 0.5s ease-in-out;
   }
-
-  .product-title {
-    width: 70%;
-    
-
-    font-weight: 500;
-    font-size: 14px;
-  }
-
-  .product-image {
-    width: 100%;
-    height: 200px;
-    background-color: rgb(241, 241, 241);
-  }
-
-  
-
-  .product-details{
-    height: 70px;
-    cursor: pointer;
-  }
-
-  .product-title:hover{
-    cursor: pointer;
-  }
-
-  button i{
-    cursor: pointer;
-  }
-
-  button:hover{
-    background-color: white !important;
-    transform: scale(0.9);
-    transition: all 0.3s ease-in-out;
-    i{
-      color: #cd0e0e !important;
-     }
-  }
- 
-
-  .discount-badge{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 50px;
-    height: 25px;
-    text-align: center;
-    font-size: 12px;
-    display: flex;
-
-  }
+.card-body button:hover {
+  transform: scale(0.8);
+}
 
 
-  @media screen and (max-width: 768px) {
-
-  }
