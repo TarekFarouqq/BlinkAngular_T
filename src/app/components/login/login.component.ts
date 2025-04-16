@@ -42,6 +42,7 @@ export class LoginComponent {
           console.log("Login Response:", response);
           if (response.token) {
             localStorage.setItem('token', response.token);
+            // localStorage.setItem('user', JSON.stringify(response.user));
             this._AuthService.userLogin();
             this._AuthService.setUserRole();
             this.isLoading = false;

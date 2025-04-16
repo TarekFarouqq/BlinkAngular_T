@@ -1,78 +1,19 @@
-.title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #5a5a5a;
-    margin-bottom: 0.5rem;
-    position: relative;
-  }
-  
-  .title::before,
-  .title::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #5a5a5a;
-  }
-  
-  .title::after {
-    animation: pulse 1s linear infinite;
-  }
-  
-  @keyframes pulse {
-    from {
-      transform: scale(0.9);
-      opacity: 1;
-    }
-    to {
-      transform: scale(1.6);
-      opacity: 0;
-    }
-  }
-  
-  .custom-input {
-    width: 100%;
-    padding: 10px 0;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    outline: none !important;
-  }
-  
-  .container {
-    margin-top: 50px;
-    min-height: 62vh;
-    padding: 0;
-  }
-  
-  .table,
-  .table tbody,
-  .table tr,
-  .table td,
-  .table th {
-    background-color: transparent !important;
-  }
-  
-  .buy-button {
-    width: 30px;
-    height: 30px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: red !important;
+.payment-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
 
-  }
-  
-  .my-div {
-    border-radius: 3px !important;
-  }
-  
-  button {
-    border-radius: 2px !important;
-  }
-  
+.card-element {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 10px;
+}
+
   .action-button:hover {
     color: white !important;
     background-color: red !important;

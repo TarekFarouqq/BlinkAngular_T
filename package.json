@@ -22,6 +22,7 @@
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@popperjs/core": "^2.11.8",
     "@primeng/themes": "^19.0.10",
+    "@stripe/stripe-js": "^7.0.0",
     "bootstrap": "^5.3.3",
     "primeng": "^19.0.10",
     "rxjs": "~7.8.0",
