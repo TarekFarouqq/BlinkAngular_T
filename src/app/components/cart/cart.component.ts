@@ -59,7 +59,16 @@ export class CartComponent implements OnInit {
 
   icreamentQauntity(productId: number) {
     this.cartItem = { productId: productId, quantity: 1 };
+     Swal.fire({
+            toast: true,
+            position: 'top',
+            icon: 'success',
+            title: 'Qauntity Increased !',
+            showConfirmButton: false,
+            timer: 1500,
+          });
     this.cartService.addToCart(this.cartItem);
+
   }
   decreamentQauntity(productId: number) {
     const item = this.cart.cartDetails.find((item) => item.productId === productId);

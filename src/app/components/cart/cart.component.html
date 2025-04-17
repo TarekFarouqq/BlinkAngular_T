@@ -1,34 +1,30 @@
 <div class="container">
-  <div class="row mx-0 align-items-start">
-    <!-- Product Table -->
-    <div class="col-md-7 me-auto col-12">
-      <table class="table border-bottom">
-        <tbody>
-          @for (cartItem of cart.cartDetails; track $index) 
-          {
-            <tr class="">
+  <div class="row mx-0 d-flex justify-content-between">
+    <!-- Product Table Column (8/12 width) -->
+    <div class="col-12 col-md-7  overflow-hidden pe-0">
+      <div class="table-responsive">
+        <table class="table w-100 mb-0">
+          <tbody>
+            @for (cartItem of cart.cartDetails; track $index) {
+            <tr>
               <!-- Product Image & Name -->
-              <td>
+              <td style="max-width: 200px;" class="align-middle  text-center">
                 <div class="d-flex align-items-center">
                   <img
-                  [src]="cartItem.productImageUrl"
+                    [src]="cartItem.productImageUrl"
                     class="img-fluid rounded"
                     alt="Product Image"
                     style="width: 80px; height: 80px; object-fit: contain"
                   />
-                  <h6 class="mb-0 ms-2 w-50" style="white-space: nowrap;
-                  overflow: hidden;
-                  text-overflow: ellipsis;">
-                  {{cartItem.productName}}
-                </h6>
+                  <h6 class="mb-0 ps-2 text-truncate w-50">
+                    {{cartItem.productName}}
+                  </h6>
                 </div>
               </td>
-  
-              <!-- Counter -->
-              <td class="align-middle">
-                <div
-                  class="d-inline-flex my-div align-items-center border rounded p-1 custom-counter"
-                >
+
+              <!-- Quantity Controls -->
+              <td class="align-middle  text-center">
+                <div class="d-inline-flex align-items-center border rounded p-1">
                   <button
                     class="btn btn-danger btn-sm fw-bolder"
                     (click)="decreamentQauntity(cartItem.productId)"
@@ -38,29 +34,30 @@
                   <span class="mx-2 fw-bold">{{cartItem.quantity}}</span>
                   <button
                     class="btn btn-dark btn-sm fw-bolder"
-                  (click)="icreamentQauntity(cartItem.productId)"
+                    (click)="icreamentQauntity(cartItem.productId)"
                   >
                     +
                   </button>
                 </div>
               </td>
-              <!-- Total -->
-              <td class="align-middle">
-                <span class="mx-1" style="font-size: 0.9rem">{{
-                  cartItem.productUnitPrice * cartItem.quantity | number : "1.0-0"
-                }}</span>
-                <small style="font-size: 0.7rem">{{
-                  50000
-                    | currency : "EGP" : "symbol" : "1.0-0"
-                    | slice : 0 : 3
-                }}</small>
+
+              <!-- Price Calculation -->
+              <td class="align-middle text-center text-nowrap ">
+                <span class="mx-1" style="font-size: 0.9rem">
+                  {{ cartItem.productUnitPrice * cartItem.quantity | number : "1.0-0" }}
+                </span>
+                <small style="font-size: 0.7rem">
+                  {{ 50000 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3 }}
+                </small>
               </td>
             </tr>
-          }
-         
-        </tbody>
-      </table>
-      <div class="d-flex justify-content-between">
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-between mt-3 p-2">
         <button
           class="btn btn-light btn-sm bg-transparent border border-1 action-button"
           routerLink="/Homepage"
@@ -75,105 +72,78 @@
         </button>
       </div>
     </div>
-    <!-- Product Table -->
 
-    <!-- Checkout Summary -->
-    <div
-      class="col-md-4 col-7 mx-auto mb-5 "
-    >
-    <div class=" mb-4 d-flex justify-content-between">
-        <input type="text" class="form-control   w-50 d-inline-block form-control-sm" placeholder="Coupon Code">
-        <button class="btn btn-danger btn-sm px-4  " >
-        Apply Coupon
-      </button>
-    </div>
-      <div class="border border-1 border-black shadow my-div">
-        <div class="px-5 py-3">
-          <p class="text-body-tertiary text-center">CART SUMMARY</p>
-          <hr class="w-25 mx-auto" />
-          <table class="table border-bottom">
+    <!-- Checkout Summary Column (4/12 width) -->
+    <div class="col-12 col-md-4  mt-3 mt-md-0 ">
+      <div class="mb-4 d-flex justify-content-between gap-2">
+        <input 
+          type="text" 
+          class="form-control form-control-sm" 
+          placeholder="Coupon Code"
+        >
+        <button class="btn btn-danger btn-sm px-3">
+          Apply Coupon
+        </button>
+      </div>
+
+      <!-- Summary Card -->
+      <div class="border border-1 border-black shadow">
+        <div class="px-3 px-sm-5 py-3">
+          <p class="text-body-tertiary text-center mb-1">CART SUMMARY</p>
+          <hr class="w-25 mx-auto">
+
+          <table class="table">
             <tbody>
               <tr>
                 <td>
-                  <div class="row align-items-center g-0">
-                    <div class="col">
-                      <div
-                        class="card-body d-flex align-items-center justify-content-between"
-                      >
-                        <p class="mb-0 flex-grow-1" style="font-size: 0.8rem">
-                          SubTotal
-                        </p>
-                        <div class="d-flex align-items-center p-1">
-                          <span class="mx-1" style="font-size: 0.8rem">{{
-                            totalPrice | number : "1.0-0"
-                          }}</span>
-                          <small style="font-size: 0.7rem">{{
-                            totalPrice
-                              | currency : "EGP" : "symbol" : "1.0-0"
-                              | slice : 0 : 3
-                          }}</small>
-                        </div>
-                      </div>
+                  <div class="d-flex justify-content-between ">
+                    <p class="mb-0" style="font-size: 0.8rem">SubTotal</p>
+                    <div class="d-flex align-items-center">
+                      <span class="mx-1" style="font-size: 0.8rem">
+                        {{ totalPrice | number : "1.0-0" }}
+                      </span>
+                      <small style="font-size: 0.7rem">
+                        {{ totalPrice | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3 }}
+                      </small>
                     </div>
                   </div>
                 </td>
               </tr>
-              <!-- tr1 -->
+
               <tr>
                 <td>
-                  <div class="row align-items-center g-0">
-                    <div class="col">
-                      <div
-                        class="card-body d-flex align-items-center justify-content-between"
-                      >
-                        <p class="mb-0 flex-grow-1" style="font-size: 0.8rem">
-                          Shipping
-                        </p>
-                        <div class="d-flex align-items-center p-1">
-                          <span class="mx-1" style="font-size: 0.8rem"
-                            >free</span
-                          >
-                        </div>
-                      </div>
-                    </div>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0" style="font-size: 0.8rem">Shipping</p>
+                    <span class="text-muted" style="font-size: 0.8rem">free</span>
                   </div>
                 </td>
               </tr>
-              <!-- tr2 -->
+
               <tr class="fw-bold">
                 <td>
-                  <div class="row align-items-center g-0">
-                    <div class="col">
-                      <div
-                        class="card-body d-flex align-items-center justify-content-between"
-                      >
-                        <p class="mb-0 flex-grow-1 " style="font-size: 0.8rem">
-                          Total
-                        </p>
-                        <div class="d-flex align-items-center p-1">
-                          <span class="mx-1" style="font-size: 0.8rem">{{
-                            totalPrice * 1.14 | number : "1.0-0"
-                          }}</span>
-                          <small style="font-size: 0.7rem">{{
-                            totalPrice * 1.14
-                              | currency : "EGP" : "symbol" : "1.0-0"
-                              | slice : 0 : 3
-                          }}</small>
-                        </div>
-                      </div>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0" style="font-size: 0.8rem">Total</p>
+                    <div class="d-flex align-items-center">
+                      <span class="mx-1" style="font-size: 0.8rem">
+                        {{ totalPrice * 1.14 | number : "1.0-0" }}
+                      </span>
+                      <small style="font-size: 0.7rem">
+                        {{ totalPrice * 1.14 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3 }}
+                      </small>
                     </div>
                   </div>
                 </td>
               </tr>
-              <!-- tr3 -->
             </tbody>
           </table>
-          <p class="text-muted" style="font-size: 0.6rem">
+
+          <p class="text-muted text-center mb-2" style="font-size: 0.6rem">
             *Taxes and shipping calculated.
           </p>
-          <button [routerLink]="['/checkout',cart.cartId]"
-            class="btn btn-danger w-100 mb-2 fw-bold"
-           
+          
+          <button 
+            [routerLink]="['/checkout',cart.cartId]"
+            class="btn btn-danger w-100 fw-bold py-2"
           >
             CheckOut
           </button>
@@ -181,6 +151,4 @@
       </div>
     </div>
   </div>
-  <!-- row -->
 </div>
-<!-- container -->
