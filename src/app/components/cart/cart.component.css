@@ -8,6 +8,20 @@
     background-color: transparent !important;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    min-height: 300px;
+  }
+  .border-2 {
+    border-width: 2px!important;
+    box-sizing: border-box;
+  }
+  .text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
 .buy-button {
     width: 30px;
     height: 30px;
