@@ -11,6 +11,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Attribute } from '../../models/attribute';
 import { HttpParams } from '@angular/common/http';
 import { SearchPipe } from '../../pipes/search.pipe';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
@@ -55,17 +56,26 @@ export class ShopComponent implements OnInit {
   TotalPages!: number;
   isLoading: boolean = false;
   text:string="";
+  categoryId: number = -1;
 
-  constructor(private productServ:ProductService, private categoryServ:CategoryService, private discountServ:DiscountService) {
+  constructor(private productServ:ProductService, private route: ActivatedRoute) {
   
   }
 
   ngOnInit() {
+    
+
+    const catId = this.route.snapshot.paramMap.get('catId');
+    if (catId) {
+      this.categoryId = Number(catId);
+      console.log('Category ID:', this.categoryId);
+    }
+    ///////////
     this.isLoading =true
-    this.productServ.getFilteredProducts(this.params,-1,-1,this.CurrentPage,this.rating).subscribe( {
-      
+    this.productServ.getFilteredProducts(this.CurrentPage  ,this.fromPrice ?? -1,this.toPrice ?? -1, this.rating,this.categoryId,this.params).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
+        console.log(this.FilteredProductArr);
         this.isLoading =false
       },
       error:(err)=>{
@@ -73,13 +83,17 @@ export class ShopComponent implements OnInit {
         this.isLoading =true
       }
     })
+    //////////
     this.isLoading =true
     this.productServ.GetTotalPages(16).subscribe({
       next:(res)=>{
         this.TotalPages=res;
+
         this.isLoading =false
       }
     })
+    //////////
+
     this.productServ.getAllAttributes().subscribe(res => {
       this.attributeArr = res;
     });
@@ -88,8 +102,8 @@ export class ShopComponent implements OnInit {
         this.collapseStates[att.attributeId] = false;
       });
     }
-    
-
+    //////////
+   
   }
 
   nextPage() {
@@ -98,7 +112,7 @@ export class ShopComponent implements OnInit {
       this.CurrentPage = this.TotalPages;
     }
     this.isLoading =true
-    this.productServ.getFilteredProducts(this.params,this.fromPrice = -1,this.toPrice = -1,this.CurrentPage,this.rating,).subscribe( {
+    this.productServ.getFilteredProducts(this.CurrentPage  ,this.fromPrice  ?? -1,this.toPrice  ?? -1,this.rating,this.categoryId  ,this.params).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
         this.isLoading =false
@@ -116,7 +130,7 @@ export class ShopComponent implements OnInit {
     }
     
     this.isLoading =true
-    this.productServ.getFilteredProducts(this.params,this.fromPrice =-1,this.toPrice =-1,this.CurrentPage,this.rating,).subscribe( {
+    this.productServ.getFilteredProducts(this.CurrentPage  ,this.fromPrice  ?? -1,this.toPrice  ?? -1,this.rating,this.categoryId  ,this.params).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
         this.isLoading =false
@@ -129,6 +143,10 @@ export class ShopComponent implements OnInit {
   }
 
 
+  onRatingChange(selectedRating: number) {
+    this.rating = selectedRating;
+    console.log('Selected Rating:', this.rating);
+  }
 
   toggleCollapse(attributeId: number): void {
     this.collapseStates[attributeId] = !this.collapseStates[attributeId];
@@ -153,31 +171,32 @@ export class ShopComponent implements OnInit {
     }
   
     if (checked) {
+      if (!this.selectedAttributes[attributeId].includes(value)) {
       this.selectedAttributes[attributeId].push(value);
+      }
     } else {
       this.selectedAttributes[attributeId] = this.selectedAttributes[attributeId].filter(v => v !== value);
     }
-  
-   
-      Object.entries(this.selectedAttributes).forEach(([key, values]) => {
-        values.forEach(value => {
-          this.params = this.params.append(key, value);
-        });
-      });
 
+    this.buildParams();
+    
+  }
+
+  buildParams() {
+    let newParams = new HttpParams();
+      Object.entries(this.selectedAttributes).forEach(([key, values]) => {
+        const uniqueValues = Array.from(new Set(values)); 
+        uniqueValues.forEach(value => {
+          newParams = newParams.append(key, value);
+        });
+  });
+  this.params = newParams;
   }
 
   ApplyFilter(){
 
-    
-      Object.entries(this.selectedAttributes).forEach(([key, values]) => {
-        values.forEach(value => {
-          this.params = this.params.append(key, value);
-        });
-      });
-
       this.isLoading =true
-      this.productServ.getFilteredProducts(this.params,this.fromPrice =-1,this.toPrice =-1 ,1,this.rating,).subscribe( {
+      this.productServ.getFilteredProducts(this.CurrentPage  ,this.fromPrice  ?? -1,this.toPrice  ?? -1,this.rating,this.categoryId ,this.params).subscribe( {
         next:(res)=>{
           this.FilteredProductArr=res;
           this.isLoading =false

@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<!-- Show loader until data is fetched -->
+<div *ngIf="isLoading" class="app-loader">
+    <img src="../assets/images/BLINCKO.png" alt="Loading..." class="loading-logo" />
+  </div>
+  
+  <!-- Main App Content -->
+  <div *ngIf="!isLoading">
+    <router-outlet></router-outlet>
+  </div>
