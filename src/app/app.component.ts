@@ -13,9 +13,9 @@ import { ProductService } from './services/product.service';
 @Component({
   selector: 'app-root',
 
-  imports: [RouterOutlet,NgxSpinnerComponent],
+  imports: [RouterOutlet,NgxSpinnerComponent,CommonModule],
 
-  imports: [RouterOutlet,CommonModule],
+  
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -30,14 +30,7 @@ export class AppComponent implements OnInit {
     }, 2000);
   }
   ngOnInit() {
-    this.productServ.GetAll().subscribe({
-     next: () => {
-       this.isLoading = false;
-     },
-     error: (err) => {
-       console.error(err);
-     }
-    })
+  
     if (this.authService.isAuthenticated()) {
       this.authService.setUserRole(); 
       this.authService.userLogin();   
