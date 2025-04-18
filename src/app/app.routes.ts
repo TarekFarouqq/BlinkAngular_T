@@ -17,6 +17,7 @@ import { ShopComponent } from './components/shop/shop.component';
 import { CheckoutComponent } from './Payment/checkout/checkout.component';
 import { PayComponent } from './Payment/pay/pay.component';
 import { ConfirmOrderComponent } from './Payment/confirm-order/confirm-order.component';
+import { MyOrdersComponent } from './Orders/my-orders/my-orders.component';
 
 
 
@@ -34,6 +35,7 @@ export const routes: Routes = [
             {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
             {path:'pay',component:PayComponent,canActivate:[authGuard]},
             {path:'confirmOrder',component:ConfirmOrderComponent,canActivate:[authGuard]},
+            {path:'myOrders',component:MyOrdersComponent,canActivate:[authGuard]},
             
         ],
       },

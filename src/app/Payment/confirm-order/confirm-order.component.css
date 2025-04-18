@@ -1,0 +1,35 @@
+.order-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+.submit{
+    background-color: #DB4444;
+}
+
+  .item-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .product-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-right: 1rem;
+    border-radius: 10px;
+  }
+  
+  .item-details p {
+    margin: 0.2rem 0;
+  }
+  
