@@ -39,6 +39,11 @@
     display: none !important;
     height: 70px;
 }
+a:hover{
+    color: #da4446;
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+}
 @media screen and (max-width:768px) {
     .navbar-web{
         display: none !important;
