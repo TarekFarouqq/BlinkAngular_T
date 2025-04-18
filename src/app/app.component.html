@@ -1,9 +1,10 @@
-<!-- Show loader until data is fetched -->
-<div *ngIf="isLoading" class="app-loader">
-    <img src="../assets/images/BLINCKO.png" alt="Loading..." class="loading-logo" />
-  </div>
-  
-  <!-- Main App Content -->
-  <div *ngIf="!isLoading">
-    <router-outlet></router-outlet>
-  </div>
+
+<router-outlet></router-outlet>
+<ngx-spinner
+  name="loading"
+  bdColor="rgba(100,100,100, .3)"
+  template="<img width='350px' src='./assets/images/BLINCKO.png'/>"
+>
+</ngx-spinner>
+
+

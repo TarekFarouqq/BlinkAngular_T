@@ -1,14 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
+
+import { NgxSpinnerComponent } from 'ngx-spinner';
+
 import { CommonModule } from '@angular/common';
 import { ProductService } from './services/product.service';
 
 
 
+
 @Component({
   selector: 'app-root',
+
+  imports: [RouterOutlet,NgxSpinnerComponent],
+
   imports: [RouterOutlet,CommonModule],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
