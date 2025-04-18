@@ -1,1 +1,43 @@
-<p>confirm-order works!</p>
+<div *ngIf="isLoading" class="loading">Loading...</div>
+
+<h2 class="title text-center mt-5">✅ Order Confirmation</h2>
+<div *ngIf="!isLoading && orderDetails" class="order-container mt-5">
+
+  <div class="items-list">
+    <h4>🛒 Ordered Items</h4>
+
+    @for (item of orderDetails.items; track orderId) {
+      <div class="item-card">
+        <img [src]="item.productImageUrl" alt="{{ item.productName }}" class="product-img" />
+        <div class="item-details">
+          <p><strong>📦 Product:</strong> {{ item.productName.slice(0,10) }}</p>
+          <p><strong>🔢 Quantity:</strong> {{ item.quantity }}</p>
+          <p><strong>💵 Unit Price:</strong> {{ item.unitPrice }} EGP</p>
+        </div>
+      </div>
+    } @empty {
+      <p>No items in this order</p>
+    }
+  </div>
+
+  <div class="order-summary">
+    <p><strong>🧾 Order ID:</strong> {{ orderDetails.orderId }}</p>
+    <p><strong>📅 Date:</strong> {{ orderDetails.orderDate | date: 'medium' }}</p>
+    <p><strong>🚚 Status:</strong> {{ orderDetails.orderStatus }}</p>
+    <p><strong>🧾 Tax:</strong> {{ orderDetails.tax }} EGP</p>
+    <p><strong>🚚 Shipping:</strong> {{ orderDetails.shipping }} EGP</p>
+    <p><strong>💰 Total:</strong> {{ orderDetails.total }} EGP</p>
+  </div>
+
+  <div class="payment-info">
+    <!-- <h3>💳 Payment Details</h3> -->
+    <!-- <p><strong>Intent ID:</strong> {{ orderDetails.paymentIntentId }}</p> -->
+  </div>
+
+  <div class="buttons">
+    <!-- <button (click)="viewOrder()" class="btn submit text-white mx-3">📄 View My Orders</button> -->
+    <button routerLink="/Homepage"  class="btn btn-primary mx-2">🏠 Go Home</button>
+    <button routerLink="/myOrders" class="btn btn-secondary mx-2"> Go To My Orders</button>
+    <button (click)="CancelOrder(orderDetails.orderId)" class="btn submit text-white mx-2">Cancel order</button>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../../services/payment.service';
 
 import Swal from 'sweetalert2';
+import { ConfirmedOrder } from '../iorder-dto';
 
 @Component({
   selector: 'app-pay',
@@ -20,45 +21,53 @@ export class PayComponent implements OnInit {
   cardHolderName: string = '';
   clientSecret: string = '';
   paymentIntentId: string = '';
-  cartId!: number;
-  isProcessing = false;
-
+  cartId: number = 0;
+  isProcessing: boolean = false;
+  cardError: string = '';
+    orderDetails: ConfirmedOrder | null = null;
+  
   constructor(
-    private route: ActivatedRoute,
-    private _router: Router,
+    private _ActivatedRoute: ActivatedRoute,
+    private _Router: Router,
     private _paymentService: PaymentService
   ) {}
 
   async ngOnInit() {
+    this.extractQueryParams();
+    await this.setupStripeCardElement();
+  }
+
+  private extractQueryParams() {
+    const queryParams = this._ActivatedRoute.snapshot.queryParamMap;
+    this.clientSecret = queryParams.get('clientSecret') || '';
+    this.paymentIntentId = queryParams.get('paymentIntentId') || '';
+    this.cartId = +(queryParams.get('cartId') || 0);
+  }
+
+  private async setupStripeCardElement() {
+    this.stripe = await loadStripe('pk_test_51RCWSDFNhf4ER0gQ4w4bQGaljSws1oDom7IJBZLu7z42GxX2tDIUigQMLlO0WX4PJtZNL7XL915qybHSbTnhwPGn00tTANkeVx');
     
-    this.clientSecret = this.route.snapshot.queryParamMap.get('clientSecret') || '';
-    this.paymentIntentId = this.route.snapshot.queryParamMap.get('paymentIntentId') || '';
-    this.cartId = +(this.route.snapshot.queryParamMap.get('cartId') || 0);
+    if (!this.stripe) {
+      console.error('Stripe failed to load.');
+      return;
+    }
 
-    const stripe = await loadStripe('pk_test_51RCWSDFNhf4ER0gQ4w4bQGaljSws1oDom7IJBZLu7z42GxX2tDIUigQMLlO0WX4PJtZNL7XL915qybHSbTnhwPGn00tTANkeVx'); // Replace this
-    this.stripe = stripe;
-
-    const elements = stripe?.elements();
-    if (!elements) return;
-
+    const elements = this.stripe.elements();
     this.card = elements.create('card');
     this.card.mount('#card-element');
   }
 
   async handlePayment() {
-    
     if (this.isProcessing || !this.stripe || !this.card || !this.clientSecret) return;
-  
+
     this.isProcessing = true;
     Swal.fire({
       title: 'Processing...',
       text: 'Please wait while we process your payment.',
       allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
+      didOpen: () => Swal.showLoading()
     });
-  
+
     const result = await this.stripe.confirmCardPayment(this.clientSecret, {
       payment_method: {
         card: this.card,
@@ -67,158 +76,58 @@ export class PayComponent implements OnInit {
         }
       }
     });
-  
+
     if (result.error) {
       this.isProcessing = false;
       Swal.fire('Error', result.error.message || 'Payment failed', 'error');
+      return;
+    }
+
+    const paymentIntent = result.paymentIntent;
+    if (paymentIntent?.status === 'succeeded') {
+      this.confirmPaymentBackend();
     } else {
-      const paymentIntent = result.paymentIntent;
-      if (paymentIntent?.status === 'succeeded') {
-        this._paymentService.confirmPayment({
-          paymentIntentId: this.paymentIntentId,
-          isSucceeded: true
-        }).subscribe({
-          next: (order) => {
-            console.log(order);
-            
-            Swal.fire('Success', 'Payment completed successfully!', 'success').then(() => {
-              this._router.navigate(['/orders', order.orderId]);
-            });
-          },
-          error: () => {
-            Swal.fire('Error', 'Payment confirmed but saving order failed.', 'error');
-          }
-        });
-      } else {
-        this.isProcessing = false;
-        Swal.fire('Error', 'Payment was not successful.', 'error');
-      }
+      this.isProcessing = false;
+      Swal.fire('Error', 'Payment was not successful.', 'error');
+      
     }
   }
-  
+
+  private confirmPaymentBackend() {
+    this._paymentService.confirmPayment(this.paymentIntentId, true).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.orderDetails = response;
+         Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: response.message,
+                  showConfirmButton: false,
+                  timer: 1700,
+                });
+        
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Order Created Successfully',
+                  text: 'Would you like to view your order or go to home?',
+                  showCancelButton: true,
+                  confirmButtonText: 'View My Order',
+                  cancelButtonText: 'Go to Home',
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    this._Router.navigate(['/confirmOrder'], {
+                      queryParams: {
+                        id: response.orderId,
+                      },
+                    });
+                  } else {
+                    this._Router.navigate(['/home']);
+                  }
+                });
+              },
+      error: () => {
+        Swal.fire('Error', 'Payment confirmed but saving order failed.', 'error');
+      }
+    });
+  }
 }
-
-
-
-
-
-
-
-  // async ngOnInit(): Promise<void> {
-  //   
-  //   this.visaForm = new FormGroup({
-  //     cardHolder: new FormControl('', Validators.required)
-  //   });
-  //   // Fetch cart data from CartService
-  //   this.cartService.cart$.subscribe(cart => {
-  //     if (cart.cartId > 0) {
-  //       this.cartDto.cartId = cart.cartId; // Set cartId
-  //       this.cartDto.userId = cart.userId; // Set userId
-  //       this.cartDto.paymentMethod = this.paymentMethod; // Set payment method
-  //       this.createPaymentIntent(this.cartDto); // Fetch clientSecret for the payment
-  //     }
-  //   });
-
-  //   this._ActivatedRoute.queryParams.subscribe(params => {
-  //     this.paymentMethod = params['paymentMethod'] || 'visa';  // Optional: Read payment method from query params
-  //   });
-
-  //   // Initialize Stripe
-  //   this.stripe = await this.stripePromise;
-  //   const elements = this.stripe!.elements();
-  //   const card = elements.create('card');
-  //   card.mount('#card-element');
-  //   this.cardElement = card;
-
-  //   // Listen for card errors
-  //   card.on('change', (event) => {
-  //     this.cardError = event.error?.message ?? '';
-  //   });
-  // }
-
-  // createPaymentIntent(cartDTO: ICartPaymentDTO) {
-  //   this._paymentService.createOrUpdatePaymentIntent(cartDTO).subscribe({
-  //     next: (res) => {
-  //       this.clientSecret = res.clientSecret || ''; // Set the client secret from the response
-  //     },
-  //     error: (err) => {
-  //       console.error('Failed to create payment intent:', err);
-  //     }
-  //   });
-  // }
-
-//   async onSubmit(): Promise<void> {
-//     debugger;
-//     if (this.isLoading || !this.visaForm.valid || !this.clientSecret) return;
-//     if (this.visaForm.valid && this.clientSecret) {
-//       this.isLoading = true;
-
-//       // Confirm the payment with Stripe
-//       const result = await this.stripe!.confirmCardPayment(this.clientSecret, {
-//         payment_method: {
-//           card: this.cardElement,
-//           billing_details: {
-//             name: this.visaForm.value.cardHolder || 'Unknown',
-//           }
-//         }
-//       });
-
-//       if (result.error) {
-//         this.cardError = result.error.message ?? 'Something went wrong';
-//         this.isLoading = false;
-//       } else if (result.paymentIntent?.status === 'succeeded') {
-//         console.log(' Payment succeeded!');
-//         this._Router.navigate(['/confirmOrder'], { queryParams: { paymentIntentId: result.paymentIntent.id } });
-//         this.isLoading = false;
-//       }
-//     } else {
-//       this.visaForm.markAllAsTouched();
-//     }
-//   }
-
-//   // // Expiry date validator (optional)
-//   // futureDateValidator(control: FormControl): { [key: string]: boolean } | null {
-//   //   const value = control.value;
-//   //   if (!value || !/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
-//   //     return null;
-//   //   }
-
-//   //   const [monthStr, yearStr] = value.split('/');
-//   //   const month = +monthStr;
-//   //   const year = 2000 + +yearStr;
-
-//   //   const today = new Date();
-//   //   const inputDate = new Date(year, month - 1);
-//   //   const currentDate = new Date(today.getFullYear(), today.getMonth());
-
-//   //   if (inputDate < currentDate) {
-//   //     return { expiredDate: true };
-//   //   }
-
-//   //   return null;
-//   // }
-
-//   // // Format expiry date input
-//   // formatExpiryDate(event: any): void {
-//   //   let input = event.target.value.replace(/\D/g, '');
-//   //   if (input.length > 2) {
-//   //     input = input.slice(0, 2) + '/' + input.slice(2, 4);
-//   //   }
-//   //   event.target.value = input;
-//   //   this.visaForm.get('expiryDate')?.setValue(input, { emitEvent: false });
-//   //   this.visaForm.updateValueAndValidity();
-//   // }
-
-//   // // Format card number input
-//   // formatCardNumber(event: any): void {
-//   //   let input = event.target.value.replace(/\D/g, '');
-//   //   if (input.length > 16) input = input.slice(0, 16);
-
-//   //   const parts = input.match(/.{1,4}/g);
-//   //   const formatted = parts ? parts.join(' ') : '';
-//   //   event.target.value = formatted;
-
-//   //   this.visaForm.get('cardNumber')?.setValue(formatted, { emitEvent: false });
-//   //   this.visaForm.updateValueAndValidity();
-//   // }
-// }
