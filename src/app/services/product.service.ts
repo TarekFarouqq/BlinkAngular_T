@@ -30,9 +30,10 @@ export class ProductService {
   }
 
 
-  getFilteredProducts(params : HttpParams, fromPrice : number | -1 , toPrice : number | -1, pgNumber : number, rating : number): Observable<Product[]> 
+  getFilteredProducts( pgNumber : number,  fromPrice : number | -1 , toPrice : number | -1, rating : number = -1 , categoryId : number = -1 , params : HttpParams): Observable<Product[]> 
   {
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetFillteredProducts/${pgNumber}/${fromPrice}/${toPrice}/${rating}`, { params });
+    
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetFillteredProducts/${pgNumber}/${fromPrice}/${toPrice}/${rating}/${categoryId}`, { params });
   }
 
   GetTotalPages(pgSize:number):Observable<number>{

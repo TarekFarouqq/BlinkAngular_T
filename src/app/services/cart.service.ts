@@ -46,7 +46,6 @@ shippingprice: number = 0;
         },
         error: (error) => {
           if (error.status === 404) {
-            console.warn('No cart found for this user, creating a new one.');
             this.cartSubject.next({ cartDetails: [], userId: '', cartId: 0 });
             this.totalPriceSubject.next(0);
           } else {
