@@ -8,7 +8,6 @@ import { headerInterceptor } from './Interceptors/header.interceptor';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { loadingInterceptor } from './Interceptors/loading.interceptor';
 
-import { LoggingInterceptor } from './Interceptors/logshop.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -22,6 +21,6 @@ export const appConfig: ApplicationConfig = {
     
   ]
 
-   
+
 
 };
