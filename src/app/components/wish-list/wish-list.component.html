@@ -1,0 +1,48 @@
+
+ <div class="container-fluid ">
+        <div class="row">
+            <div class="col-12 col-md-10 p-3 ">
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a routerLink="Homepage" class="link-danger">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">WishList</li>
+                    </ol>
+                </nav>
+
+    
+                <!-- Product Grid -->
+                <div class="row d-flex mx-auto justify-content-center g-3 ">
+                    @if(wishList.withListDetails){
+    
+                        @if(wishList.withListDetails.length == 0)
+                        {
+                            <div class="col mx-auto my-3 w-100 text-center">
+                                <h3 class="text-danger fw-lighter">No Products In Your WishList</h3>
+                            </div>
+                        }@else
+                        {
+                                @for (Product of wishList.withListDetails ; track Product.productId) {
+                                    
+                                        <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center px-3 py-2  ">
+                                            <app-wish-list-product-card [wishListProduct]="Product" class="w-100 "></app-wish-list-product-card>
+                                          </div>
+                                        
+                                   
+                                    }
+                        }
+    
+                    }
+                   
+                   
+                </div>
+    
+            </div>      
+
+        </div>
+ </div>
+          
+          
+            
