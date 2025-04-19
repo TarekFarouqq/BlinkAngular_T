@@ -21,6 +21,4 @@ export const appConfig: ApplicationConfig = {
     
   ]
 
-
-
 };

@@ -15,8 +15,6 @@ import { ProductService } from './services/product.service';
 
   imports: [RouterOutlet,NgxSpinnerComponent,CommonModule],
 
-
-
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
