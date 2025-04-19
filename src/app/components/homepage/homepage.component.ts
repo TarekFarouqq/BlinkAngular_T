@@ -5,7 +5,7 @@ import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from "../product-card/product-card.component";
 import { CategoryCardComponent } from "../category-card/category-card.component";
-
+import { RouterLink } from '@angular/router';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 import { Discount } from '../../models/discount';
@@ -15,7 +15,7 @@ import { DiscountService } from '../../services/discount.service';
 @Component({
   standalone: true,
   selector: 'app-homepage',
-  imports: [FormsModule, CommonModule, ProductCardComponent, CategoryCardComponent],
+  imports: [FormsModule, CommonModule, ProductCardComponent, CategoryCardComponent,RouterLink],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })

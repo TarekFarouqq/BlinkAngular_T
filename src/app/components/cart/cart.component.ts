@@ -17,9 +17,13 @@ export class CartComponent implements OnInit {
   cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
   cartItem! : CartItem;
   totalPrice: number = 0;
+  shippingPrice: number = 0;
+
+
   constructor(
     private authService: AuthService,
-    private cartService: CartService
+    private cartService: CartService,
+  
   ) {
   }
 
@@ -32,11 +36,39 @@ export class CartComponent implements OnInit {
     this.cartService.totalPrice$.subscribe((total) => {
       this.totalPrice = total;
     });
+
+  }
+
+  clearCart() {
+    Swal.fire({
+      title: 'Clear Cart?',
+      icon: 'warning',
+      width: 400,
+      showCancelButton: true,
+      confirmButtonText: 'Clear',
+      confirmButtonColor: '#d33',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cartService.deleteCart(this.cart.cartId!); 
+
+      }
+      }
+    );
   }
 
   icreamentQauntity(productId: number) {
     this.cartItem = { productId: productId, quantity: 1 };
+     Swal.fire({
+            toast: true,
+            position: 'top',
+            icon: 'success',
+            title: 'Qauntity Increased !',
+            showConfirmButton: false,
+            timer: 1500,
+          });
     this.cartService.addToCart(this.cartItem);
+
   }
   decreamentQauntity(productId: number) {
     const item = this.cart.cartDetails.find((item) => item.productId === productId);

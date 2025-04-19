@@ -54,7 +54,7 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
         error:(err:HttpErrorResponse)=> {
           this.isLoading = false;
           console.log(err);
-          this.msgerror= err.error.message;
+          this.msgerror= err.error;
     
           
         },

@@ -1,102 +1,185 @@
-import { Cart } from './../../models/cart';
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
+import { OrderService } from '../../services/order.service';
+import { ICreatOrder } from '../../components/Orders/icreat-order';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Cart } from '../../models/cart';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, ReactiveFormsModule,FormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
-  styleUrl: './checkout.component.css'
+  styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent implements OnInit {
- cartId:number | null = null;
- isLoading:boolean = false;
-  cartItem! : CartItem;
-    cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
-    totalPrice: number = 0;
-  
+  cartId: number | null = null;
+  isLoading: boolean = false;
+  cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
+  totalPrice: number = 0;
+  checkoutForm: FormGroup;
 
-  constructor( private _ActivatedRoute:ActivatedRoute, private _Router:Router ,private _CartService:CartService) { }
+  constructor(
+    private _ActivatedRoute: ActivatedRoute,
+    private _Router: Router,
+    private _CartService: CartService,
+    private _OrderService: OrderService,
+    private _PaymentService: PaymentService
+  ) {
+    this.checkoutForm = new FormGroup({
+      address: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      phone: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(/^01[0125][0-9]{8}$/),
+      ]),
+      paymentMethod: new FormControl(null, Validators.required),
+    });
+  }
 
-ngOnInit(): void {
-  this._ActivatedRoute.paramMap.subscribe({
-next:(params)=>{
-  const id = params.get('id');
-  this.cartId = id ? +id : null;
-}
-  });
+  ngOnInit(): void {
+    this._ActivatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      this.cartId = id ? +id : null;
+    });
 
+    window.scrollTo(0, 0);
 
-  window.scrollTo(0, 0);
-  this._CartService.cart$.subscribe((updatedCart) => {
+    this._CartService.cart$.subscribe((updatedCart) => {
       this.cart = updatedCart;
-  });
-  this._CartService.totalPrice$.subscribe((total) => {
-    this.totalPrice = total;
-  });
-}
+    });
 
-  checkoutForm: FormGroup = new FormGroup({
-    address: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-    details: new FormControl(null, [Validators.required]),
-    phone: new FormControl(null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]),
-    paymentMethod: new FormControl(null, Validators.required),
-  
-  });
-
- 
+    this._CartService.totalPrice$.subscribe((total) => {
+      this.totalPrice = total;
+    });
+  }
 
   onSubmit(): void {
-    console.log('Form Submitted');  // تأكد إنه بيوصل هنا
-    if (this.checkoutForm.valid) {
-
-      const selectedMethod = this.checkoutForm.get('paymentMethod')?.value;
-      console.log('Selected Method:', selectedMethod);  // شوف بيرجع ايه
-
-      if (selectedMethod === 'cash') {
-        
-        this._Router.navigate(['/confirmOrder'],{queryParams: this.checkoutForm.value});
-      } else if (selectedMethod === 'visa') {
-        // لو اختار الدفع بالفيزا
-        this._Router.navigate(['/pay'],{queryParams: this.checkoutForm.value});
-      }
-    } else {
+    if (this.checkoutForm.invalid) {
       this.checkoutForm.markAllAsTouched();
+      return;
     }
-  }
 
-icreamentQauntity(productId: number) {
-    this.cartItem = { productId: productId, quantity: 1 };
-    this._CartService.addToCart(this.cartItem);
-  }
-  decreamentQauntity(productId: number) {
-    const item = this.cart.cartDetails.find((item) => item.productId === productId);
-    if (item && item.quantity == 1) {
+    const selectedMethod = this.checkoutForm.get('paymentMethod')?.value;
+
+    const createOrderDTO: ICreatOrder = {
+      userId: this.cart.userId,
+      address: this.checkoutForm.get('address')?.value,
+      paymentMethod: selectedMethod,
+      phoneNumber: this.checkoutForm.get('phone')?.value,
+      lat: 0, // Set the latitude value
+      long: 0, // Set the longitude value
+    };
+
+    if (selectedMethod === 'cash') {
+      this.createOrderAndRedirect(createOrderDTO);
+    } else if (selectedMethod === 'card') {
+      // Step 1: Show confirmation dialog before payment
       Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do You Want To Remove This Product?',
+        title: 'Confirm Payment',
+        text: 'You will be redirected to the payment page.',
         icon: 'warning',
-        width: 400,
         showCancelButton: true,
-        confirmButtonText: 'Remove',
-        confirmButtonColor: '#d33',
+        confirmButtonText: 'Continue to Payment',
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.cartItem = { productId: productId, quantity: -1 };
-          this._CartService.addToCart(this.cartItem);
+          // Step 2: Create Payment Intent
+          this.isLoading = true;
+          this._PaymentService.createOrUpdatePaymentIntent().subscribe({
+            next: (paymentResponse) => {
+              // Step 3: Redirect to Stripe Payment
+              this._Router.navigate(['/pay'], {
+                queryParams: {
+                  clientSecret: paymentResponse.clientSecret,
+                  paymentIntentId: paymentResponse.paymentIntentId,
+                  cartId: this.cart.cartId,
+                },
+              });
+
+              // Step 4: After successful payment, create the order
+              this._PaymentService.paymentStatus$.subscribe((paymentStatus) => {
+                if (paymentStatus === 'succeeded') {
+                  this._OrderService.creatOrder(createOrderDTO).subscribe({
+                    next: (orderResponse) => {
+                      this.isLoading = false;
+                      console.log(orderResponse);
+                      Swal.fire({
+                        icon: 'success',
+                        title: 'Order Created Successfully',
+                        text: 'Your order has been successfully created.',
+                        showConfirmButton: false,
+                        timer: 1700,
+                      });
+                      this._Router.navigate(['/confirmOrder'], {
+                        queryParams: {
+                          id: orderResponse.data.orderHeaderId,
+                        },
+                      });
+                    },
+                    error: (err) => {
+                      this.isLoading = false;
+                      console.error('Error creating order:', err);
+                    },
+                  });
+                }
+              });
+            },
+            error: (err) => {
+              this.isLoading = false;
+              console.error('PaymentIntent Error:', err);
+            },
+          });
         }
       });
-    }else{
-      this.cartItem = { productId: productId, quantity: -1 };
-          this._CartService.addToCart(this.cartItem);
     }
-    
   }
-  
+
+  // Function to create the order and redirect to confirmation or home
+  createOrderAndRedirect(createOrderDTO: ICreatOrder): void {
+    this.isLoading = true;
+    this._OrderService.creatOrder(createOrderDTO).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        console.log(response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: response.message,
+          showConfirmButton: false,
+          timer: 1700,
+        });
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Order Created Successfully',
+          text: 'Would you like to view your order or go to home?',
+          showCancelButton: true,
+          confirmButtonText: 'View My Order',
+          cancelButtonText: 'Go to Home',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this._Router.navigate(['/confirmOrder'], {
+              queryParams: {
+                id: response.data.orderHeaderId,
+              },
+            });
+          } else {
+            this._Router.navigate(['/home']);
+          }
+        });
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Error creating order:', err);
+      },
+    });
+  }
 }

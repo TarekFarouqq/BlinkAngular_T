@@ -3,10 +3,11 @@ import { Component, Input, input, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category.service'; 
  
 import { Category } from '../../models/category';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-category-card',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './category-card.component.html',
   styleUrl: './category-card.component.css'
 })

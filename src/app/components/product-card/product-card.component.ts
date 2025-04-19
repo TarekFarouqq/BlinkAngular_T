@@ -8,6 +8,8 @@ import { CartItem } from '../../models/cartItem';
 import { CartService } from '../../services/cart.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
+import { WishlistService } from '../../services/wishlist.service';
+import { WishListItem } from '../../models/wish-list-item';
 
 @Component({
   selector: 'app-product-card',
@@ -19,8 +21,9 @@ export class ProductCardComponent implements OnInit {
   @Input() productId!: number;
   ProductEntity!: Product;
   cartItem! : CartItem
+  wishListItem! : WishListItem;
   UserStatus!:boolean;
-  constructor(private productServ:ProductService, private cartService: CartService, private authService:AuthService ,private router: Router) { }
+  constructor(private productServ:ProductService, private wishListServ:WishlistService, private cartService: CartService, private authService:AuthService ,private router: Router) { }
   ngOnInit() {
    this.productServ.GetById(this.productId).subscribe(res=>{
     this.ProductEntity=res;
@@ -62,6 +65,35 @@ export class ProductCardComponent implements OnInit {
         position: 'top',
         icon: 'success',
         title: 'Product added to cart!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
+  
+
+  addProductToWishList() {
+    if (!this.UserStatus) {
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'warning',
+        title: 'Login or Register to Add Product to WishList',
+        showConfirmButton: false,
+        timer: 2500,
+      });
+      return;
+    }
+    if (this.ProductEntity) {
+      this.wishListItem = {
+        productId: this.ProductEntity.productId,
+      }
+      this.wishListServ.addToWishList(this.wishListItem);
+      Swal.fire({
+        toast: true,
+        position: 'top',
+        icon: 'success',
+        title: 'Product added to WishList!',
         showConfirmButton: false,
         timer: 1500,
       });

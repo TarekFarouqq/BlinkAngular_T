@@ -160,12 +160,23 @@
     grid-template-rows: auto;
     gap: 3px;
   }
+
+  .carouseldiv
+   {
+    height: 40vh !important; /* Adjust as needed */
+    min-height: 40vh; /* This clears the override */
+    margin-bottom: 50px;
+  }
+  .carousel-item {
+    height: 40vh !important; /* Adjust as needed */
+    min-height: 40vh; /* This clears the override */
+  }
 }
 
 
 .carousel-item {
   position: relative;
-  height: 65vh;
+  height: 82vh;
   width: 100%;
 }
 
