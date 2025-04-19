@@ -1,0 +1,40 @@
+@if(wishListProduct){
+    <div
+    class="card my-3  mx-auto shadow "
+    style="width: 19rem; height: 27rem ; background-color: #efefef;"
+  >
+  
+    <a
+      routerLink="/details/{{ wishListProduct.productId }}"
+      class="text-light text-decoration-none d-block"
+      style="cursor: pointer"
+    >
+      <img
+        [src]="wishListProduct.productImageUrl"
+        class="card-img-top"
+        alt="..."
+        style="height: 17rem"
+      />
+    </a>
+  
+    <div class="card-body p-0 my-4 ">
+      <a
+        routerLink="/details/{{ wishListProduct.productId }}"
+        class="text-light text-decoration-none"
+        style="cursor: pointer"
+      >
+        <h5 class="card-title product-title mx-auto w-75 text-center " style="color:  #372727;">{{ wishListProduct.productName }}</h5>
+      </a>
+
+      
+      <div class="d-flex  justify-content-between align-items-center ">
+          <button class="btn btn-sm rounded-start-pill p-3 " style="background-color: #c21919;"(click)="addProductToCart()" ><i class="fa-solid fa-cart-shopping fa-2x " style="color: #efefef;"></i></button>
+      </div>
+    </div>
+  
+  </div>
+  
+  }
+  
+  
+  
