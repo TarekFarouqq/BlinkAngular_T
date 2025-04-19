@@ -64,7 +64,7 @@ export class ShopComponent implements OnInit {
 
   ngOnInit() {
     
-
+    window.scrollTo(0, 0);
     const catId = this.route.snapshot.paramMap.get('catId');
     if (catId) {
       this.categoryId = Number(catId);
