@@ -19,7 +19,7 @@ export class ProductService {
   //   return this.httpClient.get<Product>(`${this.apiUrl}/product/getbyid/${id}`);
   // }
   GetAll():Observable<Product[]>{
-    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product`);
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/Product/GetAllWithPaging/1/8`);
   }
   GetById(id:number):Observable<Product>{
     return this.httpClient.get<Product>(`${this.apiUrl}/Product/${id}`);
