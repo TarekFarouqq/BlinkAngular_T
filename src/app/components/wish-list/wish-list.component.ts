@@ -36,7 +36,7 @@ export class WishListComponent {
 
   clearCart() {
     Swal.fire({
-      title: 'Clear Cart?',
+      title: 'Clear WishList?',
       icon: 'warning',
       width: 400,
       showCancelButton: true,
