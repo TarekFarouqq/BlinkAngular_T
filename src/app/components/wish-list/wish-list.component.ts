@@ -14,7 +14,7 @@ import { WishListProductCardComponent } from "../wish-list-product-card/wish-lis
   styleUrl: './wish-list.component.css'
 })
 export class WishListComponent {
- wishList: WishList = { withListDetails: [], userId: '', wishListId: 0 };
+ wishList: WishList = { wishListDetails: [], userId: '', wishListId: 0 };
   wishListItem! : WishListItem;
   constructor(
     private wishListService: WishlistService,
@@ -27,13 +27,16 @@ export class WishListComponent {
     window.scrollTo(0, 0);
     this.wishListService.wishList$.subscribe((updatedCart) => {
         this.wishList = updatedCart;
+        console.log( "from the subuscribtion",this.wishList);
     });
-
+    
+    console.log("out side the sub", this.wishList);
+    
   }
 
   clearCart() {
     Swal.fire({
-      title: 'Clear Cart?',
+      title: 'Clear WishList?',
       icon: 'warning',
       width: 400,
       showCancelButton: true,

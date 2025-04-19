@@ -88,7 +88,7 @@ export class ProductCardComponent implements OnInit {
       this.wishListItem = {
         productId: this.ProductEntity.productId,
       }
-      this.wishListServ.addToWishList(this.cartItem);
+      this.wishListServ.addToWishList(this.wishListItem);
       Swal.fire({
         toast: true,
         position: 'top',

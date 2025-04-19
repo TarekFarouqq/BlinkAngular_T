@@ -64,18 +64,17 @@ export class ShopComponent implements OnInit {
 
   ngOnInit() {
     
-
+    window.scrollTo(0, 0);
     const catId = this.route.snapshot.paramMap.get('catId');
     if (catId) {
       this.categoryId = Number(catId);
-      console.log('Category ID:', this.categoryId);
+
     }
     ///////////
     this.isLoading =true
     this.productServ.getFilteredProducts(this.CurrentPage  ,this.fromPrice ?? -1,this.toPrice ?? -1, this.rating,this.categoryId,this.params).subscribe( {
       next:(res)=>{
         this.FilteredProductArr=res;
-        console.log(this.FilteredProductArr);
         this.isLoading =false
       },
       error:(err)=>{

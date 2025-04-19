@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-
-import { CartItem } from '../models/cartItem';
 import { AuthService } from './auth.service';
 import { WishList } from '../models/wish-list';
 import { WishListItem } from '../models/wish-list-item';
@@ -18,7 +16,7 @@ export class WishlistService {
 
   
   private wishListSubject = new BehaviorSubject<WishList>({
-    withListDetails: [],
+    wishListDetails: [],
     userId: '',
     wishListId: 0,
   });
@@ -40,10 +38,11 @@ export class WishlistService {
       this.getWishListByUserId(this.wishListUserId).subscribe({
         next: (wishList) => {
           this.wishListSubject.next(wishList);
+          
         },
         error: (error) => {
           if (error.status === 404) {
-            this.wishListSubject.next({ withListDetails: [], userId: '', wishListId: 0 });
+            this.wishListSubject.next({ wishListDetails: [], userId: '', wishListId: 0 });
           } else {
             console.error(error);
           }
@@ -76,6 +75,20 @@ deleteWishList(wishListId: number): void {
     });
 }
 
+deleteWishListItem(productId: number,wishListId: number): void {
+  if (!this.wishListUserId) return;
+  this._HttpClient.delete(`${this.apiUrl}/WishList/DeleteWishListDetail/${productId}/${wishListId}`)
+    .subscribe({
+      next: () => {
+        this.loadWishList(); 
+        console.log('WishList item delete successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting WishList item', error);
+      }
+    });
+}
+
   addToWishList(wishListItem: WishListItem): void {
     if (!this.wishListUserId) return;
 
@@ -85,7 +98,6 @@ deleteWishList(wishListId: number): void {
     ).subscribe({
       next: (response) => {
         this.loadWishList();
-        console.log('Item added to WishList', response);
       },
       error: (error) => {
         console.error('Error adding item',error);
