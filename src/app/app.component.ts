@@ -15,7 +15,6 @@ import { ProductService } from './services/product.service';
 
   imports: [RouterOutlet,NgxSpinnerComponent,CommonModule],
 
-
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -29,14 +28,7 @@ export class AppComponent implements OnInit {
     }, 2000);
   }
   ngOnInit() {
-    this.productServ.GetAll().subscribe({
-     next: () => {
-       this.isLoading = false;
-     },
-     error: (err) => {
-       console.error(err);
-     }
-    })
+  
     if (this.authService.isAuthenticated()) {
       this.authService.setUserRole(); 
       this.authService.userLogin();   
