@@ -1,6 +1,12 @@
-
- <div class="container-fluid ">
-        <div class="row">
+@if (!wishList) {
+    <div class="text-center">
+      <div class="spinner-border text-danger" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else {
+    <div class="container-fluid ">
+        <div class="row d-flex justify-content-center ">
             <div class="col-12 col-md-10 p-3 ">
                 <!-- Breadcrumb Navigation -->
                 <nav aria-label="breadcrumb" class="mb-4">
@@ -15,16 +21,16 @@
     
                 <!-- Product Grid -->
                 <div class="row d-flex mx-auto justify-content-center g-3 ">
-                    @if(wishList.withListDetails){
+                    @if(wishList.wishListDetails){
     
-                        @if(wishList.withListDetails.length == 0)
+                        @if(wishList.wishListDetails.length == 0)
                         {
                             <div class="col mx-auto my-3 w-100 text-center">
                                 <h3 class="text-danger fw-lighter">No Products In Your WishList</h3>
                             </div>
                         }@else
                         {
-                                @for (Product of wishList.withListDetails ; track Product.productId) {
+                                @for (Product of wishList.wishListDetails ; track Product.productId) {
                                     
                                         <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center px-3 py-2  ">
                                             <app-wish-list-product-card [wishListProduct]="Product" class="w-100 "></app-wish-list-product-card>
@@ -43,6 +49,10 @@
 
         </div>
  </div>
+  }
+
+
+
           
           
             

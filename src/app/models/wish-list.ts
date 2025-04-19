@@ -1,7 +1,7 @@
 export interface WishList {
         userId: string; 
         wishListId: number;
-        withListDetails: WishListDetail[];
+        wishListDetails: WishListDetail[];
       }
       
       export interface WishListDetail {
