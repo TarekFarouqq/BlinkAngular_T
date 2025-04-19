@@ -13,9 +13,8 @@ import { ProductService } from './services/product.service';
 @Component({
   selector: 'app-root',
 
-  imports: [RouterOutlet,NgxSpinnerComponent],
+  imports: [RouterOutlet,NgxSpinnerComponent,CommonModule],
 
-  imports: [RouterOutlet,CommonModule],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
