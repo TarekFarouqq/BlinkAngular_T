@@ -1,96 +1,111 @@
-<div class="orders-container">
-    <div class="tabs-container">
+<div class="orders-page">
+  <div class="page-header">
+    <h1>My Orders</h1>
+    <p>View and manage your order history</p>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tabs-nav">
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'all'"
+        (click)="setActiveTab('all')">
+        <i class="fas fa-list"></i> All Orders
+      </button>
       <button 
         class="tab-button" 
         [class.active]="activeTab === 'shipped'"
         (click)="setActiveTab('shipped')">
-        🚚 Shipped
+        <i class="fas fa-truck"></i> Shipped
       </button>
       <button 
         class="tab-button" 
         [class.active]="activeTab === 'delivered'"
         (click)="setActiveTab('delivered')">
-        ✅ Delivered
+        <i class="fas fa-check-circle"></i> Delivered
       </button>
       <button 
         class="tab-button" 
         [class.active]="activeTab === 'canceled'"
         (click)="setActiveTab('canceled')">
-        ❌ Canceled
+        <i class="fas fa-times-circle"></i> Canceled
       </button>
     </div>
-  
-    <div class="orders-content">
-      @if (isLoading) {
-        <div class="loading-spinner">
-          <div class="spinner"></div>
-          <p>Loading orders...</p>
+  </div>
+
+  <div class="orders-content">
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading your orders...</p>
+      </div>
+    } @else {
+      @if (filteredOrders.length === 0) {
+        <div class="empty-state">
+          <img src="assets/images/empty-orders.svg" alt="No orders">
+          <h3>No {{activeTab === 'all' ? '' : activeTab}} orders found</h3>
+          <p>When you place orders, they'll appear here</p>
+          <button routerLink="/products" class="btn shop-btn">
+            <i class="fas fa-shopping-bag"></i> Start Shopping
+          </button>
         </div>
       } @else {
-        @if (filteredOrders.length === 0) {
-          <div class="no-orders">
-            <img src="assets/images/empty-orders.png" alt="No orders">
-            <h3>No {{activeTab}} orders found</h3>
-            <p>You don't have any {{activeTab}} orders yet</p>
-          </div>
-        } @else {
+        <div class="orders-grid">
           @for (order of filteredOrders; track order.orderId) {
-            <div class="order-card">
-              <div class="order-header">
-                <div class="order-id">Order #{{order.orderId}}</div>
+            <div class="order-card" [ngClass]="'status-' + order.orderStatus.toLowerCase()">
+              <div class="card-header">
+                <div class="order-meta">
+                  <span class="order-id">#{{order.orderId}}</span>
+                  <span class="order-date">{{order.orderDate | date:'mediumDate'}}</span>
+                </div>
                 <div class="order-status" [ngClass]="getStatusClass(order.orderStatus)">
                   {{order.orderStatus}}
                 </div>
-                <div class="order-date">{{order.orderDate | date:'mediumDate'}}</div>
               </div>
               
-              <div class="order-body">
-                @if (order.items && order.items.length > 0) {
-                  <div class="order-items">
-                    @for (item of order.items; track item.productName) {
-                      <div class="order-item">
-                        <img [src]="item.productImageUrl" alt="{{item.productName}}" class="product-image">
-                        <div class="item-info">
-                          <h4>{{item.productName}}</h4>
-                          <div class="item-details">
-                            <span>Qty: {{item.quantity}}</span>
-                            <span>Price: {{item.unitPrice | currency:'EGP':'symbol':'1.2-2'}}</span>
-                          </div>
-                        </div>
-                      </div>
-                    }
-                  </div>
-                }
+              <div class="card-body">
+                <div class="order-preview">
+                  @for (item of order.items.slice(0, 2); track item.productId; let last = $last) {
+                    <div class="preview-item" [class.last-item]="last && order.items.length > 2">
+                      <img [src]="item.productImageUrl" alt="{{item.productName}}" class="product-thumbnail">
+                      @if (last && order.items.length > 2) {
+                        <div class="more-items">+{{order.items.length - 2}} more</div>
+                      }
+                    </div>
+                  }
+                </div>
                 
-                <div class="order-summary">
-                  <div class="summary-row">
-                    <span>Subtotal:</span>
-                    <span>{{order.subtotal | currency:'EGP':'symbol':'1.2-2'}}</span>
+                <div class="order-totals">
+                  <div class="total-row">
+                    <span>Items</span>
+                    <span>{{order.items.length}}</span>
                   </div>
-                  <div class="summary-row">
-                    <span>Tax:</span>
-                    <span>{{order.tax | currency:'EGP':'symbol':'1.2-2'}}</span>
-                  </div>
-                  <div class="summary-row">
-                    <span>Shipping:</span>
-                    <span>{{order.shipping | currency:'EGP':'symbol':'1.2-2'}}</span>
-                  </div>
-                  <div class="summary-row total">
-                    <span>Total:</span>
-                    <span>{{order.total | currency:'EGP':'symbol':'1.2-2'}}</span>
+                  <div class="total-row">
+                    <span>Total</span>
+                    <span class="total-amount">{{order.total | currency:'EGP':'symbol':'1.2-2'}}</span>
                   </div>
                 </div>
               </div>
               
-              <div class="order-footer">
-                <button class="btn view-details">View Details</button>
-                @if (order.orderStatus === 'PaymentReceived') {
-                  <button class="btn track-order">Track Order</button>
+              <div class="card-footer">
+                <button class="btn outline-btn" (click)="viewOrderDetails(order.orderId)">
+                  <i class="fas fa-eye"></i> Details
+                </button>
+                @if (canTrack(order)) {
+                  <button class="btn primary-btn" (click)="trackOrder(order.orderId)">
+                    <i class="fas fa-map-marker-alt"></i> Track
+                  </button>
+                }
+                @if (canReorder(order)) {
+                  <button class="btn reorder-btn" (click)="reorder(order)">
+                    <i class="fas fa-redo"></i> Reorder
+                  </button>
                 }
               </div>
             </div>
           }
-        }
+        </div>
       }
-    </div>
+    }
   </div>
+</div>

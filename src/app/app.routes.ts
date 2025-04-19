@@ -18,7 +18,6 @@ import { CheckoutComponent } from './Payment/checkout/checkout.component';
 import { PayComponent } from './Payment/pay/pay.component';
 import { ConfirmOrderComponent } from './Payment/confirm-order/confirm-order.component';
 import { MyOrdersComponent } from './Orders/my-orders/my-orders.component';
-import { AboutComponent } from './components/about/about.component';
 
 
 
@@ -31,9 +30,7 @@ export const routes: Routes = [
             {path:'',redirectTo:'Homepage',pathMatch:'full'}, 
             {path:'Homepage',component:HomepageComponent},
             {path:'details/:id',component:ProductDetailsComponent},
-            {path:'shop', component: ShopComponent },
-            {path:'about', component: AboutComponent },
-            {path:'shop/:catId',component:ShopComponent},
+            {path:'shop',component:ShopComponent},
             {path:'cart',component:CartComponent,canActivate:[authGuard]},
             {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
             {path:'pay',component:PayComponent,canActivate:[authGuard]},

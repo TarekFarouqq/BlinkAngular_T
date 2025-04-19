@@ -21,6 +21,7 @@ export interface PaymentDTO {
   paymentDate: string;
 }
 export interface ConfirmedOrderItem {
+  productId: number;
   productName: string;
   productImageUrl: string;
   quantity: number;
