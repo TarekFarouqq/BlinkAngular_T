@@ -75,6 +75,20 @@ deleteWishList(wishListId: number): void {
     });
 }
 
+deleteWishListItem(productId: number,wishListId: number): void {
+  if (!this.wishListUserId) return;
+  this._HttpClient.delete(`${this.apiUrl}/WishList/DeleteWishListDetail/${productId}/${wishListId}`)
+    .subscribe({
+      next: () => {
+        this.loadWishList(); 
+        console.log('WishList item delete successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting WishList item', error);
+      }
+    });
+}
+
   addToWishList(wishListItem: WishListItem): void {
     if (!this.wishListUserId) return;
 

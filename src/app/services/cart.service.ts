@@ -89,7 +89,6 @@ deleteCart(cartId: number): void {
     ).subscribe({
       next: (response) => {
         this.loadCart();
-        console.log('Item added to cart', response);
       },
       error: (error) => {
         console.error('Error adding item',error);

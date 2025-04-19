@@ -20,9 +20,10 @@ import { WishListItem } from '../../models/wish-list-item';
 })
 export class WishListProductCardComponent {
   @Input() wishListProduct!: WishListDetail;
+  @Input() wishListId!: number;
   cartItem! : CartItem
   UserStatus!:boolean;
-  constructor(  private cartService: CartService, private authService:AuthService ,private router: Router) { }
+  constructor(  private cartService: CartService, private authService:AuthService ,private router: Router , private wishListServ:WishlistService) { }
   ngOnInit() {
     this.authService.isLoggedIn$.subscribe(isLogged=>{
       this.UserStatus=isLogged;
@@ -47,6 +48,7 @@ export class WishListProductCardComponent {
         quantity: 1,
       }
       this.cartService.addToCart(this.cartItem);
+      this.deleteItem();
       Swal.fire({
         toast: true,
         position: 'top',
@@ -56,5 +58,19 @@ export class WishListProductCardComponent {
         timer: 1500,
       });
     }
+  }
+
+
+   deleteItem() {
+        this.wishListServ.deleteWishListItem(this.wishListProduct.productId,this.wishListId!); 
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          icon: 'success',
+          title: 'Product removed',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+          
   }
 }
