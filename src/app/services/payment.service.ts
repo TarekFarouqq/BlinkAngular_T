@@ -18,8 +18,8 @@ export class PaymentService {
   }
 
  
-  confirmPayment(paymentIntentId: string, isSucceeded: boolean): Observable<any> {
-    return this._HttpClient.post(`${this.baseUrl}/confirmPayment`, { paymentIntentId, isSucceeded });
+  confirmPayment(paymentIntentId: string, isSucceeded: boolean,lat:number,long:number): Observable<any> {
+    return this._HttpClient.post(`${this.baseUrl}/confirmPayment`, { paymentIntentId, isSucceeded,lat,long });  
   }
 
   setPaymentStatus(paymentIntentId: string): Observable<string> {

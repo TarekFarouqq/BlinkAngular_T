@@ -23,6 +23,8 @@ export class CheckoutComponent implements OnInit {
   cart: Cart = { cartDetails: [], userId: '', cartId: 0 };
   totalPrice: number = 0;
   checkoutForm: FormGroup;
+  CurrentUserLatitude!: number;
+  CurrentUserLongitude!: number;
 
   constructor(
     private _ActivatedRoute: ActivatedRoute,
@@ -59,6 +61,19 @@ export class CheckoutComponent implements OnInit {
     this._CartService.totalPrice$.subscribe((total) => {
       this.totalPrice = total;
     });
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.CurrentUserLatitude = position.coords.latitude;
+          this.CurrentUserLongitude = position.coords.longitude;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 
   onSubmit(): void {
@@ -68,14 +83,16 @@ export class CheckoutComponent implements OnInit {
     }
 
     const selectedMethod = this.checkoutForm.get('paymentMethod')?.value;
+ 
 
     const createOrderDTO: ICreatOrder = {
       userId: this.cart.userId,
       address: this.checkoutForm.get('address')?.value,
       paymentMethod: selectedMethod,
       phoneNumber: this.checkoutForm.get('phone')?.value,
-      lat: 0, // Set the latitude value
-      long: 0, // Set the longitude value
+      
+      lat: this.CurrentUserLatitude, // Set the latitude value
+      long: this.CurrentUserLongitude, // Set the longitude value
     };
 
     if (selectedMethod === 'cash') {
@@ -95,11 +112,13 @@ export class CheckoutComponent implements OnInit {
           this.isLoading = true;
           this._PaymentService.createOrUpdatePaymentIntent().subscribe({
             next: (paymentResponse) => {
+              console.log(paymentResponse);
+              
               // Step 3: Redirect to Stripe Payment
               this._Router.navigate(['/pay'], {
                 queryParams: {
-                  clientSecret: paymentResponse.clientSecret,
-                  paymentIntentId: paymentResponse.paymentIntentId,
+                  clientSecret: paymentResponse.data.clientSecret,
+                  paymentIntentId: paymentResponse.data.paymentIntentId,
                   cartId: this.cart.cartId,
                 },
               });
@@ -159,7 +178,7 @@ export class CheckoutComponent implements OnInit {
 
         Swal.fire({
           icon: 'success',
-          title: 'Order Created Successfully',
+          title: response.message,
           text: 'Would you like to view your order or go to home?',
           showCancelButton: true,
           confirmButtonText: 'View My Order',
@@ -172,7 +191,7 @@ export class CheckoutComponent implements OnInit {
               },
             });
           } else {
-            this._Router.navigate(['/home']);
+            this._Router.navigate(['/Homepage']);
           }
         });
       },
@@ -181,5 +200,19 @@ export class CheckoutComponent implements OnInit {
         console.error('Error creating order:', err);
       },
     });
+  }
+
+
+  getUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const long = position.coords.longitude;
+        console.log('Latitude:', lat, 'Longitude:', long);
+        this.checkoutForm.patchValue({ lat, long });
+      });
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
   }
 }

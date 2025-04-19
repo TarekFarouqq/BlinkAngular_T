@@ -27,7 +27,7 @@ export class OrderService {
     return this._HttpClient.delete(`${environment.apiUrl}/order/${orderId}`);
   }
   getAllOrdersByUserID(): Observable<ConfirmedOrder[]> {
-    return this._HttpClient.get<ConfirmedOrder[]>(`${environment.apiUrl}/order`);
+    return this._HttpClient.get<ConfirmedOrder[]>(`${environment.apiUrl}/order/GetOrdersByUserId`);
   }
 
 
