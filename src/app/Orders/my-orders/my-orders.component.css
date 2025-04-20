@@ -1,3 +1,8 @@
+
+.default-bg {
+  background-color: #da4446;
+}
+
 /* Page structure */
 .orders-page {
   max-width: 1200px;
@@ -143,6 +148,8 @@
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+
 }
 
 .order-card:hover {
@@ -156,6 +163,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
+
 }
 
 .order-meta {
@@ -205,6 +214,7 @@
 .card-body {
   padding: 1.5rem;
   flex-grow: 1;
+
 }
 
 .order-preview {
@@ -284,6 +294,7 @@
   gap: 0.4rem;
   transition: all 0.2s;
   border: 1px solid transparent;
+  cursor: pointer;
 }
 
 .btn i {
@@ -336,4 +347,220 @@
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
+}
+
+
+/* order details */
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.modal-container {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.order-id {
+  font-size: 0.9rem;
+  color: #777;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.order-status-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.order-meta {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta-item {
+  flex: 1;
+}
+
+.meta-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.3rem;
+}
+
+.meta-value {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.items-section {
+  margin-bottom: 2rem;
+}
+
+.items-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #444;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.items-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.item-card {
+  display: flex;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.item-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.order-summary {
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+}
+
+.grand-total {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #ddd;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cancel-btn {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.cancel-btn:hover {
+  background: #e9ecef;
+}
+
+.track-btn {
+  background: #3498db;
+  color: white;
+}
+
+.track-btn:hover {
+  background: #2980b9;
 }

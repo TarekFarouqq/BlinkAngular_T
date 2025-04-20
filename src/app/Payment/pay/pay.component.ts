@@ -27,6 +27,7 @@ export class PayComponent implements OnInit {
     orderDetails: ConfirmedOrder | null = null;
     CurrentUserLatitude!: number;
     CurrentUserLongitude!: number;
+    userId:string='';
   
   
   constructor(
@@ -61,6 +62,7 @@ export class PayComponent implements OnInit {
     this.clientSecret = queryParams.get('clientSecret') || '';
     this.paymentIntentId = queryParams.get('paymentIntentId') || '';
     this.cartId = +(queryParams.get('cartId') || 0);
+    this.userId = queryParams.get('userId') || '';
   }
 
   private async setupStripeCardElement() {
@@ -113,7 +115,7 @@ export class PayComponent implements OnInit {
   }
 
   private confirmPaymentBackend() {
-    this._paymentService.confirmPayment(this.paymentIntentId, true,this.CurrentUserLatitude,this.CurrentUserLongitude).subscribe({
+    this._paymentService.confirmPayment(this.userId,this.paymentIntentId, true,this.CurrentUserLatitude,this.CurrentUserLongitude).subscribe({
       next: (response) => {
         console.log(response);
         this.orderDetails = response;

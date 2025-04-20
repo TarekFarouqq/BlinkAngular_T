@@ -13,13 +13,13 @@ export class PaymentService {
   paymentStatus$ = this.paymentStatusSubject.asObservable();
   
   constructor(private _HttpClient: HttpClient) {}
-  createOrUpdatePaymentIntent(): Observable<any> {
-    return this._HttpClient.post(`${this.baseUrl}`, {});
-  }
 
+  createOrUpdatePaymentIntent(userId: string): Observable<any> {
+    return this._HttpClient.post(`${this.baseUrl}/${userId}`, {});
+  }
  
-  confirmPayment(paymentIntentId: string, isSucceeded: boolean,lat:number,long:number): Observable<any> {
-    return this._HttpClient.post(`${this.baseUrl}/confirmPayment`, { paymentIntentId, isSucceeded,lat,long });  
+  confirmPayment(userId:string ,paymentIntentId: string, isSucceeded: boolean,lat:number,long:number): Observable<any> {
+    return this._HttpClient.post(`${this.baseUrl}/confirmPayment/${userId}`, { paymentIntentId, isSucceeded,lat,long });  
   }
 
   setPaymentStatus(paymentIntentId: string): Observable<string> {

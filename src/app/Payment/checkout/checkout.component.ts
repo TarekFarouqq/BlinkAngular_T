@@ -110,7 +110,7 @@ export class CheckoutComponent implements OnInit {
         if (result.isConfirmed) {
           // Step 2: Create Payment Intent
           this.isLoading = true;
-          this._PaymentService.createOrUpdatePaymentIntent().subscribe({
+          this._PaymentService.createOrUpdatePaymentIntent(createOrderDTO.userId).subscribe({
             next: (paymentResponse) => {
               console.log(paymentResponse);
               
@@ -120,6 +120,7 @@ export class CheckoutComponent implements OnInit {
                   clientSecret: paymentResponse.data.clientSecret,
                   paymentIntentId: paymentResponse.data.paymentIntentId,
                   cartId: this.cart.cartId,
+                  userId: this.cart.userId
                 },
               });
 

@@ -3,12 +3,13 @@ import { OrderService } from '../../services/order.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConfirmedOrder } from '../../Payment/iorder-dto';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-orders',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterLink],
   templateUrl: './my-orders.component.html',
   styleUrls: ['./my-orders.component.css']
 })
@@ -17,6 +18,8 @@ export class MyOrdersComponent implements OnInit {
   allOrders: ConfirmedOrder[] = [];
   filteredOrders: ConfirmedOrder[] = [];
   isLoading: boolean = true;
+  selectedOrder: ConfirmedOrder | null = null;
+  showModal: boolean = false;
 
   constructor(
     private orderService: OrderService,
@@ -31,7 +34,11 @@ export class MyOrdersComponent implements OnInit {
     this.isLoading = true;
     this.orderService.getAllOrdersByUserID().subscribe({
       next: (orders) => {
+        // console.log(orders);
+        
         this.allOrders = orders;
+        // console.log(this.allOrders);
+        
         this.filterOrders();
         this.isLoading = false;
       },
@@ -60,9 +67,9 @@ export class MyOrdersComponent implements OnInit {
           order.orderStatus.toLowerCase() === 'delivered'
         );
         break;
-      case 'canceled':
+      case 'cancelled':
         this.filteredOrders = this.allOrders.filter(order => 
-          order.orderStatus.toLowerCase() === 'canceled'
+          order.orderStatus.toLowerCase() === 'cancelled'
         );
         break;
       default:
@@ -88,11 +95,51 @@ export class MyOrdersComponent implements OnInit {
   }
 
   viewOrderDetails(orderId: number): void {
-    this.router.navigate(['/order-details', orderId]);
+    this.orderService.getOrderByOrderID(orderId).subscribe({
+      next: (orderDetails) => {
+        this.selectedOrder = orderDetails;
+        this.showModal = true;
+      },
+      error: (err) => {
+        console.error('Error loading order details:', err);
+      }
+    });
   }
+  closeModal(): void {
+    this.showModal = false;
+    this.selectedOrder = null;
+  }
+ 
 
-  trackOrder(orderId: number): void {
-    this.router.navigate(['/track-order', orderId]);
+  // trackOrder(orderId: number): void {
+  //   this.router.navigate(['/track-order', orderId]);
+  // }
+  cancelOrder(orderId: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to cancel this order?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, cancel it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.orderService.deleteOrder(orderId).subscribe({
+          next: (response) => {
+            console.log(response);
+            
+            Swal.fire('Canceled!', 'Your order has been canceled.', 'success');
+            this.loadOrders(); // Refresh the list
+          },
+          error: (err) => {
+            Swal.fire('Error!', 'There was a problem canceling the order.', 'error');
+            console.error('Error canceling order:', err);
+          }
+        });
+      }
+    });
   }
 
   reorder(order: ConfirmedOrder): void {
