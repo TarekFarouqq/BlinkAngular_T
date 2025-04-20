@@ -42,7 +42,7 @@
 
 .tab-button {
   padding: 0.8rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 3px;
   background: #f8f9fa;
   border: none;
   color: #555;
@@ -65,7 +65,7 @@
 }
 
 .tab-button.active {
-  background: #3498db;
+  background: #db3434;
   color: white;
 }
 
@@ -142,7 +142,7 @@
 /* Order card */
 .order-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
