@@ -25,6 +25,10 @@ export class PayComponent implements OnInit {
   isProcessing: boolean = false;
   cardError: string = '';
     orderDetails: ConfirmedOrder | null = null;
+    CurrentUserLatitude!: number;
+    CurrentUserLongitude!: number;
+    userId:string='';
+  
   
   constructor(
     private _ActivatedRoute: ActivatedRoute,
@@ -35,6 +39,22 @@ export class PayComponent implements OnInit {
   async ngOnInit() {
     this.extractQueryParams();
     await this.setupStripeCardElement();
+
+
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.CurrentUserLatitude = position.coords.latitude;
+          this.CurrentUserLongitude = position.coords.longitude;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
+
   }
 
   private extractQueryParams() {
@@ -42,6 +62,7 @@ export class PayComponent implements OnInit {
     this.clientSecret = queryParams.get('clientSecret') || '';
     this.paymentIntentId = queryParams.get('paymentIntentId') || '';
     this.cartId = +(queryParams.get('cartId') || 0);
+    this.userId = queryParams.get('userId') || '';
   }
 
   private async setupStripeCardElement() {
@@ -94,7 +115,7 @@ export class PayComponent implements OnInit {
   }
 
   private confirmPaymentBackend() {
-    this._paymentService.confirmPayment(this.paymentIntentId, true).subscribe({
+    this._paymentService.confirmPayment(this.userId,this.paymentIntentId, true,this.CurrentUserLatitude,this.CurrentUserLongitude).subscribe({
       next: (response) => {
         console.log(response);
         this.orderDetails = response;
@@ -108,7 +129,7 @@ export class PayComponent implements OnInit {
         
                 Swal.fire({
                   icon: 'success',
-                  title: 'Order Created Successfully',
+                  title: 'Thancks for Your Purchase',
                   text: 'Would you like to view your order or go to home?',
                   showCancelButton: true,
                   confirmButtonText: 'View My Order',
@@ -117,11 +138,11 @@ export class PayComponent implements OnInit {
                   if (result.isConfirmed) {
                     this._Router.navigate(['/confirmOrder'], {
                       queryParams: {
-                        id: response.orderId,
+                        id: response.data.orderHeaderId,
                       },
                     });
                   } else {
-                    this._Router.navigate(['/home']);
+                    this._Router.navigate(['/Homepage']);
                   }
                 });
               },

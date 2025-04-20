@@ -18,8 +18,11 @@ import { CheckoutComponent } from './Payment/checkout/checkout.component';
 import { PayComponent } from './Payment/pay/pay.component';
 import { ConfirmOrderComponent } from './Payment/confirm-order/confirm-order.component';
 import { MyOrdersComponent } from './Orders/my-orders/my-orders.component';
+
 import { AboutComponent } from './components/about/about.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
+import { OrderDetailsComponent } from './Orders/order-details/order-details.component';
+
 
 
 
@@ -32,15 +35,16 @@ export const routes: Routes = [
             {path:'',redirectTo:'Homepage',pathMatch:'full'}, 
             {path:'Homepage',component:HomepageComponent},
             {path:'details/:id',component:ProductDetailsComponent},
-            {path:'shop', component: ShopComponent },
-            {path:'about', component: AboutComponent },
-            {path:'shop/:catId',component:ShopComponent},
+            {path:'shop',component:ShopComponent},
+            {path:'shop/:id',component:ShopComponent},
+            {path:'about',component:AboutComponent},
             {path:'cart',component:CartComponent,canActivate:[authGuard]},
             {path:'wishlist',component:WishListComponent,canActivate:[authGuard]},
             {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
             {path:'pay',component:PayComponent,canActivate:[authGuard]},
             {path:'confirmOrder',component:ConfirmOrderComponent,canActivate:[authGuard]},
             {path:'myOrders',component:MyOrdersComponent,canActivate:[authGuard]},
+            {path:'orderDetails/:id',component:OrderDetailsComponent,canActivate:[authGuard]},
             
         ],
       },
