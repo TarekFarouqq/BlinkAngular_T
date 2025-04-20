@@ -35,6 +35,8 @@ export const routes: Routes = [
             {path:'Homepage',component:HomepageComponent},
             {path:'details/:id',component:ProductDetailsComponent},
             {path:'shop',component:ShopComponent},
+            {path:'shop/:id',component:ShopComponent},
+            {path:'about',component:AboutComponent},
             {path:'cart',component:CartComponent,canActivate:[authGuard]},
             {path:'wishlist',component:WishListComponent,canActivate:[authGuard]},
             {path:'checkout/:id',component:CheckoutComponent,canActivate:[authGuard]},
