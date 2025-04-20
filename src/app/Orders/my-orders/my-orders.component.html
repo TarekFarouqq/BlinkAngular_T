@@ -1,13 +1,18 @@
 
 <!----------- my orders ----------->
 <div class="orders-page">
-  <div class="page-header">
-    <h1>My Orders</h1>
-    <p>View and manage your order history</p>
-  </div>
+
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a routerLink="Homepage" class="link-danger">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+    </ol>
+</nav>
 
   <div class="tabs-container">
-    <div class="tabs-nav">
+    <div class="tabs-nav  d-flex justify-content-center align-items-center">
       <button 
         class="tab-button" 
         [class.active]="activeTab === 'all'"
@@ -44,17 +49,15 @@
     } @else {
       @if (filteredOrders.length === 0) {
         <div class="empty-state">
-          <img src="assets/images/empty-orders.svg" alt="No orders">
-          <h3>No {{activeTab === 'all' ? '' : activeTab}} orders found</h3>
-          <p>When you place orders, they'll appear here</p>
-          <button routerLink="/products" class="btn shop-btn">
+          <h5 class="text-body-tertiary my-2">No {{activeTab === 'all' ? '' : activeTab}} orders found</h5>
+          <button routerLink="/shop" class="btn btn-danger broderR2 mt-4">
             <i class="fas fa-shopping-bag"></i> Start Shopping
           </button>
         </div>
       } @else {
-        <div class="orders-grid">
+        <div class="orders-grid ">
           @for (order of filteredOrders; track order.orderId) {
-            <div class="order-card" [ngClass]="'status-' + order.orderStatus.toLowerCase()">
+            <div class="order-card shadow" [ngClass]="'status-' + order.orderStatus.toLowerCase()">
               <div class="card-header">
                 <div class="order-meta">
                   <span class="order-id">#{{order.orderId}}</span>
@@ -65,7 +68,7 @@
                 </div>
               </div>
               
-              <div class="card-body">
+              <div class="card-body ">
                 <div class="order-preview">
                   @for (item of order.items.slice(0, 2); track item.productId; let last = $last) {
                     <div class="preview-item" [class.last-item]="last && order.items.length > 2">
@@ -89,15 +92,11 @@
                 </div>
               </div>
               
-              <div class="card-footer">
-                <button class="btn outline-btn" (click)="viewOrderDetails(order.orderId)">
+              <div class="card-footer d-flex justify-content-center">
+                <button class="btn outline-btn broderR2" (click)="viewOrderDetails(order.orderId)">
                   <i class="fas fa-eye"></i> Details
                 </button>
-                @if (canTrack(order)) {
-                  <button class="btn primary-btn" >
-                    <i class="fas fa-map-marker-alt"></i> Track
-                  </button>
-                }
+                
                 @if (canReorder(order)) {
                   <button class="btn reorder-btn" (click)="reorder(order)">
                     <i class="fas fa-redo"></i> Reorder
@@ -175,14 +174,12 @@
       </div>
     </div>
     
-    <div class="modal-footer">
-      <button class="btn cancel-btn" (click)="closeModal()">
+    <div class="modal-footer d-flex justify-content-center">
+      <button class="btn cancel-btn broderR2" (click)="closeModal()">
         <i class="fas fa-times"></i> Close
       </button>
-      <button *ngIf="canTrack(selectedOrder!)" class="btn track-btn">
-        <i class="fas fa-truck"></i> Track Order
-      </button>
-    <button *ngIf="selectedOrder?.orderStatus == 'shipped'" class="btn default-bg text-white " (click)="cancelOrder(selectedOrder?.orderId!)">
+
+    <button *ngIf="selectedOrder?.orderStatus == 'shipped'" class="btn default-bg text-white broderR2 " (click)="cancelOrder(selectedOrder?.orderId!)">
       Cancel Order
       <i class="fas fa-times-circle"></i> 
     </button>
