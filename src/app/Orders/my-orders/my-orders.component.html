@@ -1,3 +1,5 @@
+
+<!----------- my orders ----------->
 <div class="orders-page">
   <div class="page-header">
     <h1>My Orders</h1>
@@ -26,9 +28,9 @@
       </button>
       <button 
         class="tab-button" 
-        [class.active]="activeTab === 'canceled'"
-        (click)="setActiveTab('canceled')">
-        <i class="fas fa-times-circle"></i> Canceled
+        [class.active]="activeTab === 'cancelled'"
+        (click)="setActiveTab('cancelled')">
+        <i class="fas fa-times-circle"></i> Cancelled
       </button>
     </div>
   </div>
@@ -92,7 +94,7 @@
                   <i class="fas fa-eye"></i> Details
                 </button>
                 @if (canTrack(order)) {
-                  <button class="btn primary-btn" (click)="trackOrder(order.orderId)">
+                  <button class="btn primary-btn" >
                     <i class="fas fa-map-marker-alt"></i> Track
                   </button>
                 }
@@ -107,5 +109,83 @@
         </div>
       }
     }
+  </div>
+</div>
+
+<!--Order Details Model -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">&times;</button>
+    
+    <div class="modal-header">
+      <h2>Order Details</h2>
+      <span class="order-id">#{{selectedOrder?.orderId}}</span>
+    </div>
+    
+    <div class="modal-body">
+      <div class="order-status-badge" [ngClass]="getStatusClass(selectedOrder?.orderStatus || '')">
+        {{selectedOrder?.orderStatus}}
+      </div>
+      
+      <div class="order-meta">
+        <div class="meta-item">
+          <span class="meta-label">Order Date</span>
+          <span class="meta-value">{{selectedOrder?.orderDate | date:'medium'}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Total Amount</span>
+          <span class="meta-value">{{selectedOrder?.total | currency:'EGP':'symbol':'1.2-2'}}</span>
+        </div>
+      </div>
+      
+      <div class="items-section">
+        <h3>Ordered Items ({{selectedOrder?.items?.length}})</h3>
+        <div class="items-list">
+          <div class="item-card" *ngFor="let item of selectedOrder?.items">
+            <img [src]="item.productImageUrl" alt="{{item.productName}}" class="product-image">
+            <div class="item-details">
+              <h4>{{item.productName}}</h4>
+              <div class="item-meta">
+                <span>Qty: {{item.quantity}}</span>
+                <span>Price: {{item.unitPrice | currency:'EGP':'symbol':'1.2-2'}}</span>
+                <span>Total: {{item.quantity * item.unitPrice | currency:'EGP':'symbol':'1.2-2'}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="order-summary">
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span>{{selectedOrder?.subtotal | currency:'EGP':'symbol':'1.2-2'}}</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span>{{selectedOrder?.shipping | currency:'EGP':'symbol':'1.2-2'}}</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax:</span>
+          <span>{{selectedOrder?.tax | currency:'EGP':'symbol':'1.2-2'}}</span>
+        </div>
+        <div class="summary-row grand-total">
+          <span>Total:</span>
+          <span>{{selectedOrder?.total | currency:'EGP':'symbol':'1.2-2'}}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn cancel-btn" (click)="closeModal()">
+        <i class="fas fa-times"></i> Close
+      </button>
+      <button *ngIf="canTrack(selectedOrder!)" class="btn track-btn">
+        <i class="fas fa-truck"></i> Track Order
+      </button>
+    <button *ngIf="selectedOrder?.orderStatus == 'shipped'" class="btn default-bg text-white " (click)="cancelOrder(selectedOrder?.orderId!)">
+      Cancel Order
+      <i class="fas fa-times-circle"></i> 
+    </button>
+    </div>
   </div>
 </div>

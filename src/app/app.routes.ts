@@ -21,6 +21,7 @@ import { MyOrdersComponent } from './Orders/my-orders/my-orders.component';
 
 import { AboutComponent } from './components/about/about.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
+import { OrderDetailsComponent } from './Orders/order-details/order-details.component';
 
 
 
@@ -41,6 +42,7 @@ export const routes: Routes = [
             {path:'pay',component:PayComponent,canActivate:[authGuard]},
             {path:'confirmOrder',component:ConfirmOrderComponent,canActivate:[authGuard]},
             {path:'myOrders',component:MyOrdersComponent,canActivate:[authGuard]},
+            {path:'orderDetails/:id',component:OrderDetailsComponent,canActivate:[authGuard]},
             
         ],
       },

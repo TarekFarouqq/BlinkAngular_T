@@ -20,7 +20,7 @@ constructor(private _AuthService:AuthService, private _Router:Router) { }
   registerForm: FormGroup = new FormGroup({
     fName: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
     lName: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
-    userName: new FormControl(null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]),
+    userName: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
     email: new FormControl(null, [Validators.required, Validators.email]),
     password: new FormControl(null, [Validators.required,Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/)]),
     rePassword: new FormControl(null, [Validators.required]),
