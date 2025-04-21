@@ -64,12 +64,16 @@
         >
           Return to Shop
         </button>
-        <button
+
+        @if(cart.cartDetails.length > 0) {
+          <button
           class="btn btn-light btn-sm bg-transparent border border-1 action-button"
           (click)="clearCart()"
         >
           Clear Cart
         </button>
+        }
+        
       </div>
     </div>
 

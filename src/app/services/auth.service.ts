@@ -118,19 +118,18 @@ export class AuthService {
     this.userIsLoggedIn.next(false);
     this.userRoleSubject.next(null);
   }
-
-  // forget pass in api => account/forgetPassward enter email to send el code : 
-  resetPassword(email: string): Observable<any> {
-    return this._HttpClient.post(`${this.apiUrl}/account/forgetPassward`, { email });
+// forgot PAssword
+  resetPassword(date:object):Observable<any> {
+    return this._HttpClient.post(`${this.apiUrl}/account/forgetPassword`,date);
   }
 // verify code :      :: check api ::
-  verifyCode(code: { code: string }): Observable<any> {
-    return this._HttpClient.post(`${this.apiUrl}/account/verifyCode`, code);
+  verifyCode(code:string,email:string):Observable<any> {
+    return this._HttpClient.post(`${environment.apiUrl}/account/verifyCode`,{email,code});
   }
 
 // set new password :     :: check api ::
-setNewPassword(data: { newPassword: string }): Observable<any> {
-  return this._HttpClient.post(`${this.apiUrl}/account/setNewPassword`, data);
+setNewPassword(data:object):Observable<any> {
+  return this._HttpClient.post(`${environment.apiUrl}/account/setNewPassword`,data);
 }
 
 }
