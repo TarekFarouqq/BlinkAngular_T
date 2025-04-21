@@ -23,6 +23,7 @@ export class HomepageComponent implements OnInit {
   ProductArr!:Product[];
   ParentCategoryArr!:Category[];
   CategoryArr!:Category[];
+  maxCategories = 13;
   constructor(private productServ:ProductService,private categoryServ:CategoryService,private discountServ:DiscountService) {}
 
   ngOnInit() {
@@ -35,5 +36,9 @@ export class HomepageComponent implements OnInit {
     this.categoryServ.GetAllChildCategories().subscribe(res => {
       this.CategoryArr = res
     })
+  }
+
+  get limitedParentCategoryArr() {
+    return this.ParentCategoryArr.slice(0, this.maxCategories);
   }
 }

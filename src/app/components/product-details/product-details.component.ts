@@ -18,6 +18,8 @@ import { AuthService } from '../../services/auth.service';
 import { Pipe } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Review } from '../../models/review';
+import { WishListItem } from '../../models/wish-list-item';
+import { WishlistService } from '../../services/wishlist.service';
 
 
 @Component({
@@ -40,13 +42,14 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
   uxQuantity: number = 1 ;
   userId!: string | null;
   canaddReview: boolean = true;
+  wishListItem! : WishListItem;
 
   reviewForm: FormGroup = new FormGroup({
     rate: new FormControl(null, [Validators.required]),
     comment: new FormControl("")
   });
 
-  constructor(private router: Router, private productService: ProductService,private route: ActivatedRoute, private cartService: CartService, private authService:AuthService) {}
+  constructor(private router: Router, private productService: ProductService,private wishListServ:WishlistService,private route: ActivatedRoute, private cartService: CartService, private authService:AuthService) {}
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.loadProduct();
@@ -133,6 +136,36 @@ export class ProductDetailsComponent implements AfterViewInit, OnInit {
     this.uxQuantity = this.uxQuantity - 1;
   }
   
+
+   addProductToWishList() {
+      if (this.userId == null) {
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          icon: 'warning',
+          title: 'Login or Register to Add Product to WishList',
+          showConfirmButton: false,
+          timer: 2500,
+        });
+        return;
+      }
+      if (this.product) {
+        this.wishListItem = {
+          productId: this.productId,
+        }
+        this.wishListServ.addToWishList(this.wishListItem);
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          icon: 'success',
+          title: 'Product added to WishList!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    }
+
+
   ngAfterViewInit() {
     this.carousel = new Carousel(this.carouselElement.nativeElement, {
       interval: false,

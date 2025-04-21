@@ -48,9 +48,9 @@
 
     <!-- Parent Categories Sidebar: Appears second on small/medium, first on large -->
     <div class="col-md-3 order-2 order-md-1">
-      <div class="parent-sidebar pt-5">
+      <div class="parent-sidebar pt-4">
         <ul class="w-100 nav-list">
-          @for (ParentCategory of ParentCategoryArr; track ParentCategory.categoryId) {
+          @for (ParentCategory of limitedParentCategoryArr; track ParentCategory.categoryId) {
             <li class="nav-item d-flex justify-content-start">
               <a class="nav-item-a fs-6 fw-bold" [routerLink]="['/shop', ParentCategory.categoryId]">
                 {{ParentCategory.categoryName}}
