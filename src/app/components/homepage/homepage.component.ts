@@ -31,14 +31,11 @@ export class HomepageComponent implements OnInit {
       this.ProductArr=res;
     })
     this.categoryServ.getAllParentCategory().subscribe(res=>{
-      this.ParentCategoryArr=res;
+      this.ParentCategoryArr=res.slice(0,this.maxCategories);
     })
     this.categoryServ.GetAllChildCategories().subscribe(res => {
       this.CategoryArr = res
     })
   }
 
-  get limitedParentCategoryArr() {
-    return this.ParentCategoryArr.slice(0, this.maxCategories);
-  }
 }

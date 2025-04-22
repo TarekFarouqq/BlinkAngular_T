@@ -50,7 +50,7 @@
     <div class="col-md-3 order-2 order-md-1">
       <div class="parent-sidebar pt-4">
         <ul class="w-100 nav-list">
-          @for (ParentCategory of limitedParentCategoryArr; track ParentCategory.categoryId) {
+          @for (ParentCategory of ParentCategoryArr; track ParentCategory.categoryId) {
             <li class="nav-item d-flex justify-content-start">
               <a class="nav-item-a fs-6 fw-bold" [routerLink]="['/shop', ParentCategory.categoryId]">
                 {{ParentCategory.categoryName}}
@@ -77,11 +77,14 @@
 
     <div class="row d-flex mx-auto justify-content-center g-3 w-100">
       @for (Product of ProductArr; track Product.productId; let i = $index) {
-        @if (Product.discountAmount > 0) {
-          <div class="col-6 col-md-4 col-lg-4 d-flex justify-content-center">
-            <app-product-card [productId]="Product.productId" class="w-100"></app-product-card>
-          </div>
+        @if (i < 3) {
+          @if (Product.discountAmount > 0) {
+            <div class="col-6 col-md-4 col-lg-4 d-flex justify-content-center">
+              <app-product-card [productId]="Product.productId" class="w-100"></app-product-card>
+            </div>
+          }
         }
+       
       }
     </div>
 
