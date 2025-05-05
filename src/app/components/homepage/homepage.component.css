@@ -171,6 +171,10 @@
     height: 40vh !important; /* Adjust as needed */
     min-height: 40vh; /* This clears the override */
   }
+
+  .mImage{
+    height: 40vh !important; /* Adjust as needed */
+  }
 }
 
 
