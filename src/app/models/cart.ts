@@ -10,4 +10,5 @@ export interface CartDetails {
   productUnitPrice: number;  
   productImageUrl: string;
   quantity: number;
+  discountAmount:number;
 }
