@@ -21,6 +21,7 @@ import { DiscountService } from '../../services/discount.service';
 })
 export class HomepageComponent implements OnInit {
   ProductArr!:Product[];
+  ProductDiscountArr!:Product[];
   ParentCategoryArr!:Category[];
   CategoryArr!:Category[];
   maxCategories = 13;
@@ -29,6 +30,9 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.productServ.GetAll().subscribe(res=>{
       this.ProductArr=res;
+      this.ProductDiscountArr=this.ProductArr.filter((product)=>{
+        return product.discountAmount > 0 ;
+      })
     })
     this.categoryServ.getAllParentCategory().subscribe(res=>{
       this.ParentCategoryArr=res.slice(0,this.maxCategories);

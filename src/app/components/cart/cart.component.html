@@ -44,7 +44,7 @@
               <!-- Price Calculation -->
               <td class="align-middle text-center text-nowrap ">
                 <span class="mx-1" style="font-size: 0.9rem">
-                  {{ cartItem.productUnitPrice * cartItem.quantity | number : "1.0-0" }}
+                  {{ (cartItem.productUnitPrice - cartItem.discountAmount) * cartItem.quantity | number : "1.0-0" }}
                 </span>
                 <small style="font-size: 0.7rem">
                   {{ 50000 | currency : "EGP" : "symbol" : "1.0-0" | slice : 0 : 3 }}

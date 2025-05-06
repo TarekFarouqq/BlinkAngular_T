@@ -97,7 +97,7 @@ deleteCart(cartId: number): void {
   }
 
   private calculateTotal(cart: Cart): void {
-    const total = cart.cartDetails.reduce((sum, item) => sum + (item.productUnitPrice * item.quantity), 0);
+    const total = cart.cartDetails.reduce((sum, item) => sum + ((item.productUnitPrice - item.discountAmount) * item.quantity), 0);
     this.totalPriceSubject.next(total);
   }
   
