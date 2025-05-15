@@ -129,7 +129,7 @@ export class PayComponent implements OnInit {
         
                 Swal.fire({
                   icon: 'success',
-                  title: 'Thancks for Your Purchase',
+                  title: 'Thanks for Your Purchase',
                   text: 'Would you like to view your order or go to home?',
                   showCancelButton: true,
                   confirmButtonText: 'View My Order',
